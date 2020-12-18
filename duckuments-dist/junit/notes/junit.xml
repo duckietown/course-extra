@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+<testsuites disabled="0" errors="0" failures="33" tests="33" time="0.0">
+	<testsuite disabled="0" errors="0" failures="33" name="notes" skipped="0" tests="33" time="0">
+		<testcase name="note000">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-result:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-result:section-duplicate-140212155736528)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-result:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note001">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-result&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-result-duplicate-140212156195664)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-result)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note002">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-scope:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-scope:section-duplicate-140212155736784)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-scope:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note003">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-scope&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-scope-duplicate-140212156198416)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-scope)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note004">
+			<failure message="Note  Repeated use of ID &quot;subsub:groupname-final-result-motivation&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#subsub:groupname-final-result-motivation-duplicate-140212157349008)  original-use: RelativeLocation(groupname_final_report.html#subsub:groupname-final-result-motivation)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note005">
+			<failure message="Note  Repeated use of ID &quot;subsub:groupname-final-literature&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#subsub:groupname-final-literature-duplicate-140212157379216)  original-use: RelativeLocation(groupname_final_report.html#subsub:groupname-final-literature)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note006">
+			<failure message="Note  Repeated use of ID &quot;subsub:groupname-final-opportunity&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#subsub:groupname-final-opportunity-duplicate-140212157380176)  original-use: RelativeLocation(groupname_final_report.html#subsub:groupname-final-opportunity)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note007">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-preliminaries:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-preliminaries:section-duplicate-140212155736912)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-preliminaries:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note008">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-preliminaries&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-preliminaries-duplicate-140212156198224)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-preliminaries)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note009">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-problem-def:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-problem-def:section-duplicate-140212155737168)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-problem-def:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note010">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-problem-def&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-problem-def-duplicate-140212156198608)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-problem-def)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note011">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-contribution:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-contribution:section-duplicate-140212155737360)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-contribution:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note012">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-contribution&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-contribution-duplicate-140212156198864)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-contribution)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note013">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-formal:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-formal:section-duplicate-140212155737616)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-formal:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note014">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-formal&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-formal-duplicate-140212156198672)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-formal)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note015">
+			<failure message="Note  Repeated use of ID &quot;groupname-final-next-steps:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#groupname-final-next-steps:section-duplicate-140212155737872)  original-use: RelativeLocation(groupname_final_report.html#groupname-final-next-steps:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note016">
+			<failure message="Note  Repeated use of ID &quot;sub:groupname-final-next-steps&quot;These are the locations indicated:  repeated-use: RelativeLocation(ducky_xing_final_report.html#sub:groupname-final-next-steps-duplicate-140212155736464)  original-use: RelativeLocation(groupname_final_report.html#sub:groupname-final-next-steps)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note017">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-expected:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-expected:section-duplicate-140212155739216)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-expected:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note018">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-expected&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-expected-duplicate-140212156198288)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-expected)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note019">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-laptop-setup:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-laptop-setup:section-duplicate-140212155739728)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-laptop-setup:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note020">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-laptop-setup&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-laptop-setup-duplicate-140212155738448)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-laptop-setup)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note021">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-duckietown-setup:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-duckietown-setup:section-duplicate-140212155739536)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-duckietown-setup:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note022">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-duckietown-setup&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-duckietown-setup-duplicate-140212155738320)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-duckietown-setup)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note023">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-duckiebot-setup:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-duckiebot-setup:section-duplicate-140212155739920)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-duckiebot-setup:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note024">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-duckiebot-setup&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-duckiebot-setup-duplicate-140212155738704)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-duckiebot-setup)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note025">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-pre-flight:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-pre-flight:section-duplicate-140212155801744)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-pre-flight:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note026">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-pre-flight&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-pre-flight-duplicate-140212155738960)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-pre-flight)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note027">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-run:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-run:section-duplicate-140212155802320)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-run:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note028">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-run&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-run-duplicate-140212155739152)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-run)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note029">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-troubleshooting:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-troubleshooting:section-duplicate-140212155802448)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-troubleshooting:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note030">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-troubleshooting&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-troubleshooting-duplicate-140212155739280)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-troubleshooting)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note031">
+			<failure message="Note  Repeated use of ID &quot;demo-groupname-failure:section&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#demo-groupname-failure:section-duplicate-140212155802832)  original-use: RelativeLocation(instructions_groupname.html#demo-groupname-failure:section)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+		<testcase name="note032">
+			<failure message="Note  Repeated use of ID &quot;sub:demo-groupname-failure&quot;These are the locations indicated:  repeated-use: RelativeLocation(instructions_ducky_xing.html#sub:demo-groupname-failure-duplicate-140212155739344)  original-use: RelativeLocation(instructions_groupname.html#sub:demo-groupname-failure)Created by function n/a()   in module n/a" type="failure"/>
+		</testcase>
+	</testsuite>
+</testsuites>
