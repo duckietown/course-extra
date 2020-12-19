@@ -1,4 +1,4 @@
-# Instructions Ducky Xing {#instructions-ducky-xing status=ready}
+# Instructions Cross Pro-Duck {#instructions-cross-pro-duck status=ready}
 
 Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
 

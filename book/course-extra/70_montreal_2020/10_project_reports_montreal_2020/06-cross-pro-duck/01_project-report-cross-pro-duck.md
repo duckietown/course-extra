@@ -1,4 +1,4 @@
-#  Ducky Xing: Project report {#ducky-xing-final-report status=ready}
+#  Cross Pro-Duck: Project report {#cross-pro-duck-final-report status=ready}
 
 Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
 
