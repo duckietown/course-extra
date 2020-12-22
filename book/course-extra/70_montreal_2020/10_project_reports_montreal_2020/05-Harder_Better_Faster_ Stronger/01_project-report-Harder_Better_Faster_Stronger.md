@@ -254,8 +254,9 @@ As far as limitations, the current solution has good performance when the input 
 Dataset&nbsp; | &nbsp;Epochs&nbsp; | &nbsp;Resolution&nbsp; | &nbsp;Framerate (i5 8600k)&nbsp; | &nbsp;mAP  
 --- | --- | --- | --- | ---
 merged_with_real&nbsp; | &nbsp;3&nbsp; | &nbsp;160x120&nbsp; | &nbsp;31.35&nbsp; | &nbsp;73.8%
-bezier&nbsp; | &nbsp;3&nbsp; | &nbsp;320x240&nbsp; | &nbsp;?&nbsp; | &nbsp;?
+bezier&nbsp; | &nbsp;3&nbsp; | &nbsp;320x240&nbsp; | &nbsp;28.9&nbsp; | &nbsp;60.9%
 
+The Bezier model has a lower mAP, this can be attributed to the lower number of samples in the dataset. (10000 instead of 60000). The framerate is approximately the same for both models, even though the input size is larger on the bezier model. This is due to the internal upscaling of our model. 
 
 ## 1.7 Future avenues of development {#Harder_Better_Faster_Stronger-final-next-steps}
 
