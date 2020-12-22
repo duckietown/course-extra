@@ -39,7 +39,7 @@ Here is the performance on the AIDO LF challenge:
     <dtvideo src="vimeo:493555586"/>
 </figure>
 
-### 3.1.2 Detecting bezier curves with semantic segmentation
+### Detecting bezier curves with semantic segmentation
 
 A second semantic segmentation model takes 320x240 images as input and generates the segmentation at 30 FPS on a i5 8600k CPU for five classes, namely: 1: white lines, 2: yellow lines, 3: obstacles , 4: left bezier curve and 5: right bezier curve. A follow point is obtained from the right bezier curve projected segments and used in a pure pursuit controller. Yellow and white line projected segments are used when no bezier segment is visible in the image frame.
 <br/>
@@ -64,10 +64,10 @@ Here is the performance on the AIDO LF challenge:
 Having access to a stable follow points allows to operate faster and take the turns harder! 
 
 
-## 3.2 Mission and Scope {#Harder_Better_Faster_Stronger-final-scope}
+## Mission and Scope {#Harder_Better_Faster_Stronger-final-scope}
 The objective is to provide a robust perception system that would allow better, faster and stronger performance for the Duckiebots. 
 
-### 3.2.1 Motivation {#Harder_Better_Faster_Stronger-final-result-motivation}
+### Motivation {#Harder_Better_Faster_Stronger-final-result-motivation}
 
 The track speed and accuracy of the Duckiebot is mainly limited by it’s perception system accuracy and latency. Empirical experiments through manual control show that a human can drive the Duckiebot significantly faster than the best available automated systems. The baseline line detections and projected segments are erratic and difficult to finetune. It is not uncommon to see white line segments being detected as yellow segments and vice versa. Some segments can also be missed completely. This often results in poor lane following performance. In recent years, more and more lightweight and accurate deep learning vision solutions have become available. The motivation behind this project was to improve the Duckiebot perception system using a robust low-latency deep neural network.
 <br/>
@@ -77,9 +77,9 @@ The track speed and accuracy of the Duckiebot is mainly limited by it’s percep
     <img style='width:30em' src="current_state.png"/>
 </figure>
 
-### 3.2.2 Existing Solutions {#Harder_Better_Faster_Stronger-final-literature}
+### Existing Solutions {#Harder_Better_Faster_Stronger-final-literature}
 
-#### 3.2.2.1 Baseline Solution {#Harder_Better_Faster_Stronger-final-literature-baseline}
+#### Baseline Solution {#Harder_Better_Faster_Stronger-final-literature-baseline}
 
 In the current baseline solution :
 
@@ -100,13 +100,13 @@ This is illustrated below:
 </figure>
 
 
-#### 3.2.2.2 Wiyatno et Al. Segmentation {#Harder_Better_Faster_Stronger-final-literature-rey}
+#### Wiyatno et Al. Segmentation {#Harder_Better_Faster_Stronger-final-literature-rey}
 
 [Some prior work for Rey Wiyatno et Al.](https://github.com/rrwiyatn/challenge-aido_LF-baseline-duckietown) used semantic segmentation. However, the previous work did not report either mAP along or framerate. They also did not directly predicted the middle of the lane to get optimal follow point without any filtering or additional computation.
 
 Videos from their project suggested that there was room for improvement in terms of segmentation accuracy (mAP) and speed (Frame per Seconds). Also, the robot seemed to hesitate in turns, which suggested that the segmentation was not "clean" enough to provide a good signal for follow point prediction. The other possible explanation was that the model inference was too slow.  
 
-### 3.2.3 Opportunity. {#Harder_Better_Faster_Stronger-opportunity}
+### Opportunity. {#Harder_Better_Faster_Stronger-opportunity}
 The baseline and previous work show that there is room for improvement for fast and accurate follow point prediction. This project aims to be used as a baseline for future work. 
 
 We want to establish:
@@ -140,12 +140,12 @@ In **Step 2**, a semantic segmentation model was trained to detect the middle of
 <br/>
 
 
-## 3.3 Background and Preliminaries 
-### 3.3.1 Semantic Segmentation Task {#Harder_Better_Faster_Stronger-final-semantic}
+## Background and Preliminaries 
+### Semantic Segmentation Task {#Harder_Better_Faster_Stronger-final-semantic}
 Semantically segmenting an image consists in classifying every pixel in an input image into one of the pre-defined class types. For this project, the following classes were used: white line, yellow line, red line, obstacles (duckies) and duckiebots. 
 
 
-## 3.4 Definition of the Problem
+## Definition of the Problem
 To be successful with this project, the following requirements had to be met: 
 <br/>
 
@@ -154,7 +154,7 @@ To be successful with this project, the following requirements had to be met:
 - Must be compatible with the Duckietown infrastructure. 
 - Must be able to directrly predict follow point (for instance, bezier curve) using a neural network.
 
-## 3.5 Contribution / Added functionality {#Harder_Better_Faster_Stronger-final-contribution}
+## Contribution / Added functionality {#Harder_Better_Faster_Stronger-final-contribution}
 
 The contribution of this project includes: 
 <br/>
@@ -166,7 +166,7 @@ The contribution of this project includes:
 - the project code, trained models as well as instructions to reproduce the results, on a public github repository: [https://github.com/rjean/mobile-segmentation](https://github.com/rjean/mobile-segmentation).
 - The datasets.
 
-### 3.5.1 Model {#Harder_Better_Faster_Stronger-model}
+### Model {#Harder_Better_Faster_Stronger-model}
 In order to make fast and accurate inference of semantic segmentation, a lightweight semantic segmentation model named ShuffleNet v2 with atrous convolutions was used. This model uses the ShuffleNet v2 architecture as its backbone, as well as DeepLabV3 and DPC heads built on top to perform the segmentation prediction [](#bib:turkmen2019efficient).  
 
 <br/>
@@ -178,14 +178,14 @@ In order to extract denser features we remove the downsampling operations from t
     <img style='width:40em' src="Model_Architecture.png"/>
 </figure>
 
-### 3.5.2 Pre-training {#Harder_Better_Faster_Stronger-pretraining}
+### Pre-training {#Harder_Better_Faster_Stronger-pretraining}
 The model we chose was pre-trained on the Cityscapes dataset, with a validation mAP of over 70%. 
 
-### 3.5.3 Datasets {#Harder_Better_Faster_Stronger-final-problem-dataset}
+### Datasets {#Harder_Better_Faster_Stronger-final-problem-dataset}
 
 Two datasets were used for training the semantic segmentation model.
 
-#### 3.5.3.1 Classic Segmentation - "merged_with_real"
+#### Classic Segmentation - "merged_with_real"
  For **Step 1**, the dataset from a previous project [](#bib:reyproject) was utilized. It contains 50,000 160x120 annotated images from the simulator as well as 200 real images with annotations. Sample images are shown below: 
 <br/>
 
@@ -209,7 +209,7 @@ In addition, an additional 10,000 320x240 images were generated using the duckie
 
 Those images where downsample to 160x120 in order to build a bigger dataset by merging the 200 real images, 50000 images from Rey's dataset, and 10000 additional images from the latest simulator.
 
-#### 3.5.3.1 Higher Resolution Bezier Segmentation 
+#### Higher Resolution Bezier Segmentation 
 
 For **Step 2**, the goal was to be able to detect the middle of the lane. Thus, as annotations, the bezier curves from the duckiebot-gym were extracted and thickened out. They were classified differently depending on if they were on the left lane or the right lane. This new dataset is composed of 10,000 320x240 images along with the semantic segmentation annotations.  An example of such segmentation mask is shown below: 
 <br/>
@@ -244,7 +244,7 @@ This controller has a P-D controller tuned with agressive gains. The derivative 
 ### Platform Agnostic Inference using ONNX
 In order to avoid dependency hell that happens when integrating lots of dependencies in the solution, such as Pytorch or Tensorflow, we instead used ONNX, which allows importing neural networks with a single dependency. This workflow allows creating models in any framework then using them without modification in the "production" code, as long as the input size and output size stays the same. This workflow should also work on the Jetson Nano.
 
-## 1.6 Formal performance evaluation / Results {#Harder_Better_Faster_Stronger-final-formal}
+## Formal performance evaluation / Results {#Harder_Better_Faster_Stronger-final-formal}
 
 The yellow and white line segmentation model (i.e. **Step 1**) can run at 45 FPS on cpu and enabled reaching a top-5 performance on the AIDO LF challenge. The lane bezier curve segmentation model (i.e. **Step 2**) can run at 30 FPS on cpu and enabled achieving even greater performance compared to using the yellow and white line segmentation model. Both solutions were integrated into the Duckietown infrastructure. As such, the project goal and requirements are successfully met.  
 
@@ -260,7 +260,7 @@ The Bezier model has a lower mAP, this can be attributed to the lower number of 
 
 It is still possible to improve those models by a few percentage points by training a little longer, will a learning rate schedule.
 
-## 1.7 Future avenues of development {#Harder_Better_Faster_Stronger-final-next-steps}
+## Future avenues of development {#Harder_Better_Faster_Stronger-final-next-steps}
 
 The following ideas could help improve the performance further:
 
