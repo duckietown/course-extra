@@ -258,6 +258,8 @@ bezier&nbsp; | &nbsp;3&nbsp; | &nbsp;320x240&nbsp; | &nbsp;28.9&nbsp; | &nbsp;60
 
 The Bezier model has a lower mAP, this can be attributed to the lower number of samples in the dataset. (10000 instead of 60000). The framerate is approximately the same for both models, even though the input size is larger on the bezier model. This is due to the internal upscaling of our model. 
 
+It is still possible to improve those models by a few percentage points by training a little longer, will a learning rate schedule.
+
 ## 1.7 Future avenues of development {#Harder_Better_Faster_Stronger-final-next-steps}
 
 The following ideas could help improve the performance further:
