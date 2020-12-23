@@ -1,8 +1,8 @@
-# DuckieTown adaptation of An efficient solution for semantic segmentation: ShuffleNet V2 with atrous separable convolutions {#instructions-Harder_Better_Faster_Stronger status=ready}
+# Harder Better Faster Stronger : Project Instructions {#instructions-Harder_Better_Faster_Stronger status=ready}
 
-This project is an adaption of the [https://github.com/sercant/mobile-segmentation](https://github.com/sercant/mobile-segmentation) repository. They presented a computationally efficient approach to semantic segmentation, while achieving a high mean intersection over union (mIOU), 70.33% on Cityscapes challenge. The network proposed is capable of running real-time on mobile devices.
+This project is an adaption of the [https://github.com/sercant/mobile-segmentation](https://github.com/sercant/mobile-segmentation) repository. They presented a computationally efficient approach to semantic segmentation, while achieving a high mean intersection over union (mIOU) of 70.33% on the Cityscapes challenge. The network proposed is capable of running real-time on mobile devices.
 
-This models performs pretty well in the Duckietown Simulator too! 75.60% on the Duckietown Segmentation Dataset.
+This models performs pretty well in the Duckietown Simulator too! The mIoU is 75.60% on the Duckietown Segmentation Dataset.
 
 This page describes how to implement the project Harder, Better, Faster, Stroger and get similar results as we did.
 
