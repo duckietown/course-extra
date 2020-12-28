@@ -20,12 +20,20 @@ So far, two main approaches have been explored to control duckiebots : classical
 
 - **RL approaches** allow the exploration of solutions that could not necessarily be found through classical methods or even imitating existing expert behavior. But they are often computationally expensive and data inefficient. In Duckietown, no pure RL approach seems to have outbeaten, or even matched the performance of classical methods.
 
-Therefore, we propose a hybrid approach where the RL agent is fed some representation of the environment instead of the camera image. 
+[ADD SOMETHING] 
 
 
 ### Existing solution {#improving-rl-baseline-final-literature}
 
-The current RL baseline consists of a Deep Deterministic Policy Gradient agent [](#bib:lillicrap2019continuous). 
+The current RL baseline consists of a Deep Deterministic Policy Gradient (DDPG) agent [](#bib:lillicrap2019continuous). 
+In Duckietown, the action space is consists of the wheel commands $v$ and $\omega$, and is continuous. 
+DDPG is an off-policy algorithm, in which both an approximator to the optimal Q function and an approximator to the optimal action function are learnt. It can be thought of as Deep Q-learning [PUT A REFERENCE] for continuous action spaces.
+
+[ELABORATE?]
+
+Learn more about DDPG [here](https://spinningup.openai.com/en/latest/algorithms/ddpg.html).
+
+
 
 ### Opportunity {#improving-rl-baseline-final-opportunity}
 
@@ -37,19 +45,17 @@ Limitations of such pure RL models might include the lack of computing power sin
 
 Moreover, the agent is trained in the Duckietown simulator, and there is no guarantee that transferring from sim to real will be successful with this approach.
 
-#### Contribution
+#### Contribution{#improving-rl-baseline-final-opportunity-contribution}
 
-We used a DARLA [](#bib:higgins2018darla)
-
+We propose to train a DARLA agent [](#bib:higgins2018darla).  
 There are three steps to follow: 
 - Learn to see: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts.
 - Learn to act: train an RL agent
 - Transfer: evaluate on new target domain without retraining.
 
-This approach is particularly interesting for Duckietown because we have different simulator maps and also want to transfer from sim to real.
-
-Project agent observation state space  to a latent state space expressed in terms of factorised data generative factors that are representative of the natural world.
-
+This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transferred to new domains without further training. 
+Instead of feeding the camera images to the RL model, we project the agent observation state space  to a latent state space expressed in terms of factorised data generative factors that are representative of the natural world, and use this latent representation as the input.
+<this is too wordy>
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
@@ -80,17 +86,26 @@ Describe here, in technical detail, what you have done. Make sure you include:
 
 _Feel free to create subsections when useful to ease the flow_
 
+### Model architecture
+[DRAWING OF THE ARCHITECTURE]
 ### Dataset 
-### Training DAE 
+[LINK TO DATASET ? or code to collect data] 
+### DAE 
+We first train a DAE to 
 ### Beta VAE
 ### RL agent 
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
 ### Denoising Auto Encoder
-We train the DAE on
-metric 
+We train the DAE on our simulated images dataset for XXX epochs. 
+something about the loss
+[IMAGE of some RECONSTRUCTIONS]
 _Be rigorous!_
+
+### Beta Variational Auto Encoder
+
+[IMAGE of traversals]
 
 - For each of the tasks you defined in you problem formulation, provide quantitative results (i.e., the evaluation of the previously introduced performance metrics)
 - Compare your results to the success targets. Explain successes or failures.
