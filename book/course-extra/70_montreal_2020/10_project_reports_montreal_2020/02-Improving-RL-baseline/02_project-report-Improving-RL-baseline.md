@@ -7,6 +7,7 @@ In this project, we propose to improve the Reinforcement Learning (RL) baseline 
 * VIDEO OF OUR AGENT - ideally video of episodes with the episode number displayed
 
 You can find the [instructions to reproduce](#instructions-improving-rl-baseline) and code here LINK TO CODE.
+
 ## Mission and Scope {#improving-rl-baseline-final-scope}
 
 The goal of this project is to improve the RL baseline in Duckietown by 
@@ -27,7 +28,7 @@ So far, two main approaches have been explored to control duckiebots : classical
 
 The current RL baseline consists of a Deep Deterministic Policy Gradient (DDPG) agent [](#bib:lillicrap2019continuous). 
 In Duckietown, the action space is consists of the wheel commands $v$ and $\omega$, and is continuous. 
-DDPG is an off-policy algorithm, in which both an approximator to the optimal Q function and an approximator to the optimal action function are learnt. It can be thought of as Deep Q-learning [PUT A REFERENCE] for continuous action spaces.
+DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q$ function and an approximator to the optimal action function are learnt. It can be thought of as Deep Q-learning [PUT A REFERENCE] for continuous action spaces.
 
 [ELABORATE?]
 
@@ -54,16 +55,16 @@ There are three steps to follow:
 - Transfer: evaluate on new target domain without retraining.
 
 This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transferred to new domains without further training. 
-Instead of feeding the camera images to the RL model, we project the agent observation state space  to a latent state space expressed in terms of factorised data generative factors that are representative of the natural world, and use this latent representation as the input.
+Instead of feeding the camera images to the RL model, we project the agent observation state space to a latent state space expressed in terms of factorised data generative factors and use this projection as the input. 
+The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the domain. 
 <this is too wordy>
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
-* Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.
+* 
+Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.
 
-Definition of link:
-- could be the reference to a paper / textbook
-- (bonus points) it is best if it is a link to Duckiebook chapter (in the dedicated "Preliminaries" section)
+[Here](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) is a very good blogpost to understand Autoencoders, DAEs and $\beta$-VAEs. 
 
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
 
@@ -73,6 +74,8 @@ Make sure you include your:
 - final objective / goal
 - assumptions made
 - quantitative performance metrics to judge the achievement of the goal
+
+
 
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
 
