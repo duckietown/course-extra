@@ -1,19 +1,5 @@
 # Instructions template {#instructions-improving-rl-baseline status=ready}
 
-Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
-
-This is the template for the description of a what we should do to reproduce the results you got in your project. 
-The spirit of this document is to be an operation manual, i.e., a straightforward, unambiguous recipe for reproducing the results of a specific behavior or set of behaviors.
-
-It starts with the "knowledge box" that provides a crisp description of the border conditions needed:
-
-* Duckiebot hardware configuration (see [Duckiebot configurations](+opmanual_duckiebot#duckiebot-configurations))
-* Duckietown hardware configuration (loops, intersections, robotarium, etc.)
-* Number of Duckiebots
-* Duckiebot setup steps
-
-For example:
-
 <div class='requirements' markdown="1">
 
 Requires: Duckiebot in configuration `DB19`
@@ -53,21 +39,29 @@ Do not repeat instructions here that are already included in the [Duckiebot oper
 
 ## Pre-flight checklist {#demo-improving-rl-baseline-pre-flight}
 
-The pre-flight checklist describes the steps that are sufficient to ensure that the demo will be correct:
-
-Check: operation 1 done
-
-Check: operation 2 done
+The code is in Python 3.8.
 
 ## Instructions {#demo-improving-rl-baseline-run}
 
-Here, give step by step instructions to reproduce the demo.
+Clone the project repo:
 
-Step 1: XXX
+$ git clone https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch.git
 
-Step 2: XXX
+Check that you are working from the ![DARLA] branch.
+Install the requirements in ![requirements.txt].  
+ Then, initialize the submodules. 
 
-Make sure you are specifying where to write each line of code that needs to be executed, and what should the expected outcome be. If there are typical pitfalls / errors you experienced, point to the next section for troubleshooting.
+$ cd challenge-aido_LF-baseline-RL-sim-pytorch
+
+$ git submodule init
+
+$ git submodule update
+
+
+### Collecting your dataset
+### Training the perceptual model
+
+
 
 ## Troubleshooting {#demo-improving-rl-baseline-troubleshooting}
 

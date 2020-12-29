@@ -2,6 +2,11 @@
 
 In this project, we propose to improve the [Reinforcement Learning (RL) baseline](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md).
 
+
+All of the work was done in collaboration between Étienne Boucher(@lifetheater57) and Mélisande Teng (@melisandeteng).
+You can find the slides for our mid-progress presentation [here]().
+
+
 ## The final result {#improving-rl-baseline-final-result}
 
 * VIDEO OF OUR AGENT - ideally video of episodes with the episode number displayed
