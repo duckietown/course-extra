@@ -1,6 +1,6 @@
 #  Improving the RL baseline: Project report {#improving-rl-baseline-final-report status=ready}
 
-In this project, we propose to improve the Reinforcement Learning (RL) baseline [FIND HOW TO LINK TO THIS](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md)
+In this project, we propose to improve the [Reinforcement Learning (RL) baseline](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md).
 
 ## The final result {#improving-rl-baseline-final-result}
 
@@ -61,19 +61,21 @@ The idea is that the latent features should be representative of the environment
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
-* 
-<Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.>
+### Denoising Autoencoder (DAE)
+An autoencoder is a neural network designed to learn an identity function in an unsupervised way. It consists of: 
+- an encoder that compresses the input data into a latent lower-dimensional representation
+- a decoder that reconstructs the original input data from the latent vector. 
 
-[Here](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) is a very good blogpost to understand Autoencoders, DAEs and $\beta$-VAEs. 
+DAEs are modified autoencoders where the input is partially corrupted by adding noises to or masking some values of the input vector in a stochastic manner to prevent the network from overfitting (e.g. when there are more parameters then number of data points) and to improve the robustness. 
 
+### Variational Autoencoder (VAE)
+In variational autoencoders, the encoder and decoder are probabilistic. Insteand of mapping the input into a fixed vector,we parameterize the encoder and decoder distributions as gaussians, and sample the latent vector from the encoder distribution. The reconstructed input is sampled from the decoder's distribution. 
+
+### $\beta$-VAE
+$\beta$-VAEs are a modification of VAEs to encourage the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
+
+For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken. 
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
-
-_Up to now it was all fun and giggles. This is the most important part of your report: a crisp, possibly mathematical, definition of the problem you tackled. You can use part of the preliminary design document to fill this section._
-
-Make sure you include your:
-- final objective / goal
-- assumptions made
-- quantitative performance metrics to judge the achievement of the goal
 
 We follow the method proposed in [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it. 
 We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task.
@@ -130,6 +132,8 @@ every type of tile.
 
 ### DAE 
 We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. 
+The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations. 
+
 <write something about the loss>
 
 ### Beta VAE
@@ -162,6 +166,6 @@ _Be rigorous!_
 
 
 _Is there something you think still needs to be done or could be improved? List it here, and be specific!_
-Reward func
+Reward function
 
 &lt;div id="put-bibliography-here"&gt;&lt;/div&gt;
