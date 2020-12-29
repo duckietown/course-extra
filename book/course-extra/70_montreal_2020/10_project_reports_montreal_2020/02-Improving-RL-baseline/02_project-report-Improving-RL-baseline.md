@@ -32,7 +32,7 @@ DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q
 
 [ELABORATE?]
 
-Learn more about DDPG [here](https://spinningup.openai.com/en/latest/algorithms/ddpg.html).
+You can learn more about DDPG [here](https://spinningup.openai.com/en/latest/algorithms/ddpg.html).
 
 
 
@@ -55,14 +55,14 @@ There are three steps to follow:
 - Transfer: evaluate on new target domain without retraining.
 
 This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transferred to new domains without further training. 
-Instead of feeding the camera images to the RL model, we project the agent observation state space to a latent state space expressed in terms of factorised data generative factors and use this projection as the input. 
+Instead of feeding the camera images to the RL model, we project the agent observation state space to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. 
 The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the domain. 
 <this is too wordy>
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
 * 
-Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.
+<Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.>
 
 [Here](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) is a very good blogpost to understand Autoencoders, DAEs and $\beta$-VAEs. 
 
@@ -75,6 +75,36 @@ Make sure you include your:
 - assumptions made
 - quantitative performance metrics to judge the achievement of the goal
 
+We follow the method proposed in [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it. 
+We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task.
+ 
+### Model architecture
+<PUT IMAGE>
+
+#### Perceptual module
+The perceptual module consists of a $\beta_{DAE}$-VAE . 
+The output of the encoder $s$ is what is fed to the RL model. 
+We train a $\beta$-VAE using targets in the feature space, obtained with a $DAE$
+trained on the same set of images in a previous step. 
+
+The objective function of the $\beta$-VAE is: 
+\[
+    \mathcal{L}(\theta, \phi, \mathbf{x},\mathbf{z}, \beta) = \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
+\]
+where $\theta, \phi$ are the parameters of the encoder and decoder resp. 
+
+In our setting, we write this function as: 
+\[
+    \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}||J(\mathbf{\widehat{x}}) - J(\mathbf{x})||_2^2 - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
+\]
+where $J$ corresponds to passing the imput image in the trained DAE up to a chosen layer. 
+
+The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
+
+[DAE architecture drawing]
+[Beta VAE architecture drawing]
+#### RL agent
+We use the DDPG agent of the baseline. 
 
 
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
@@ -89,13 +119,26 @@ Describe here, in technical detail, what you have done. Make sure you include:
 
 _Feel free to create subsections when useful to ease the flow_
 
-### Model architecture
-[DRAWING OF THE ARCHITECTURE]
+
 ### Dataset 
 [LINK TO DATASET ? or code to collect data] 
+We collected 6000 images in the duckietown gym simulator, positioning and orienting the duckiebot randomly, and covering
+every object mesh and
+every type of tile. 
+
+[ADD SAMPLE DATA IMAGE]
+
 ### DAE 
-We first train a DAE to 
+We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. 
+<write something about the loss>
+
 ### Beta VAE
+
+We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer. 
+$\beta$ is chosen to be 1, so we actually have a VAE. 
+<write something about the loss>
+We compute the perceptual similarity loss term using the outputs of our previously trained DAE as targets.
+
 ### RL agent 
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
@@ -117,6 +160,8 @@ _Be rigorous!_
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
 
+
 _Is there something you think still needs to be done or could be improved? List it here, and be specific!_
+Reward func
 
 &lt;div id="put-bibliography-here"&gt;&lt;/div&gt;
