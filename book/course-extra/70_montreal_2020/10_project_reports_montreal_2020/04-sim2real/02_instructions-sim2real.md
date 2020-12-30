@@ -1,90 +1,22 @@
 # Instructions Sim2Real {#instructions-sim2real status=ready}
 
-Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
 
-This is the template for the description of a what we should do to reproduce the results you got in your project. 
-The spirit of this document is to be an operation manual, i.e., a straightforward, unambiguous recipe for reproducing the results of a specific behavior or set of behaviors.
+Since we implemented three different models for the task, the instruction to reproduce the results of each models are explained in details in each repositories we created/forked. 
+### Dataset Collection
+- [README.md](LINK_DATACOLLECTION)
+### Style Transfer
+- [README.md](LINK_AYMAN)
+### CycleGan
+- [README.md](LINK_MO)
+### UNIT
+For UNIT, if you don't want to go through the tedious task of creating the dataset in the right format by yourself, you simply download those two zip files containing the training and testing set we used to obtain our results. 
 
-It starts with the "knowledge box" that provides a crisp description of the border conditions needed:
+Datasets:
 
-* Duckiebot hardware configuration (see [Duckiebot configurations](+opmanual_duckiebot#duckiebot-configurations))
-* Duckietown hardware configuration (loops, intersections, robotarium, etc.)
-* Number of Duckiebots
-* Duckiebot setup steps
+- [train](https://drive.google.com/file/d/1w0zDJGLGkO12uhtoEvXY2AQCqu79fK-C/view?usp=sharing)
 
-For example:
+- [test](https://drive.google.com/file/d/1SHXBhxx-splAVTlgoURJqPBQGvNiEJnv/view?usp=sharing)
 
-<div class='requirements' markdown="1">
+Documentation
 
-Requires: Duckiebot in configuration `DB19`
-
-Requires: Duckietown without intersections
-
-Requires: Camera calibration completed
-
-</div>
-
-## Video of expected results {#demo-sim2real-expected}
-
-First, we show a video of the expected behavior (if the demo is successful).
-
-Make sure the video is compliant with Duckietown, i.e. : the city meets the [appearance specifications](+opmanual_duckietown#dt-ops-appearance-specifications) and the Duckiebots have duckies on board.
-
-## Laptop setup notes {#demo-sim2real-laptop-setup}
-
-Does the user need to do anything to modify their local laptop configuration?
-
-
-## Duckietown setup notes {#demo-sim2real-duckietown-setup}
-
-Here, describe the assumptions about the Duckietown, including:
-
-* Layout (tiles types)
-* Infrastructure (traffic lights, WiFi networks, ...) required
-* Weather (lights, ...)
-
-Do not write instructions on how to build the city here, unless you are doing something very particular that is not in the [Duckietown operation manual](+opmanual_duckietown#duckietowns). Here, merely point to them.
-
-## Duckiebot setup notes {#demo-sim2real-duckiebot-setup}
-
-Write here any special setup for the Duckiebot, if needed.
-
-Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#opmanual_duckiebot).
-
-## Pre-flight checklist {#demo-sim2real-pre-flight}
-
-The pre-flight checklist describes the steps that are sufficient to ensure that the demo will be correct:
-
-Check: operation 1 done
-
-Check: operation 2 done
-
-## Instructions {#demo-sim2real-run}
-
-Here, give step by step instructions to reproduce the demo.
-
-Step 1: XXX
-
-Step 2: XXX
-
-Make sure you are specifying where to write each line of code that needs to be executed, and what should the expected outcome be. If there are typical pitfalls / errors you experienced, point to the next section for troubleshooting.
-
-## Troubleshooting {#demo-sim2real-troubleshooting}
-
-Add here any troubleshooting / tips and tricks required, in the form:
-
-
-Symptom: The Duckiebot flies
-
-Resolution: Unplug the battery and send an email to info@duckietown.org
-
-
-Symptom: I run `this elegant snippet of code` and get this error: `a nasty line of gibberish`
-
-Resolution: Power cycle until it works.
-
-## Demo failure demonstration {#demo-sim2real-failure}
-
-Finally, put here video of how the demo can fail, when the assumptions are not respected.
-
-You can upload the videos to the [Duckietown Vimeo account](https://vimeo.com/duckietown) and link them here.
+- [README.md](https://github.com/phred1/imaginaire)
