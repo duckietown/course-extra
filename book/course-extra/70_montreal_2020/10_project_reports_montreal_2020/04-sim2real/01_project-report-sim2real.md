@@ -18,14 +18,14 @@ _Let's start from a teaser._
 
 The two folowing videos represent our best results. To reproduce, please refer to the [instructions to reproduce](#instructions-sim2real).
 
-<figure>
+<figure align="center">
     <figcaption>UNIT sim2real generation</figcaption>
     <img style='width:24em' src="images/unit-compare.gif"/>
 </figure>
 
 For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
 
-<figure>
+<figure align="center">
     <figcaption>CycleGAN sim2real generation</figcaption>
     <img style='width:24em' src="images/cyclegan-compare.gif"/>
 </figure>
@@ -81,6 +81,7 @@ Our first approach was to try to use style transfer techniques to learn realisti
 ### Style Transfer
 
 ### CycleGan
+CycleGAN consists in learning a translation between a source domain X and a target domain Y in the absence of paired examples. We learn a mapping G : X -> Y such that the generated images G(X) follow a distribution that is, theoretically, identical to the target's domain distribution, Y. This is done using an adversarial loss. However, considering the under-constrained nature of the translation mapping, cycleGAN couples the adversarial loss with a cycle consistency loss by using the bijective inverse mapping F: Y -> X which enforces the fact that applying F to the mapping G(X) should return the original X (and vice-versa).
 
 ### Nvidia UNIT [](#bib:unit)
 UNIT is a 
@@ -110,6 +111,8 @@ Domain Adaptation in the realm of images corresponds to the image-to-image trans
 
 ## Contribution / Added functionality {#sim2real-final-contribution}
 
+
+
 Describe here, in technical detail, what you have done. Make sure you include:
 - a theoretical description of the algorithm(s) you implemented
 - logical architecture
@@ -122,15 +125,43 @@ _Feel free to create subsections when useful to ease the flow_
 ### Style Tranfer
 #### Theory
 #### Implementation
+
+###Unpaired image-to-image translation
+As mentioned earlier, our goal is to refine simulated images - resulting images from training in simulation - in order to make them look more realistic. Completing the training using paired images is an impossible task considering the size of our datasets (~30000 images) which is why we turn towards models that will allow to learn a mapping between an input domain and a target domain. In order to do so, we will have two separate collections of images, one for the simulated images and one for the real images. The models we discuss below will aim at capturing the specific characteristics of one image collection and figure out how these characteristics could be translated to the other image collection, without having to pair them. The figure below shows a subset of the two collections we need before training our models.
+
+<figure align="center">
+    <figcaption>Dataset collections for simulated and real images</figcaption>
+    <img style='width:40em' src="images/dataset-collections.png"/>
+</figure>
+
 ### CycleGAN
 #### Theory
+One of the fundamental assumptions of cycleGAN is that there exists an underlying relationship between the two domains we are trying to learn a mapping for. For example, in our case, we assume that the environment in simulation and in reality are the same but only differ in their rendering. However, as we will see, this assumption is not fully verfied for us in the sense that the environments in simulation and reality are not the same. Keping this in mind, we can still exploit the capabilities of cycleGAN. As mentioned earlier, there are no paired examples in our dataset which makes our learning process unsupervised. Nonetheless, supervision is still exploited at the level of sets as we have two separate collections of images in a certain domain, X and Y. Indeed, the mapping G, defined earlier, translates the domain X to a domain Y' that is identically distributed to Y. However, there could be infinitely many mappings G that could induce the same distribution over y' for a specific input x. The adversarial loss is thus difficult to optimize and lead to the problem of mode collapse: all input images map to the same output image. This explains the under-constrained nature of the GAN whic is why we enforce a cycle-consistency loss.
+
+
+<figure align="center">
+    <figcaption>CycleGAN Learning</figcaption>
+    <img style='width:40em' src="images/cyclegan_learning.png"/>
+</figure>
+
+As shown in part a) of the figure above, we apply an adversarial loss to both mappings G: X -> Y and F: Y -> X. $D_{Y}$ and $D_{X}$ are the associated discriminators for each mapping G and G respectively. As an example, $D_{Y}$ encourages G to generate images G(X) that are indistinguishable from the target domain Y. This can be seen as a "game" where G minimizes the loss and D maximizes it. The adversarial loss, for mapping G, can be described as follows:
+
+                                Lgan(G, Dy, X, Y) = E[log(Dy(y))] + E[log(1 - Dy(G(X)))]
+
+The adversarial loss for mapping F is defined similarly.
+
+Parts b) and c) of the figure above depict whart we defined as the cycle consistency loss. This loss tries to capture the intuition that if we translate from one domain X to domain Y and back to domain X, we should get back to the position from which we originally started. Part a shows the forward cycle-consistency and c) the backwards cycle-consistency. This loss can be described as follows: 
+
+                                Lcyc(G,F) = E[||F(G(x)) - x||] + E[||G(F(y))-y||]
+
+
 #### Implementation
 
 ### UNIT
 #### Theory
 To address the infinite possible joint distributions issue, the UNIT authors make multiple assumptions to facilitate the search of the desired joint distribution.  
 The first assumption is denoted as the shared latent space assumptions. The author assume that there exists a shared latent space for any pair of images that can be obtained from the images, and from which both images could be recovered. Formally, they suggest the following formulation: 
-<figure>
+<figure align="center">
     <figcaption>Shared Latent Space</figcaption>
     <img style='width:20em' src="images/shared-latent-space.png"/>
 </figure>
@@ -161,7 +192,7 @@ The problem to solve then resolves aroung the finding the fonctions F_12 and F_2
 
 #### Implementation
 
-<figure>
+<figure align="center">
     <figcaption>UNIT architecture</figcaption>
     <img style='width:24em' src="images/unit-architecture.png"/>
 </figure>
@@ -200,7 +231,7 @@ _Be rigorous!_
 
 Results: [Full video](https://youtu.be/iXRV7G1GGFo)
 
-<figure>
+<figure align="center">
     <figcaption>UNIT sim2real generation</figcaption>
     <img style='width:30em' src="images/unit-compare.gif"/>
 </figure>
