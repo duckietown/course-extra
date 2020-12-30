@@ -1,4 +1,4 @@
-# Instructions template {#instructions-sim2real status=ready}
+# Instructions Sim2Real {#instructions-sim2real status=ready}
 
 Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
 

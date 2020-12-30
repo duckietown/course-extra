@@ -32,7 +32,6 @@ For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
 
 For CycleGAN, please read this [README.md](NOTEBOOK of Mo)
 
-
 ## Mission and Scope {#sim2real-final-scope}
 
 _Now tell your story:_
@@ -186,35 +185,53 @@ _Be rigorous!_
 ### Realistic Image generation: 
 
 #### Style Transfer
-    - Succes:
-    - Failure:
-        - what features where properly extracted, which were not?
+- **Succes**:
+
+- Failure:
+    - what features where properly extracted, which were not?
 
 #### CycleGan
-    - Succes:
-    - Failure:
-      - mode collapse? 
+- **Succes**:
+
+- Failure:
+    - mode collapse? 
 
 #### UNIT
-    - Success:
-        The UNIT model was able to learn a generative model that could generate quite realistic images from synthetic images. The result can be seen in the following video: 
-    - Failures:
-        UNIT struggled to generate realistic images from simulation images when the simulated image had features not seen in the real dataset. For example, the simulator dataset sometimes had long straing lines which had no equivalent in the real dataset. To represent this long straight line with realistic image, the model chose to simply append identical short line images, which produces a weird effect not representative of reality. 
 
-        However, those find of issues could probaly have been solved by using a better dataset. Indeed, the real data we used was comming from the same unique environment, meaning that the model was generating realistic images only fitted to that specific environment. We could have mitigated this effect by training the network to generate only the lower half of an image, or simply by having a more varied dataset.
-    
+Results: [youtube video](https://youtu.be/iXRV7G1GGFo)
+
+<figure>
+    <figcaption>UNIT sim2real generation</figcaption>
+    <img style='width:30em' src="images/unit-compare.gif"/>
+</figure>
+
+- **Success**:
+
+    The UNIT model was able to learn a generative model that could generate quite realistic images from synthetic images. A sample of the results can be seen in the above gif and more in the linked video. We can clearly see that UNIT is able to extract the main defining features of a simulation image and translate it to the real world. Indeed, left turn and right turns are properly translated, which was one of the crucial thing the model had to learn. Also, the color and textures of the road are very well translated. Finally, the UNIT model seem to not have been affected as much as CycleGAN by mode collapse.
+
+
+- **Failures**:
+
+    UNIT struggled to generate realistic images from simulation images when the simulated image had features not seen in the real dataset. For example, the simulator dataset sometimes had long straing lines which had no equivalent in the real dataset. To represent this long straight line with realistic image, the model chose to simply append identical short line images, which produces a weird effect not representative of reality. 
+
+    However, those find of issues could probaly have been solved by using a better dataset. Indeed, the real data we used was comming from the same unique environment, meaning that the model was generating realistic images only fitted to that specific environment. We could have mitigated this effect by training the network to generate only the lower half of an image, or simply by having a more varied dataset.
+
 ### Color Threshold calibration
-    As previously mentionned, one of our goal was to test if by using generated realistic images in the simulator it would remove the need to tune our color tresholds for line detection when moving to the real robot environment. 
-    We could validate that hypothesis by simply comparing the groud_projection topic while running in the simulator compared to on the robot. Here is a video demonstrating the ground projection topic in the simulator and in the robot, with the same color treshold in both cases: 
+
+As previously mentionned, one of our goal was to test if by using generated realistic images in the simulator it would remove the need to tune our color tresholds for line detection when moving to the real robot environment. 
+However, we were not able to fully integrate our models to the Duckietown stack. We were only able to create ROS Node
+subscribing to the camera image topic that acted as a proxy to the rest of the system.
 
 
 ## Future avenues of development {#sim2real-final-next-steps}
 
-_Is there something you think still needs to be done or could be improved? List it here, and be specific!_
+First, future work could aim to fully integrate our best models so the ROS node we created. Then, it would be possible to validate
+the color calibration hypothesis that we had and could not fully evaluate.
 
-Future works could improve the models by using a more varied dataset that could help the model to better generalize when converting synthetic data to realistic data.
-A more varied "real" dataset would need to come from multiple different environment to prevent the model from learning background specific details. Another approach could be to train the model to generate only the bottom half of an image, which would include primarly the road and therefore would negate overfitting on the realistic environement from which the images where taken.
-Also, while we only sought to compare the effect of our model on the color calibration need, it would be interesting to test the effect of using this type of generative ROS node with different duckietown baselines such as the behavior cloning baseline or reinforcement learnign baseline. Since the whole perception 
+Also, future works could improve the models by using a more varied dataset that could help the model to better generalize when converting synthetic data to realistic data.
+A more varied "real" dataset would need to come from multiple different environment to prevent the model from learning background specific details. Another approach could be to train the model to generate only the bottom half of an image, which would include primarily the road and therefore would negate overfitting on the realistic environement from which the images where taken.
+
+Moreover, it would be interesting to test the effect of using our generative ROS node with different duckietown baselines such as the behavior cloning baseline or reinforcement learning baseline. Since the whole perception 
 stack would be affected by the generated images, it might positively affect the transition to the real robot.
 
 ## Bibliography
