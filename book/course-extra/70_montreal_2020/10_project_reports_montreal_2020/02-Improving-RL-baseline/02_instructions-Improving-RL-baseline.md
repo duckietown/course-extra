@@ -71,12 +71,12 @@ You will be using the DARLA submodule.
 Check that the version you are using is the same as (here)[https://github.com/lifetheater57/DARLA/tree/duckietown-rl].
 Check the ![config/defaults.yaml] configuration file, this is where you can choose to train your beta-VAE, or to train a DAE to get targets to use for training the beta-VAE subsequently. 
 
-$ python train.py --config CONFIG_FILE 
+`python train.py --config CONFIG_FILE`
 
 
 If you wish to train the beta-VAE with the original input images as targets, use : 
 
-$ python train.py --config CONFIG_FILE --no-dae
+`python train.py --config CONFIG_FILE --no-dae`
 
 
 ## Troubleshooting {#demo-improving-rl-baseline-troubleshooting}
