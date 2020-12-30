@@ -1,0 +1,137 @@
+@misc{higgins2018darla,
+      title={DARLA: Improving Zero-Shot Transfer in Reinforcement Learning}, 
+      author={Irina Higgins and Arka Pal and Andrei A. Rusu and Loic Matthey and Christopher P Burgess and Alexander Pritzel and Matthew Botvinick and Charles Blundell and Alexander Lerchner},
+      year={2018},
+      eprint={1707.08475},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML}
+}
+
+@misc{mnih2016asynchronous,
+      title={Asynchronous Methods for Deep Reinforcement Learning}, 
+      author={Volodymyr Mnih and Adrià Puigdomènech Badia and Mehdi Mirza and Alex Graves and Timothy P. Lillicrap and Tim Harley and David Silver and Koray Kavukcuoglu},
+      year={2016},
+      eprint={1602.01783},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@misc{lillicrap2019continuous,
+      title={Continuous control with deep reinforcement learning}, 
+      author={Timothy P. Lillicrap and Jonathan J. Hunt and Alexander Pritzel and Nicolas Heess and Tom Erez and Yuval Tassa and David Silver and Daan Wierstra},
+      year={2019},
+      eprint={1509.02971},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@article{julian_never_2020,
+	title = {Never Stop Learning: The Effectiveness of Fine-Tuning in Robotic Reinforcement Learning},
+	url = {http://arxiv.org/abs/2004.10190},
+	shorttitle = {Never Stop Learning},
+	abstract = {One of the great promises of robot learning systems is that they will be able to learn from their mistakes and continuously adapt to ever-changing environments. Despite this potential, most of the robot learning systems today are deployed as a fixed policy and they are not being adapted after their deployment. Can we efficiently adapt previously learned behaviors to new environments, objects and percepts in the real world? In this paper, we present a method and empirical evidence towards a robot learning framework that facilitates continuous adaption. In particular, we demonstrate how to adapt vision-based robotic manipulation policies to new variations by fine-tuning via off-policy reinforcement learning, including changes in background, object shape and appearance, lighting conditions, and robot morphology. Further, this adaptation uses less than 0.2\% of the data necessary to learn the task from scratch. We find that our approach of adapting pre-trained policies leads to substantial performance gains over the course of fine-tuning, and that pre-training via {RL} is essential: training from scratch or adapting from supervised {ImageNet} features are both unsuccessful with such small amounts of data. We also find that these positive results hold in a limited continual learning setting, in which we repeatedly fine-tune a single lineage of policies using data from a succession of new tasks. Our empirical conclusions are consistently supported by experiments on simulated manipulation tasks, and by 52 unique fine-tuning experiments on a real robotic grasping system pre-trained on 580,000 grasps.},
+	journaltitle = {{arXiv}:2004.10190 [cs, stat]},
+	author = {Julian, Ryan and Swanson, Benjamin and Sukhatme, Gaurav S. and Levine, Sergey and Finn, Chelsea and Hausman, Karol},
+	urldate = {2020-11-03},
+	date = {2020-07-31},
+	eprinttype = {arxiv},
+	eprint = {2004.10190},
+	keywords = {Computer Science - Machine Learning, Statistics - Machine Learning, Computer Science - Robotics, Computer Science - Computer Vision and Pattern Recognition},
+	file = {arXiv Fulltext PDF:/home/motoneurone/Zotero/storage/FFMMYJ3U/Julian et al. - 2020 - Never Stop Learning The Effectiveness of Fine-Tun.pdf:application/pdf;arXiv.org Snapshot:/home/motoneurone/Zotero/storage/X8D6HF6C/2004.html:text/html},
+}
+
+@article{lin_distributional_2019,
+	title = {Distributional Reward Decomposition for Reinforcement Learning},
+	abstract = {Many reinforcement learning ({RL}) tasks have speciﬁc properties that can be leveraged to modify existing {RL} algorithms to adapt to those tasks and further improve performance, and a general class of such properties is the multiple reward channel. In those environments the full reward can be decomposed into sub-rewards obtained from different channels. Existing work on reward decomposition either requires prior knowledge of the environment to decompose the full reward, or decomposes reward without prior knowledge but with degraded performance. In this paper, we propose Distributional Reward Decomposition for Reinforcement Learning ({DRDRL}), a novel reward decomposition algorithm which captures the multiple reward channel structure under distributional setting. Empirically, our method captures the multi-channel structure and discovers meaningful reward decomposition, without any requirements on prior knowledge. Consequently, our agent achieves better performance than existing methods on environments with multiple reward channels.},
+	pages = {10},
+	journaltitle = {{NeurIPS}},
+	author = {Lin, Zichuan and Zhao, Li and Yang, Derek and Qin, Tao and Liu, Tie-Yan and Yang, Guangwen},
+	date = {2019},
+	langid = {english},
+	file = {Lin et al. - Distributional Reward Decomposition for Reinforcem.pdf:/home/motoneurone/Zotero/storage/WEIT2RNM/Lin et al. - Distributional Reward Decomposition for Reinforcem.pdf:application/pdf},
+}
+
+@article{mnih2015human,
+    title={Human-level control through deep reinforcement learning},
+    author={Mnih, Volodymyr and Kavukcuoglu, Koray and Silver, David and Rusu, Andrei A and Veness, Joel and Bellemare, Marc G and Graves, Alex and Riedmiller, Martin and Fidjeland, Andreas K and Ostrovski, Georg and others},
+    journal={nature},
+    volume={518},
+    number={7540},
+    pages={529--533},
+    year={2015},
+    publisher={Nature Publishing Group}
+}
+
+@InProceedings{pmlr-v97-locatello19a, 
+    title = {Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations}, 
+    author = {Locatello, Francesco and Bauer, Stefan and Lucic, Mario and Raetsch, Gunnar and Gelly, Sylvain and Sch{\"o}lkopf, Bernhard and Bachem, Olivier}, 
+    pages = {4114--4124}, 
+    year = {2019}, 
+    editor = {Kamalika Chaudhuri and Ruslan Salakhutdinov}, 
+    volume = {97}, 
+    series = {Proceedings of Machine Learning Research}, 
+    address = {Long Beach, California, USA}, month = {09--15 Jun}, 
+    publisher = {PMLR},
+    pdf = {http://proceedings.mlr.press/v97/locatello19a/locatello19a.pdf}, 
+    url = {http://proceedings.mlr.press/v97/locatello19a.html}, 
+    abstract = {The key idea behind the unsupervised learning of disentangled representations is that real-world data is generated by a few explanatory factors of variation which can be recovered by unsupervised learning algorithms. In this paper, we provide a sober look at recent progress in the field and challenge some common assumptions. We first theoretically show that the unsupervised learning of disentangled representations is fundamentally impossible without inductive biases on both the models and the data. Then, we train more than $12000$ models covering most prominent methods and evaluation metrics in a reproducible large-scale experimental study on seven different data sets. We observe that while the different methods successfully enforce properties “encouraged” by the corresponding losses, well-disentangled models seemingly cannot be identified without supervision. Furthermore, increased disentanglement does not seem to lead to a decreased sample complexity of learning for downstream tasks. Our results suggest that future work on disentanglement learning should be explicit about the role of inductive biases and (implicit) supervision, investigate concrete benefits of enforcing disentanglement of the learned representations, and consider a reproducible experimental setup covering several data sets.} 
+}
+
+@article{kulkarni_hierarchical_2016,
+	title = {Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation},
+	abstract = {Learning goal-directed behavior in environments with sparse feedback is a major challenge for reinforcement learning algorithms. One of the key difﬁculties is insufﬁcient exploration, resulting in an agent being unable to learn robust policies. Intrinsically motivated agents can explore new behavior for their own sake rather than to directly solve external goals. Such intrinsic behaviors could eventually help the agent solve tasks posed by the environment. We present {hierarchicalDQN} (h-{DQN}), a framework to integrate hierarchical action-value functions, operating at different temporal scales, with goal-driven intrinsically motivated deep reinforcement learning. A top-level q-value function learns a policy over intrinsic goals, while a lower-level function learns a policy over atomic actions to satisfy the given goals. h-{DQN} allows for ﬂexible goal speciﬁcations, such as functions over entities and relations. This provides an efﬁcient space for exploration in complicated environments. We demonstrate the strength of our approach on two problems with very sparse and delayed feedback: (1) a complex discrete stochastic decision process with stochastic transitions, and (2) the classic {ATARI} game –‘Montezuma’s Revenge’.},
+	pages = {9},
+	journaltitle = {{NIPS}},
+	author = {Kulkarni, Tejas D and Narasimhan, Karthik and Saeedi, Ardavan and Tenenbaum, Josh},
+	date = {2016},
+	langid = {english},
+	file = {Kulkarni et al. - Hierarchical Deep Reinforcement Learning Integrat.pdf:C\:\\Users\\Travailleur\\Zotero\\storage\\4CCVKV7M\\Kulkarni et al. - Hierarchical Deep Reinforcement Learning Integrat.pdf:application/pdf},
+}
+
+@misc{openai2019solving,
+      title={Solving Rubik's Cube with a Robot Hand}, 
+      author={OpenAI and Ilge Akkaya and Marcin Andrychowicz and Maciek Chociej and Mateusz Litwin and Bob McGrew and Arthur Petron and Alex Paino and Matthias Plappert and Glenn Powell and Raphael Ribas and Jonas Schneider and Nikolas Tezak and Jerry Tworek and Peter Welinder and Lilian Weng and Qiming Yuan and Wojciech Zaremba and Lei Zhang},
+      year={2019},
+      eprint={1910.07113},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@article{DBLP:journals/corr/abs-1810-02274,
+  author    = {Nikolay Savinov and
+               Anton Raichuk and
+               Rapha{\"{e}}l Marinier and
+               Damien Vincent and
+               Marc Pollefeys and
+               Timothy P. Lillicrap and
+               Sylvain Gelly},
+  title     = {Episodic Curiosity through Reachability},
+  journal   = {CoRR},
+  volume    = {abs/1810.02274},
+  year      = {2018},
+  url       = {http://arxiv.org/abs/1810.02274},
+  archivePrefix = {arXiv},
+  eprint    = {1810.02274},
+  timestamp = {Tue, 30 Oct 2018 10:49:09 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1810-02274.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@article{farzin_piecing_2012,
+	title = {Piecing it together: Infants' neural responses to face and object structure},
+	volume = {12},
+	issn = {1534-7362},
+	url = {http://jov.arvojournals.org/article.aspx?articleid=2121335},
+	doi = {10.1167/12.13.6},
+	shorttitle = {Piecing it together},
+	pages = {6--6},
+	number = {13},
+	journaltitle = {Journal of Vision},
+	shortjournal = {Journal of Vision},
+	author = {Farzin, Faraz and Hou, Chuan and Norcia, Anthony M.},
+	urldate = {2020-11-07},
+	date = {2012-12-01},
+	langid = {english},
+	note = {Publisher: The Association for Research in Vision and Ophthalmology},
+	file = {Full Text PDF:C\:\\Users\\Travailleur\\Zotero\\storage\\FD8KZRLS\\Farzin et al. - 2012 - Piecing it together Infants' neural responses to .pdf:application/pdf;Snapshot:C\:\\Users\\Travailleur\\Zotero\\storage\\ZVIWYHLL\\article.html:text/html},
+}
