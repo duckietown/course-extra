@@ -198,7 +198,7 @@ _Be rigorous!_
 
 #### UNIT
 
-Results: [youtube video](https://youtu.be/iXRV7G1GGFo)
+Results: [Full video](https://youtu.be/iXRV7G1GGFo)
 
 <figure>
     <figcaption>UNIT sim2real generation</figcaption>
@@ -218,9 +218,8 @@ Results: [youtube video](https://youtu.be/iXRV7G1GGFo)
 
 ### Color Threshold calibration
 
-As previously mentionned, one of our goal was to test if by using generated realistic images in the simulator it would remove the need to tune our color tresholds for line detection when moving to the real robot environment. 
-However, we were not able to fully integrate our models to the Duckietown stack. We were only able to create ROS Node
-subscribing to the camera image topic that acted as a proxy to the rest of the system.
+As previously mentionned, one of our goal was to test if by using generated realistic images in the simulator it would remove the need to tune the color tresholds for line detection when moving to the real robot environment. 
+However, we were not able to fully integrate our models to the Duckietown stack. We were only able to create a ROS Node subscribing to the camera image topic that acted as a proxy to the rest of the perception system. The model could not be integrated to the node. 
 
 
 ## Future avenues of development {#sim2real-final-next-steps}
