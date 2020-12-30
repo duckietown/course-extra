@@ -219,10 +219,21 @@ _Be rigorous!_
     - what features where properly extracted, which were not?
 
 #### CycleGan
-- **Succes**:
 
-- Failure:
-    - mode collapse? 
+Results: [Full video](https://www.youtube.com/watch?v=KRLdfhHJy1M&ab_channel=PhilippeReddy)
+
+<figure align="center">
+    <figcaption>CycleGAN sim2real generation</figcaption>
+    <img style='width:24em' src="images/cyclegan-compare.gif"/>
+</figure>
+
+- **Success**: 
+
+    From the results shown in the video, we can see that cycleGAN was able to hold on to the translation mapping quite well. Indeed the generated images using the synthetic ones initially look realistic. It thus seems that cycleGAN has succeeded in learning the special characteristics of the real domain and translate thus to the simulated images in order to make them look real.
+
+- **Failure**:
+    
+    However, we notice some pitfalls with our approach. First of all, it seems like we could not avoid the mode collapse that is often faced when training a GAN. Indeed, it seems like the model uses some generated images repeatedly especially for some right turns. This is a recurrent issue in GANs as the generator has found an image to "trick" the discriminator and thus holds on to it. The cycle-consistency loss introduced to prevent this issue thus seems to have not converged. Another problem that we see is that our model is not able to generate images when the turns in our synthetic image (right corners and left corners) are far away. Straight lines are also difficult for our model to generate as there were not enough straight lines observations in our real dataset. Therefore, we can conclude that our dataset was too specific to a certain environment which did not help in the performance of our model. A more diversified dataset containing images from different environments would be helpful
 
 #### UNIT
 
