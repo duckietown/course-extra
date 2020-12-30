@@ -29,8 +29,6 @@
 	title = {Never Stop Learning: The Effectiveness of Fine-Tuning in Robotic Reinforcement Learning},
 	url = {http://arxiv.org/abs/2004.10190},
 	shorttitle = {Never Stop Learning},
-	abstract = {One of the great promises of robot learning systems is that they will be able to learn from their mistakes and continuously adapt to ever-changing environments. Despite this potential, most of the robot learning systems today are deployed as a fixed policy and they are not being adapted after their deployment. Can we efficiently adapt previously learned behaviors to new environments, objects and percepts in the real world? In this paper, we present a method and empirical evidence towards a robot learning framework that facilitates continuous adaption. In particular, we demonstrate how to adapt vision-based robotic manipulation policies to new variations by fine-tuning via off-policy reinforcement learning, including changes in background, object shape and appearance, lighting conditions, and robot morphology. Further, this adaptation uses less than 0.2\% of the data necessary to learn the task from scratch. We find that our approach of adapting pre-trained policies leads to substantial performance gains over the course of fine-tuning, and that pre-training via {RL} is essential: training from scratch or adapting from supervised {ImageNet} features are both unsuccessful with such small amounts of data. We also find that these positive results hold in a limited continual learning setting, in which we repeatedly fine-tune a single lineage of policies using data from a succession of new tasks. Our empirical conclusions are consistently supported by experiments on simulated manipulation tasks, and by 52 unique fine-tuning experiments on a real robotic grasping system pre-trained on 580,000 grasps.},
-	journaltitle = {{arXiv}:2004.10190 [cs, stat]},
 	author = {Julian, Ryan and Swanson, Benjamin and Sukhatme, Gaurav S. and Levine, Sergey and Finn, Chelsea and Hausman, Karol},
 	urldate = {2020-11-03},
 	date = {2020-07-31},
@@ -42,7 +40,6 @@
 
 @article{lin_distributional_2019,
 	title = {Distributional Reward Decomposition for Reinforcement Learning},
-	abstract = {Many reinforcement learning ({RL}) tasks have speciﬁc properties that can be leveraged to modify existing {RL} algorithms to adapt to those tasks and further improve performance, and a general class of such properties is the multiple reward channel. In those environments the full reward can be decomposed into sub-rewards obtained from different channels. Existing work on reward decomposition either requires prior knowledge of the environment to decompose the full reward, or decomposes reward without prior knowledge but with degraded performance. In this paper, we propose Distributional Reward Decomposition for Reinforcement Learning ({DRDRL}), a novel reward decomposition algorithm which captures the multiple reward channel structure under distributional setting. Empirically, our method captures the multi-channel structure and discovers meaningful reward decomposition, without any requirements on prior knowledge. Consequently, our agent achieves better performance than existing methods on environments with multiple reward channels.},
 	pages = {10},
 	journaltitle = {{NeurIPS}},
 	author = {Lin, Zichuan and Zhao, Li and Yang, Derek and Qin, Tao and Liu, Tie-Yan and Yang, Guangwen},
@@ -65,7 +62,6 @@
 @InProceedings{pmlr-v97-locatello19a, 
     title = {Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations}, 
     author = {Locatello, Francesco and Bauer, Stefan and Lucic, Mario and Raetsch, Gunnar and Gelly, Sylvain and Sch{\"o}lkopf, Bernhard and Bachem, Olivier}, 
-    pages = {4114--4124}, 
     year = {2019}, 
     editor = {Kamalika Chaudhuri and Ruslan Salakhutdinov}, 
     volume = {97}, 
@@ -79,8 +75,6 @@
 
 @article{kulkarni_hierarchical_2016,
 	title = {Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation},
-	abstract = {Learning goal-directed behavior in environments with sparse feedback is a major challenge for reinforcement learning algorithms. One of the key difﬁculties is insufﬁcient exploration, resulting in an agent being unable to learn robust policies. Intrinsically motivated agents can explore new behavior for their own sake rather than to directly solve external goals. Such intrinsic behaviors could eventually help the agent solve tasks posed by the environment. We present {hierarchicalDQN} (h-{DQN}), a framework to integrate hierarchical action-value functions, operating at different temporal scales, with goal-driven intrinsically motivated deep reinforcement learning. A top-level q-value function learns a policy over intrinsic goals, while a lower-level function learns a policy over atomic actions to satisfy the given goals. h-{DQN} allows for ﬂexible goal speciﬁcations, such as functions over entities and relations. This provides an efﬁcient space for exploration in complicated environments. We demonstrate the strength of our approach on two problems with very sparse and delayed feedback: (1) a complex discrete stochastic decision process with stochastic transitions, and (2) the classic {ATARI} game –‘Montezuma’s Revenge’.},
-	pages = {9},
 	journaltitle = {{NIPS}},
 	author = {Kulkarni, Tejas D and Narasimhan, Karthik and Saeedi, Ardavan and Tenenbaum, Josh},
 	date = {2016},
