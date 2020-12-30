@@ -15,15 +15,23 @@ _The objective of this report is to bring justice to your  hard work during the 
 
 _Let's start from a teaser._
 
-* Post a video of your best results (e.g., your demo video): remember to have duckies on the robots or something terrible might happen!
 
-<figure id="unit-comparison">
-    <figcaption>Simulated Vs Generated Images</figcaption>
-    <dtvideo src="vimeo:152825632"/>
+The two folowing videos represent our best results. To reproduce, please refer to the [instructions to reproduce](#instructions-sim2real).
+
+<figure>
+    <figcaption>UNIT sim2real generation</figcaption>
+    <img style='width:24em' src="images/unit-compare.gif"/>
 </figure>
 
-You might want to add as a caption a link to your [instructions to reproduce](#instructions-sim2real) to reproduce these results.
-Moreover, add a link to the readme.txt of your code.
+For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
+
+<figure>
+    <figcaption>CycleGAN sim2real generation</figcaption>
+    <img style='width:24em' src="images/cyclegan-compare.gif"/>
+</figure>
+
+For CycleGAN, please read this [README.md](NOTEBOOK of Mo)
+
 
 ## Mission and Scope {#sim2real-final-scope}
 
@@ -33,6 +41,7 @@ The mission of this project was to find a way to close the reality gap by using 
 and other deep learning techniques to generate realistic images from simulation images. The idea is that by 
 replacing the simulated image by a realistic image with the same general features of the simulated image, we could train an agent in the simulator that would not have to be tuned seperately on the simulator and on the robot.
 We have two major goals that we want to attain with this attempt:
+
 - Train a model to generate realistic images from simulation images.
 - Mitigate the need for color threshold calibration when going from the simulator to the real world
 
