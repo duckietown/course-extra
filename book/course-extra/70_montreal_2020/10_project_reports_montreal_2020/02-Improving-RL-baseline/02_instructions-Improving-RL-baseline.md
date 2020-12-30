@@ -2,6 +2,12 @@
 
 <div class='requirements' markdown="1">
 
+Requires: Python 3.8
+
+</div>
+
+<div class='requirements' markdown="1">
+
 Requires: Duckiebot in configuration `DB19`
 
 Requires: Duckietown without intersections
@@ -59,23 +65,22 @@ $ git submodule update
 
 
 ### Collecting your dataset
-### Training the perceptual model
 
+### Training the perceptual model
+You will be using the DARLA submodule. 
+Check that the version you are using is the same as (here)[https://github.com/lifetheater57/DARLA/tree/duckietown-rl].
+Check the ![config/defaults.yaml] configuration file, this is where you can choose to train your beta-VAE, or to train a DAE to get targets to use for training the beta-VAE subsequently. 
+
+$ python train.py --config CONFIG_FILE 
+
+
+If you wish to train the beta-VAE with the original input images as targets, use : 
+
+$ python train.py --config CONFIG_FILE --no-dae
 
 
 ## Troubleshooting {#demo-improving-rl-baseline-troubleshooting}
 
-Add here any troubleshooting / tips and tricks required, in the form:
-
-
-Symptom: The Duckiebot flies
-
-Resolution: Unplug the battery and send an email to info@duckietown.org
-
-
-Symptom: I run `this elegant snippet of code` and get this error: `a nasty line of gibberish`
-
-Resolution: Power cycle until it works.
 
 ## Demo failure demonstration {#demo-improving-rl-baseline-failure}
 

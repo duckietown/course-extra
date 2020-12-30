@@ -62,7 +62,6 @@ There are three steps to follow:
 This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transferred to new domains without further training. 
 Instead of feeding the camera images to the RL model, we project the agent observation state space to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. 
 The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the domain. 
-<this is too wordy>
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
@@ -80,13 +79,15 @@ In variational autoencoders, the encoder and decoder are probabilistic. Insteand
 $\beta$-VAEs are a modification of VAEs to encourage the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
 
 For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken. 
+
+
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
 
 We follow the method proposed in [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it. 
 We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task.
  
 ### Model architecture
-<PUT IMAGE>
+PUT IMAGE
 
 #### Perceptual module
 The perceptual module consists of a $\beta_{DAE}$-VAE . 
@@ -108,6 +109,9 @@ where $J$ corresponds to passing the imput image in the trained DAE up to a chos
 
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
 
+The KL divergence can be expressed as:
+
+
 [DAE architecture drawing]
 [Beta VAE architecture drawing]
 #### RL agent
@@ -115,17 +119,6 @@ We use the DDPG agent of the baseline.
 
 
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
-
-Describe here, in technical detail, what you have done. Make sure you include:
-- a theoretical description of the algorithm(s) you implemented
-- logical architecture
-- software architecture
-- details on the actual implementation where relevant (how does the implementation differ from the theory?)
-- any infrastructure you had to develop in order to implement your algorithm
-- If you have collected a number of logs, add link to where you stored them
-
-_Feel free to create subsections when useful to ease the flow_
-
 
 ### Dataset 
 [LINK TO DATASET ? or code to collect data] 
@@ -145,8 +138,10 @@ The input to the network are corrupted images from our simulated dataset by rand
 
 We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer. 
 $\beta$ is chosen to be 1, so we actually have a VAE. 
-<write something about the loss>
+- write something about the loss - 
 We compute the perceptual similarity loss term using the outputs of our previously trained DAE as targets.
+
+We also train a $\beta$-VAE with the original images as targets. 
 
 ### RL agent 
 
