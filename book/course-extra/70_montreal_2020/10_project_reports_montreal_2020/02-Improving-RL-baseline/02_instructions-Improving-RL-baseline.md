@@ -51,17 +51,17 @@ The code is in Python 3.8.
 
 Clone the project repo:
 
-$ git clone https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch.git
+`git clone https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch.git`
 
 Check that you are working from the ![DARLA] branch.
 Install the requirements in ![requirements.txt].  
  Then, initialize the submodules. 
 
-$ cd challenge-aido_LF-baseline-RL-sim-pytorch
+`cd challenge-aido_LF-baseline-RL-sim-pytorch`
 
-$ git submodule init
+`git submodule init`
 
-$ git submodule update
+`git submodule update`
 
 
 ### Collecting your dataset

@@ -132,8 +132,6 @@ every type of tile.
 We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. 
 The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations. 
 
-<write something about the loss>
-
 ### Beta VAE
 
 We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer. 
