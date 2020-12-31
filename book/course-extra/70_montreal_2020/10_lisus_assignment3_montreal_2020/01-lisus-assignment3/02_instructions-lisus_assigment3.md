@@ -1,26 +1,14 @@
 # Lisus Assignment 3 Instructions {#instructions-lisus-assignment3 status=ready}
 
-Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
-
-This is the template for the description of a what we should do to reproduce the results you got in your project. 
-The spirit of this document is to be an operation manual, i.e., a straightforward, unambiguous recipe for reproducing the results of a specific behavior or set of behaviors.
-
-It starts with the "knowledge box" that provides a crisp description of the border conditions needed:
-
-* Duckiebot hardware configuration (see [Duckiebot configurations](+opmanual_duckiebot#duckiebot-configurations))
-* Duckietown hardware configuration (loops, intersections, robotarium, etc.)
-* Number of Duckiebots
-* Duckiebot setup steps
-
-For example:
-
 <div class='requirements' markdown="1">
 
-Requires: Duckiebot in configuration `DB19`
+Requires: Duckiebot in configuration  `DB18` or `DB19`.
 
-Requires: Duckietown without intersections
+Requires: Duckietown without intersections.
 
-Requires: Camera calibration completed
+Requires: Camera calibration completed.
+
+Requires: Wheel calibration completed.
 
 </div>
 
@@ -32,32 +20,22 @@ Make sure the video is compliant with Duckietown, i.e. : the city meets the [app
 
 ## Laptop setup notes {#demo-lisus-assignment3-laptop-setup}
 
-Does the user need to do anything to modify their local laptop configuration?
+The laptop should be pushed with the latest version of the `duckietown shell`. The full folder implemented using the *dt-exercises* approach can be found at https://github.com/lisusdaniil/dt-exercises/tree/daffy/lane_state_prediction. Simply clone the repo and launch `dts exercises test` with either the simulator or the duckiebot implementation.
 
 
 ## Duckietown setup notes {#demo-lisus-assignment3-duckietown-setup}
 
-Here, describe the assumptions about the Duckietown, including:
-
-* Layout (tiles types)
-* Infrastructure (traffic lights, WiFi networks, ...) required
-* Weather (lights, ...)
-
-Do not write instructions on how to build the city here, unless you are doing something very particular that is not in the [Duckietown operation manual](+opmanual_duckietown#duckietowns). Here, merely point to them.
-
-## Duckiebot setup notes {#demo-lisus-assignment3-duckiebot-setup}
-
-Write here any special setup for the Duckiebot, if needed.
-
-Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#opmanual_duckiebot).
+This is a simple lane following algorithm so ideally the duckietown is set up in an infinite loop!
 
 ## Pre-flight checklist {#demo-lisus-assignment3-pre-flight}
 
-The pre-flight checklist describes the steps that are sufficient to ensure that the demo will be correct:
+**Check 1:** The duckiebot is fully set up and has been succesfully [moved]{#rc-control} and you can see what the [duckiebot sees]{#read-camera-data}.
 
-Check: operation 1 done
+**Check 2:** The `duckietown shell` and duckiebot have both been upgraded to the latest version.
 
-Check: operation 2 done
+**Check 3:** The `lane_state_prediction` folder is cloned and `dts exercises build` has been run succesfully.
+
+## Data Collection Instructions{#instructions-data-record-lisus-assignment3}
 
 ## Instructions {#demo-lisus-assignment3-run}
 
