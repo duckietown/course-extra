@@ -65,6 +65,7 @@ simulation images into real world images. Since we did want to have to tediously
 Concretely, our first approach was to try to use style transfer techniques to learn realistic features from a single real image and apply them to a dataset of simulated images. Our second approach relied on unsupervised image-to-image translation, where two unpaired datasets of 38 751 images were provided.  We tried two types of GANs architecture specifically suited to domain adaptation: CycleGan and UNsupervised Image-to-image Translation Networks (UNIT).
 
 #### Style Transfer
+Style transfer is a system which uses neural represenations to separate and recombine content and style of arbitrary images. This is implemented by optimizing the output image to match the content statistics of the content image and the style statistics of the style reference image.  
 
 #### CycleGan [](#bib:cyclegan)
 
