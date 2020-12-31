@@ -2,50 +2,44 @@
 
 <div class='requirements' markdown="1">
 
-Requires: Python 3.8
+Requires: Python 3.6+
+
+Requires: PyTorch 1.7.x
+
+Requires: access to a Nvidia GPU (locally or remotely)
 
 </div>
 
-<div class='requirements' markdown="1">
+## Images of expected results {#demo-improving-rl-baseline-expected}
 
-Requires: Duckiebot in configuration `DB19`
-
-Requires: Duckietown without intersections
-
-Requires: Camera calibration completed
-
-</div>
-
-## Video of expected results {#demo-improving-rl-baseline-expected}
-
-First, we show a video of the expected behavior (if the demo is successful).
-
-Make sure the video is compliant with Duckietown, i.e. : the city meets the [appearance specifications](+opmanual_duckietown#dt-ops-appearance-specifications) and the Duckiebots have duckies on board.
+TODO: Add some DAE results dans VAE results.
 
 ## Laptop setup notes {#demo-improving-rl-baseline-laptop-setup}
 
-Does the user need to do anything to modify their local laptop configuration?
+If you are using a local Nvidia GPU, be sure to have access to it with PyTorch.
 
+To test it, open a python session within your development environment.
+
+Then, import PyTorch and check if the GPU is available:
+
+```
+import torch
+"cuda" if torch.cuda.is_available() else "cpu"
+```
+
+If you get `cuda`, you're right to go. Otherwise, you have to check your PyTorch installation and be sure that you have a CUDA enabled version of PyTorch and that the required CUDA version matches the version of the library installed on your laptop. If you have to reinstall it, go on PyTorch website for [instructions](https://pytorch.org/get-started/locally/).
 
 ## Duckietown setup notes {#demo-improving-rl-baseline-duckietown-setup}
 
-Here, describe the assumptions about the Duckietown, including:
-
-* Layout (tiles types)
-* Infrastructure (traffic lights, WiFi networks, ...) required
-* Weather (lights, ...)
-
-Do not write instructions on how to build the city here, unless you are doing something very particular that is not in the [Duckietown operation manual](+opmanual_duckietown#duckietowns). Here, merely point to them.
+Nothing special about the duckietown setup is required beforehand to reproduce the results. The required Duckietown map used in the simulator is available under `duckietown_rl/maps/dataset_generator.yaml`.
 
 ## Duckiebot setup notes {#demo-improving-rl-baseline-duckiebot-setup}
 
-Write here any special setup for the Duckiebot, if needed.
-
-Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#opmanual_duckiebot).
+Nothing special was done with the duckiebot setup.
 
 ## Pre-flight checklist {#demo-improving-rl-baseline-pre-flight}
 
-The code is in Python 3.8.
+The code is in Python 3.6 and use PyTorch 1.7.1.
 
 ## Instructions {#demo-improving-rl-baseline-run}
 
