@@ -64,8 +64,8 @@ simulation images into real world images. Since we did want to have to tediously
 
 Concretely, our first approach was to try to use style transfer techniques to learn realistic features from a single real image and apply them to a dataset of simulated images. Our second approach relied on unsupervised image-to-image translation, where two unpaired datasets of 38 751 images were provided.  We tried two types of GANs architecture specifically suited to domain adaptation: CycleGan and UNsupervised Image-to-image Translation Networks (UNIT).
 
-#### Style Transfer
-Style transfer is a system which uses neural represenations to separate and recombine content and style of arbitrary images. This is implemented by optimizing the output image to match the content statistics of the content image and the style statistics of the style reference image.  
+#### Style Transfer [] (#bib:styletransfer)
+Style transfer is a system which uses neural represenations to separate and recombine content and style of arbitrary images. This is implemented by optimizing the output image to match the content statistics of the content image and the style statistics of the style reference image. 
 
 #### CycleGan [](#bib:cyclegan)
 
@@ -77,7 +77,7 @@ UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a sl
 
 
 ## Background and Preliminaries {#sim2real-final-preliminaries}
-
+Maybe we sould start with definition of the problem, domain adaptation here. 
 
 ### Generative Adversarial Networks (GANs)
 Generative Adversarial Networks [](#bib:gan) or GANs are a type of networks composed of two key components: a Generator(G) and a Discriminator(D).
@@ -86,15 +86,51 @@ The generator G aims to learn a distribution that would allow it to generate ima
 
 ## Definition of the problem {#sim2real-final-problem-def}
 
-Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand hre is learning the joint distribution between to domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution P<sub>X1,X2</sub>(x1,x2) from a samples (x1,x2), which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions P<sub>X1</sub>(x1) and P<sub>X2</sub>(x2). Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory[](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
+Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand here is learning the joint distribution between two domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution P<sub>X1,X2</sub>(x1,x2) from a samples (x1,x2), which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions P<sub>X1</sub>(x1) and P<sub>X2</sub>(x2). Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory[](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
 
 Our aim is to be able to train at least one model that can reliably generate realistic images from simulated images while maintaining the important features that defined the simulated image. Then, we want to see if using this model would help in removing the need for color threshold calibration when moving from the simulator to the real world.
 
 ## Contribution / Added functionality {#sim2real-final-contribution}
 
+### Paired image-to-image translation
+The motivation behind the work in a paired image to image translation is to explore the different optimization techniques available. We wanted to see if we could generate realistic images from a single pair of images, by learning the important features that represent the input image pair. We could explore the realms of both cases, one where the content image was that of the simulator and style image is real and vice versa. 
+
 ### Style Tranfer
 #### Theory
+
+
+
+\begin{equation}
+    L_content = 1/2 Sum(T_c - C_c)^2  \label{eq:Content-loss}
+\end{equation}
+
+
+\begin{equation}
+    L_style = a x Sum w(T_si - S_si)^2  \label{eq:Style-loss}
+\end{equation}
+
+
+\begin{equation}
+    total_Loss = alpha x L_content + beta x L_style \label{eq:Total-loss}
+\end{equation}
+
+
 #### Implementation
+
+
+<figure align="center">
+    <figcaption>Style transfer</figcaption>
+    <img style='width:40em' src="images/style-transfer.png"/>
+</figure>
+
+With reference to the above image, first content and style features are extracted and stored. The style image ~a is passed through the network and its style representation Al on all layers included are computed and stored (left). The content image ~p is passed through the network and the content representation Pl in one layer is stored (right). Then a random white noise image ~x is passed through the network and its style features Gl and content features Fl are computed. On each layer included in the style representation, the element-wise mean squared difference between Gl and Al is computed to give the style loss Lstyle (left). Also the mean squared difference between Fl and Pl is computed to give the content loss Lcontent (right). 
+
+The total loss Ltotal is then a linear combination between the content and the style loss.
+
+Its derivative with respect to the pixel values can be computed using error back-propagation (middle). This gradient is used to iteratively update the image ~x until it simultaneously matches the style features of the style image ~a and the content features of the content image ~p
+
+
+
 
 ###Unpaired image-to-image translation
 As mentioned earlier, our goal is to refine simulated images - resulting images from training in simulation - in order to make them look more realistic. Completing the training using paired images is an impossible task considering the size of our datasets (~30000 images) which is why we turn towards models that will allow to learn a mapping between an input domain and a target domain. In order to do so, we will have two separate collections of images, one for the simulated images and one for the real images. The models we discuss below will aim at capturing the specific characteristics of one image collection and figure out how these characteristics could be translated to the other image collection, without having to pair them. The figure below shows a subset of the two collections we need before training our models.
