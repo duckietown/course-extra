@@ -17,6 +17,8 @@ Datasets:
 
 - [test](https://drive.google.com/file/d/1SHXBhxx-splAVTlgoURJqPBQGvNiEJnv/view?usp=sharing)
 
-Documentation
+Moreover, if re-training the model is not needed, you can simply download the following checkpoint:
+- [UNIT-checkpoint-14_epochs_iteration_000460000](https://drive.google.com/file/d/1I4OyVzTHvqFZR3_zqhx5-oUqQzCvaI7P/view?usp=sharing)
 
+Reproduction steps:
 - [README.md](https://github.com/phred1/imaginaire)
