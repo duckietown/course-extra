@@ -2,5 +2,9 @@
   filename: warnings.html
   tags:
   - meta
-- display: 5 tasks
+- display: 7 tasks
   filename: tasks.html
+- display: 1 errors
+  filename: errors.html
+  tags:
+  - meta
