@@ -117,6 +117,7 @@ The motivation behind the work in a paired image to image translation is to expl
 
 #### Implementation
 
+<<<<<<< HEAD
 
 <figure align="center">
     <figcaption>Style transfer</figcaption>
@@ -133,6 +134,9 @@ Its derivative with respect to the pixel values can be computed using error back
 
 
 ###Unpaired image-to-image translation
+=======
+### Unpaired image-to-image translation
+>>>>>>> 857c264be40e7af150cb60fd851109b260d02d2a
 As mentioned earlier, our goal is to refine simulated images - resulting images from training in simulation - in order to make them look more realistic. Completing the training using paired images is an impossible task considering the size of our datasets (~30000 images) which is why we turn towards models that will allow to learn a mapping between an input domain and a target domain. In order to do so, we will have two separate collections of images, one for the simulated images and one for the real images. The models we discuss below will aim at capturing the specific characteristics of one image collection and figure out how these characteristics could be translated to the other image collection, without having to pair them. The figure below shows a subset of the two collections we need before training our models.
 
 <figure align="center">
