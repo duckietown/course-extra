@@ -84,7 +84,7 @@ Our first approach was to try to use style transfer techniques to learn realisti
 CycleGAN consists in learning a translation between a source domain X and a target domain Y in the absence of paired examples. We learn a mapping G : X -> Y such that the generated images G(X) follow a distribution that is, theoretically, identical to the target's domain distribution, Y. This is done using an adversarial loss. However, considering the under-constrained nature of the translation mapping, cycleGAN couples the adversarial loss with a cycle consistency loss by using the bijective inverse mapping F: Y -> X which enforces the fact that applying F to the mapping G(X) should return the original X (and vice-versa).
 
 ### Nvidia UNIT [](#bib:unit)
-UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a slightly different approach, by enforcing the idea of a shared latent space between pairs of images and using Variational Auto Encoder (VAE) in addition to a GAN network. Thus, UNIT tries to minimize the cycle consistency loss, the VAE loss as well as the adversarial loss.
+UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a slightly different approach, by enforcing the idea of a shared latent space between pairs of images and using Variational Auto Encoders (VAE) in addition to a GAN network. Thus, UNIT tries to minimize the cycle consistency loss, the VAE losses as well as the adversarial losses.
 
 
 ## Background and Preliminaries {#sim2real-final-preliminaries}
