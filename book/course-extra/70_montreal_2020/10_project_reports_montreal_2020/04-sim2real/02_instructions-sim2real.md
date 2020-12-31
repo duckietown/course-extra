@@ -3,7 +3,7 @@
 
 Since we implemented three different models for the task, the instruction to reproduce the results of each models are explained in details in each repositories we created/forked. 
 ### Dataset Collection
-- [README.md](LINK_DATACOLLECTION)
+- [README.md](https://github.com/phred1/challenge-aido_LF-baseline-behavior-cloning)
 ### Style Transfer
 - [README.md](LINK_AYMAN)
 ### CycleGan
