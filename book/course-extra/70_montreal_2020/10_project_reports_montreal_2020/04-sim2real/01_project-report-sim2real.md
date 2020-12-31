@@ -86,7 +86,7 @@ The generator G aims to learn a distribution that would allow it to generate ima
 
 ## Definition of the problem {#sim2real-final-problem-def}
 
-Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand here is learning the joint distribution between two domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution P<sub>X1,X2</sub>(x1,x2) from a samples (x1,x2), which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions P<sub>X1</sub>(x1) and P<sub>X2</sub>(x2). Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory[](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
+Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand here is learning the joint distribution between two domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution\[P_{X1,X2}(x1,x2)\] from a samples \[(x1,x2)\], which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions \[P_{X1}(x1)\] and \[P_{X2}(x2)\]. Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory[](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
 
 Our aim is to be able to train at least one model that can reliably generate realistic images from simulated images while maintaining the important features that defined the simulated image. Then, we want to see if using this model would help in removing the need for color threshold calibration when moving from the simulator to the real world.
 
@@ -149,14 +149,18 @@ One of the fundamental assumptions of cycleGAN is that there exists an underlyin
 
 As shown in part a) of the figure above, we apply an adversarial loss to both mappings G: X -> Y and F: Y -> X. $D_{Y}$ and $D_{X}$ are the associated discriminators for each mapping G and G respectively. As an example, $D_{Y}$ encourages G to generate images G(X) that are indistinguishable from the target domain Y. This can be seen as a "game" where G minimizes the loss and D maximizes it. The adversarial loss, for mapping G, can be described as follows:
 
-                                Lgan(G, Dy, X, Y) = E[log(Dy(y))] + E[log(1 - Dy(G(X)))]
+
+\begin{equation}
+    L_{GAN}(G, D_{Y}, X, Y) = E[log(D_{Y}(y))] + E[log(1 - D_{Y}(G(X)))]
+\end{equation}
 
 The adversarial loss for mapping F is defined similarly.
 
 Parts b) and c) of the figure above depict what we defined as the cycle consistency loss. This loss tries to capture the intuition that if we translate from one domain X to domain Y and back to domain X, we should get back to the position from which we originally started. Part a shows the forward cycle-consistency and c) the backwards cycle-consistency. This loss can be described as follows: 
 
-                                Lcyc(G,F) = E[||F(G(x)) - x||] + E[||G(F(y))-y||]
-
+\begin{equation}
+    L_{cyc}(G,F) = E[||F(G(x)) - x||] + E[||G(F(y))-y||]
+\end{equation}
 
 #### Implementation
 
