@@ -54,12 +54,12 @@ Even if Domain Randomization has had some success in extracting common features 
 that it could lead to high-variance policies when used for training agents, therefore making it not ideal [](#bib:active-domain-random)
 
 While Active Domain Randomization certainly fixes the problems of Domain Randomization, we still aimed to try something that had not been
-tried in the DuckieTown world: Domain Adaptation.
+done in the DuckieTown world: Domain Adaptation.
 
 Domain Adaptation relates to different machine learning techniques that aim to learn to predict labels in a target domain from a source domain. 
 It can be considered some sort of transfer learning technique where there can be differences between label space and feature space [](#bib:domain-adaptation)
-Domain Adaptation can be applied to many use-cases such as text-to-speech in NLP. In our computer-vision use-case, et aim to learn a way to translate 
-simulation images into real world images. Since we did want to have to tediously label pairs of images in both domains, we leveraged Deep Domain Adaptation [](#bib:deep-domain-adaptation) techniques that allowed us to simple provide a dataset of images labeled as "sim" and a dataset of images labeled as "real".
+Domain Adaptation can be applied to many use-cases such as text-to-speech in NLP. In our computer-vision use-case, we aim to learn a way to translate 
+simulation images into real world images. Since we did want to have to tediously label pairs of images in both domains, we leveraged Deep Domain Adaptation [](#bib:deep-domain-adaptation) techniques that allowed us to simply provide a dataset of images labeled as "sim" and a dataset of images labeled as "real".
 
 
 Concretely, our first approach was to try to use style transfer techniques to learn realistic features from a single real image and apply them to a dataset of simulated images. Our second approach relied on unsupervised image-to-image translation, where two unpaired datasets of 38 751 images were provided.  We tried two types of GANs architecture specifically suited to domain adaptation: CycleGan and UNsupervised Image-to-image Translation Networks (UNIT).
@@ -73,7 +73,7 @@ CycleGAN consists in learning a translation between a source domain X and a targ
 
 #### NVIDIA UNIT [](#bib:unit)
 
-UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a slightly different approach, by enforcing the idea of a shared latent space between pairs of images and using Variational Auto Encoders (VAE) in addition to a GAN network. Thus, UNIT tries to minimize the cycle consistency loss, the VAE losses as well as the adversarial losses.
+UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a slightly different approach, by enforcing the idea of a shared latent space between pairs of images and using Variational Auto Encoders (VAE) in addition to a GAN network. Thus, UNIT tries to learn that shared latent space and tries to minimize the cycle consistency loss, the VAE losses as well as the adversarial losses.
 
 
 ## Background and Preliminaries {#sim2real-final-preliminaries}
@@ -86,7 +86,7 @@ The generator G aims to learn a distribution that would allow it to generate ima
 
 ## Definition of the problem {#sim2real-final-problem-def}
 
-Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand here is learning the joint distribution between two domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution\[P_{X1,X2}(x1,x2)\] from a samples \[(x1,x2)\], which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions \[P_{X1}(x1)\] and \[P_{X2}(x2)\]. Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory [](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
+Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand here is learning the joint distribution between two domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consisting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution\[P_{X1,X2}(x1,x2)\] from samples \[(x1,x2)\], which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions \[P_{X1}(x1)\] and \[P_{X2}(x2)\]. Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions, according to coupling theory [](#bib:coupling). The goal is to thus to find an approach that could learn the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details.
 
 Our aim is to be able to train at least one model that can reliably generate realistic images from simulated images while maintaining the important features that defined the simulated image. Then, we want to see if using this model would help in removing the need for color threshold calibration when moving from the simulator to the real world.
 
@@ -263,9 +263,9 @@ Results: [Full video](https://youtu.be/iXRV7G1GGFo)
 
 - **Failures**:
 
-    UNIT struggled to generate realistic images from simulation images when the simulated image had features not seen in the real dataset. For example, the simulator dataset sometimes had long straight lines which had no equivalent in the real dataset. To represent this long straight line with realistic image, the model chose to simply append identical short line images, which produces a weird effect not representative of reality. 
+    UNIT struggled to generate realistic images from simulation images when the simulated image had features not seen in the real dataset. For example, the simulator dataset sometimes had long straight lines which had no equivalent in the real dataset. To represent this long straight line with realistic image, the model chose to simply append identical short straight line images, which produces a weird effect not representative of reality. 
 
-    However, those find of issues could probably have been solved by using a better dataset. Indeed, the real data we used was coming from the same unique environment, meaning that the model was generating realistic images only fitted to that specific environment. We could have mitigated this effect by training the network to generate only the lower half of an image, or simply by having a more varied dataset.
+    However, those kind of issues could probably have been solved by using a better dataset. Indeed, the real data we used was coming from the same unique environment, meaning that the model was generating realistic images only fitted to that specific environment. We could have mitigated this effect by training the network to generate only the lower half of an image, or simply by having a more varied dataset.
 
 ### Color Threshold calibration
 
