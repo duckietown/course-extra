@@ -18,7 +18,7 @@ This video shows the Gaussian Process (GP) lane state estimate being used in a p
 
 <figure id="cross-right_turn_inst">
     <figcaption> Expected pure pursuit results.</figcaption>
-    <dtvideo src="vimeo:49607814"/>
+    <dtvideo src="vimeo:496078145"/>
 </figure>
 
 ## Laptop setup notes {#demo-lisus-assignment3-laptop-setup}
@@ -28,11 +28,11 @@ The laptop should be pushed with the latest version of the `duckietown shell`. T
 
 ## Duckietown setup notes {#demo-lisus-assignment3-duckietown-setup}
 
-This is a simple lane following algorithm so ideally the duckietown is set up in an infinite loop!
+This is a simple lane following algorithm so ideally the duckietown is set up in an infinite loop.
 
 ## Pre-flight checklist {#demo-lisus-assignment3-pre-flight}
 
-**Check 1:** The duckiebot is fully set up and has been successfully [moved]{#rc-control} and you can see what the [duckiebot sees]{#read-camera-data}.
+**Check 1:** The duckiebot is fully set up, with the user being able to control it through the joystick and being able to see its camera topics published in RVIZ.
 
 **Check 2:** The `duckietown shell` and duckiebot have both been upgraded to the latest version.
 
@@ -56,13 +56,13 @@ Below are instructions to reproduce the video shown above, which makes use of a 
 
 **Step 6:** Regardless of whether the lane following is activated, the program will print the currently predicted lane state to the command prompt of your local machine from where the the exercise was launched from. Drive around manually and compare the output to what you think the lane state is. The provided trained GP model should produce an accuracy of approximately 90% in simulation and 80% in the real world.
 
-## Data Collection and Training Instructions{#instructions-data-record-lisus-assignment3}
+## Data Collection and Training Instructions
 
 Below are instructions if the user wishes to collect more data and train their own model.
 
 **Step 1**: Specify the desired file name to store your data in through the `train_filename_GP `parameter in the `lane_controller_node` `config/default.yaml` file. Please ensure that the file ends with `.json`.
 
-**Step 2:** Follow Steps 1-3 from the [pure pursuit instructions]{#demo-lisus-assignment3-run}.
+**Step 2:** Follow Steps 1-3 from the [pure pursuit instructions](#demo-lisus-assignment3-run).
 
 **Step 3:** Use the joystick to drive the duckiebot around to desired collection spots. Press the <kbd>e</kbd> key to trigger saving mode and then click the <kbd>up</kbd>, <kbd>left</kbd>, or <kbd>right</kbd> arrows to save the current line segments as corresponding to a straight, left, or right lane state respectively. As soon as a segment is saved, the terminal will display your selection and the saving mode will exit. If you wish to exit saving mode without saving anything, simply click the <kbd>s</kbd> key.
 
@@ -72,24 +72,28 @@ Below are instructions if the user wishes to collect more data and train their o
 
 **Step 6:** When you have collected whatever datasets you wish, open the `train_GP.py` file and include the desired files in the `list_train_files` or `list_test_files`. The lists can take any number of seperate files. There are also tags to control whether to load the GP model from file or to train a new one, whether to save the model you'll use, and whether to do data augmentation. The parameters for the training have been chosen based on some trial and error, but the reader is referred to https://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessClassifier.html for additional information.
 
-**Step 7:** If `save_model` is set to True, the trained model will be saved in the `/code/exercise_ws/data/` directory under the name specified in `model_save_name`. If you wish to run the lane following with your new model, simply indicate the name of the model in the `GP_model_file` parameter in the `lane_controller_node` `config/default.yaml` file. Only the filename itself needs to be specified, as the code automatically calls the `/code/exercise_ws/data/` directory. 
+**Step 7:** If `save_model` is set to `True`, the trained model will be saved in the `/code/exercise_ws/data/` directory under the name specified in `model_save_name`. If you wish to run the lane following with your new model, simply indicate the name of the model in the `GP_model_file` parameter in the `lane_controller_node` `config/default.yaml` file. Only the filename itself needs to be specified, as the code automatically calls the `/code/exercise_ws/data/` directory. 
 
 ## Troubleshooting {#demo-lisus-assignment3-troubleshooting}
 
-Add here any troubleshooting / tips and tricks required, in the form:
+
+Symptom: The lane following fails miserably.
+
+Resolution: Make sure to change the settings between SIM and IRL depending on whether you are running the simulator or the real world test. Additionally, feel free to play around with the `Controller settings` in the `lane_controller_node` `config/default.yaml` file.
 
 
-Symptom: The Duckiebot flies
+Symptom: The lane prediction is always showing up as `Straight`.
 
-Resolution: Unplug the battery and send an email to info@duckietown.org
+Resolution: Make sure to set the `predict_lane_state` parameter to `True` in the `lane_controller_node` `config/default.yaml` file. If it is set to `False` the prediction will stay at the default lane state which is `Straight`.
 
+Symptom: I cannot load in my saved GP model.
 
-Symptom: I run `this elegant snippet of code` and get this error: `a nasty line of gibberish`
+Resolution: Make sure you place your saved file in the `/code/exercise_ws/data/` directory.
 
-Resolution: Power cycle until it works.
+Symptom: No matter what training files I input, my GP model  preforms the same way.
+
+Resolution: Make sure that the `load_model` parameter is set to `False` in the `train_GP.py` file. Otherwise the trainer will just be loading in an existing saved GP model.
 
 ## Demo failure demonstration {#demo-lisus-assignment3-failure}
 
-The controller could fail if the GP model makes incorrect predictions. The reader is referred to the [results section]{#lisus-assignment3-final-formal}
-
-for more details about the types of prediction failures and a discussion on their significance.
+The controller could fail if the GP model makes incorrect predictions. The reader is referred to the [results section](#lisus-assignment3-final-formal) for more details about the types of prediction failures and a discussion on their significance.

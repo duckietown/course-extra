@@ -1,8 +1,4 @@
 <?xml version="1.0" ?>
-<testsuites disabled="0" errors="0" failures="1" tests="1" time="0.0">
-	<testsuite disabled="0" errors="0" failures="1" name="notes" skipped="0" tests="1" time="0">
-		<testcase name="note000">
-			<failure message="Note  I do not know what is indicated by the link '#instructions-data-record-lisus-assignment3'.RelativeLocation(lisus_assignment3.html#add-id-a-140571703881360)Location unknownCreated by function n/a()   in module n/a" type="failure"/>
-		</testcase>
-	</testsuite>
+<testsuites disabled="0" errors="0" failures="0" tests="0" time="0.0">
+	<testsuite disabled="0" errors="0" failures="0" name="notes" skipped="0" tests="0" time="0"/>
 </testsuites>

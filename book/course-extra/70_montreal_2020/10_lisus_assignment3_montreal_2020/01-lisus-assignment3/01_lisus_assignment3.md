@@ -97,7 +97,7 @@ The first step to accomplish this project was the develop data recording infrast
 - Yellow lane segments + stats (such as average point, closest point, furthest point)
 - The user-specified state of the lane
 
-The exact procedure to record new data is described in [this insturctions section](#instructions-data-record-lisus-assignment3), however it should be very easy to expand this procedure to record other data if a more complex machine learning approach would want to be tried. The collected data is saved as a JSON file and the collected JSON files from the simulator and real world can be accessed at https://github.com/lisusdaniil/dt-exercises/tree/daffy/lane_state_prediction/exercise_ws/data. 
+The exact procedure to record new data is described in the [instructions to reproduce](#instructions-lisus-assignment3), however it should be very easy to expand this procedure to record other data if a more complex machine learning approach would want to be tried. The collected data is saved as a JSON file and the collected JSON files from the simulator and real world can be accessed at https://github.com/lisusdaniil/dt-exercises/tree/daffy/lane_state_prediction/exercise_ws/data. 
 
 **GP Training**
 
@@ -122,7 +122,7 @@ The full folder implemented using the *dt-exercises* approach can be found at ht
 
 As stated in [the performance metrics section](#lisus-assignment3-final-problem-def-performance-metrics), qualitative metrics were evaluated on the GP performance using a direct testing set of simulated and real world collected datasets. Note that the model itself was trained using data from both the simulator and the real world. The results are shown below
 
-<col2 figure-id="tab:mytable" figure-caption="Results">    <span>Sim</span>    <span>88-93%</span>    <span>Real</span>    <span>70-85%</span>  <span>Both</span>  <span>82-88%</span></col2>
+<col2 figure-id="tab:mytable" figure-caption="Results"> <span>Test Type</span>    <span>Accuracy</span>    <span>Sim</span>    <span>88-93%</span>    <span>Real</span>    <span>70-85%</span>  <span>Both</span>  <span>82-88%</span></col2>
 
 As can be seen, the algorithm performs quite well in both simulated and real world situations. Since GPs are stochastic processes, both the model training and model testing produce slightly different results depending on the given run. As such, several tests were run leading to the indicated ranges. It should be noted that the only reason that the real world performance is so much lower is due to the more unpredictable line detection. Particularly, my testing location was different from where I had previously calibrated my robots colour detection. However, even in these absurdly poor conditions, as can be seen in the noisy images below, the GP is capable of correctly predicting the majority of the results. As such, it is expected that with better calibrations the real world perfromance should be equivalent to that of the simulator.
 
