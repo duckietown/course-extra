@@ -147,17 +147,23 @@ We use the DDPG agent of the baseline.
 
 ### Dataset 
 
-We collected 6000 images in the duckietown gym simulator, positioning and orienting the duckiebot randomly, and covering every object mesh and every type of tile. 
+We created a custom map containing every object mesh and every type of tile available in the Duckietown simulator. Along with the map, we created a script to generate datasets. Then, we collected 6000 images in the Duckietown gym simulator, positioning and orienting the duckiebot randomly on the drivable tiles.
+
+The dataset generation script has the following options available in addition to the options of the basic manual control script of the Duckietown gym:
+- dataset-size : number of images to generate
+- dataset-path : location to save the dataset
+- compress : save the images as a series of png pictures rather than npy file(s)
+- split : number of images per file (if used without --compress)
 
 <figure>
     <figcaption>Dataset samples</figcaption>
     <img style='width:20em' src="./figures/dataset_sample.png"/>
 </figure>
 
-You can find instructions to collect the dataset [here](TODO: add link to instructions paragraph).
+You can find instructions to collect the dataset in the [instructions](TODO: add link to instructions paragraph).
 
 ### DAE 
-We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. We choose the  
+We first train the DAE for 2400 epochs, with learning rate 0.001 and adam optimizer. We choose the  
 The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations.
 The network is trained on images of size 280 x 320 pixels. 
 
@@ -193,6 +199,8 @@ _Be rigorous!_
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
 
 _Is there something you think still needs to be done or could be improved? List it here, and be specific!_
+
+Completing the search for an untangled representation and then try using it to train the RL agent.
 Reward function
 
 &lt;div id="./bibliography.bib"&gt;&lt;/div&gt;
