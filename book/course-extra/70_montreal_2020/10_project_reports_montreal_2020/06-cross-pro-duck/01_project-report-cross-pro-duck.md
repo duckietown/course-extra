@@ -31,12 +31,22 @@ In this project, we apply computer vision techniques to extract useful visual in
 
 ### Visual Servoing
 
-Visual servo control is a field of study focused on controling robots based on the given visual data. The goal of visual servo control is to minimize the differences between the set of reference features and the set of observed features[^10.1109/MRA.2006.250573]: $$e(t) = \mathbf{F}(m(t), \theta)-\mathbf{F}^*$$
+Visual servo control is a field of study focused on controling robots based on the given visual data. The goal of visual servo control is to minimize the differences between the set of reference features and the set of observed features[^10.1109/MRA.2006.250573]: 
+
+\begin{equation}
+e(t) = \mathbf{F}(m(t), \theta)-\mathbf{F}^*
+\end{equation}
 
 where $m(t)$ is the observed image at time $t$, $\mathbf{F}$ represents the feature extractor and $\theta$ is a set of parameters for the feature extractor. On the other hand, $\mathbf{F}^*$ is a set of the desired (reference) features. In our project, $\mathbf{F}^*$ is defined as $\mathbf{F}(m^*, \theta)$ where $m^*$ is our checkpoint image. Visual servoing encompasses both approaches where the features are present in the image space, and those that are present in the projected space as in this project.
 
 ### Image Alignment in Computer Vision
-Visual features are defined differently across visual servoing tasks. Most work relies on the image points to conduct visual servoing. For example, [^10.1109/70.538972] and [^10.1109/70.88086] use image coordinates to define the image.  Other types of visual features (such as lines, image moments, moment invariants) are also used in visual servoing tasks [^10.1177/027836402761412430]. In this project, we explore the possibility of combining different types of visual features to obtain feasible input for the control model. Specifically, we utilize the point and line features from the observed and reference images to construct an affine matrix as input for the control model. Our objective functions for feature alignment is: $$e(t) = \big(\mathbf{P}(m(t), \theta)-\mathbf{P}(m^*, \theta)\big)+\big(\mathbf{L}(m(t), \theta)-\mathbf{L}(m^*, \theta)\big)$$ where $\mathbf{P}$ is the point feature extractor and $\mathbf{L}$ is the line feature extractor.
+Visual features are defined differently across visual servoing tasks. Most work relies on the image points to conduct visual servoing. For example, [^10.1109/70.538972] and [^10.1109/70.88086] use image coordinates to define the image.  Other types of visual features (such as lines, image moments, moment invariants) are also used in visual servoing tasks [^10.1177/027836402761412430]. In this project, we explore the possibility of combining different types of visual features to obtain feasible input for the control model. Specifically, we utilize the point and line features from the observed and reference images to construct an affine matrix as input for the control model. Our objective functions for feature alignment is: 
+
+\begin{equation}
+e(t) = \big(\mathbf{P}(m(t), \theta)-\mathbf{P}(m^*, \theta)\big)+\big(\mathbf{L}(m(t), \theta)-\mathbf{L}(m^*, \theta)\big)
+\end{equation}
+ 
+ where $\mathbf{P}$ is the point feature extractor and $\mathbf{L}$ is the line feature extractor.
 
 ### Visual Servo Control
 The controller used in visual servoing applications depends greatly on the type of features extracted by the vision algorithm. In image-based (IBVS) approaches, where features are matched in the image space, the controller revolves around transforming image space dynamics into real world dynamics. This involves building a so called *interaction matrix*, which relates the velocity of features in image space to the velocity of the camera in the real world. This task can be challenging depending on the system at hand and is highly dependent on the quality and consistency of features detected.
@@ -105,7 +115,19 @@ The affine matrix is computed by a pair of matched lines and a pair of matched p
     0 & 0 & 1 \end{bmatrix}
 \end{equation}
 
-Given $l_{\text{ref}}$, $l_{\text{t}}$ and $p_{\text{ref}}$, $p_{\text{t}}$, the transformation matrix from the ground projected reference plane to the ground projected current plane can be computed by defining $\theta$ as the angle of rotation between $l_{\text{ref}}$ and $l_{\text{t}}$ ($\theta = \arctan(m(l_{\text{t}}))-\arctan(m(l_{\text{ref}}))$) and $t$ defined as the displace between $p_{\text{ref}}$ and $p_{\text{t}}$ ($t = p_{\text{t}}-p_{\text{ref}}$). The following plots illustrate that the relationship between $\theta$ and the lines' slopes. 
+Given $l_{\text{ref}}$, $l_{\text{t}}$ and $p_{\text{ref}}$, $p_{\text{t}}$, the transformation matrix from the ground projected reference plane to the ground projected current plane can be computed by defining $\theta$ as the angle of rotation between $l_{\text{ref}}$ and $l_{\text{t}}$ 
+
+\begin{equation}
+\theta = \arctan(m(l_{\text{t}}))-\arctan(m(l_{\text{ref}}))
+\end{equation}
+
+and $t$ defined as the displace between $p_{\text{ref}}$ and $p_{\text{t}}$ 
+
+\begin{equation}
+t = p_{\text{t}}-p_{\text{ref}}
+\end{equation}
+
+The following plots illustrate that the relationship between $\theta$ and the lines' slopes. 
 
 <figure class="flow-subfigures">  
     <figcaption>Overview of theta computation.</figcaption>
