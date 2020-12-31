@@ -78,7 +78,7 @@ DAEs are modified autoencoders where the input is partially corrupted by adding 
 In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution.  
 <figure>
     <figcaption>VAE with the multivariate Gaussian assumption ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
-    <img style='width:20em' src="./figures/vae.png"/>
+    <img style='width:15em' src="./figures/vae.png"/>
 </figure>
 The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean and variances for the latent vectors distribution. Then latent vector $\mathbf{z}$ corresponding to input $\mathbf{x}$  is obtained by sampling :
 \[
@@ -112,7 +112,7 @@ We assess the performance of our agent against the baseline in terms of number o
 ### Model architecture
 <figure>
     <figcaption>DARLA architecture [](#bib:higgins2018darla): in grey, the RL module;  in blue, the $\beta$-VAE perceptual module, in yellow, the auxiliary DAE to get targets on which to train the $\beta$-VAE. $\theta$ and $\phi$ parameterize the decoder and encoder of the $\beta$-VAE.</figcaption>
-    <img style='width:20em' src="./figures/darla_architecture.png"/>
+    <img style='width:15em' src="./figures/darla_architecture.png"/>
 </figure>
 
 #### Perceptual module
@@ -195,4 +195,4 @@ _Be rigorous!_
 _Is there something you think still needs to be done or could be improved? List it here, and be specific!_
 Reward function
 
-&lt;div id="put-bibliography-here"&gt;&lt;/div&gt;
+&lt;div id="./bibliography.bib"&gt;&lt;/div&gt;
