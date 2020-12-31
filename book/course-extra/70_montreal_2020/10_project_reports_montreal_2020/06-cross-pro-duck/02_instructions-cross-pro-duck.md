@@ -15,19 +15,19 @@ Requires: Duckietown Simulator without obstacles. Project Code: [GitHub repo](ht
 Below is a compilation of some of our best runs with the duckiebot performing right turns, crossing straight through an intersection, and doing lane following up to a red line! 
 
 <figure id="cross-right_turn_inst">
-    <figcaption> Succesfull Right Turns.</figcaption>
+    <figcaption> Successful Right Turns.</figcaption>
     <dtvideo src="vimeo:495935292"/>
 </figure>
-
 <figure id="cross-lane_follow_inst">
-    <figcaption> Succesfull Lane Following with Red Line Approach.</figcaption>
+    <figcaption> Successful Lane Following with Red Line Approach.</figcaption>
     <dtvideo src="vimeo:495954271"/>
 </figure>
 
 <figure id="cross-straight_turn_inst">
-    <figcaption> Succesfull Straight Crossing.</figcaption>
+    <figcaption> Successful Straight Crossing.</figcaption>
     <dtvideo src="vimeo:495954451"/>
 </figure>
+
 
 ## Laptop setup notes {#demo-cross-pro-duck-laptop-setup}
 The user is expected to have the latest version of `duckietown-shell` installed. It is also expected to have the latest Duckietown Docker images. In addition, the user needs to install the Python packages that we list down in the `requirements.txt` file within our project directory. The main requirement of interest is the python `dubins`[^dubins_python] library, which is required for the path planning. Although not the most long term solution, this package was included by simply adding `pip3 install dubins` in the `launchers/run_interface.sh` file.
@@ -121,9 +121,10 @@ In no particular order, some of the failures are:
 * Poor checkpoint choices leading to the robot being completely lost. This is especially difficult for left turns.
 
 <figure id="cross-failues">
-    <figcaption> Succesfull Straight Crossing.</figcaption>
+    <figcaption> Various types of failed crossings and lane followings.</figcaption>
     <dtvideo src="vimeo:495966350"/>
 </figure>
+
 
 ## Reference
 
