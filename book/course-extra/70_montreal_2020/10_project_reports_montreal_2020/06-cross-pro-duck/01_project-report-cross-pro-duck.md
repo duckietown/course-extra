@@ -56,15 +56,15 @@ An alternative is the pose-based (PBVS) approach, which uses computer vision to 
 The approach that we take in our algorithm is a hybrid approach which incorporates features of both IBVS and PBVS. The output of the vision algorithm is a homography between the current and target images projected in the ground plane. Although we are using image features directly, the fact that they are projected onto the ground plane means that we can treat the homography between them as an $SE(2)$ target for the duckie to reach. Therefore, the required controller becomes significantly more simple as it deals with the vision output as a direct target pose.
 
 
-## Contributions
+## Overview
 
 ### Visual Path Following
 Our primary contribution toward Duckietown is providing its Duckizens the ability to follow trajectories given to them in the form of sequence of images. Currently, duckies can only perform certain pre-defined operations well such as following a specific lane. They rely on specific hard-coded rules such as always being to the right of the yellow line and to the left of the white line in order to achieve those operations. Because of this, they especially struggle to cross intersections where there are no generalizable line patterns. Our goal is to give them the power to follow any kind of path they want to with ease by just providing them a set of path images. These images act as a sample for the actions to take and our approach is expected to be robust to different environments. For this proof-of-concept project, we restrict our scope to evaluating our approach on lane following and crossing intersections.
 
-#### Existing Implementation
+#### Existing Implementation for Intersection Navigation
 Currently, intersection crossing is done using an open-loop control. When a duckie arrives at a crossing, identified by red lines, it is fed a series of open-loop inputs corresponding to the approximately ideal inputs needed to accomplish a turn in a desired location. The goal of these open loop controls is to move the duckie to a close enough location to the desired lane entrace that the standard lane controller will be able to pick up the correct white and yellow line to continue lane following. This approach, like most open-loop approaches, is not robust and can easily lead to duckies entering incorrect lanes or flying out of the intersection alltogether. As such, this approach was chosen as a way to include closed-loop controls in the intersection crossing task in order to improve the robusntess and safety for all duckies going through an intersections.
 
-### Architecture Overview
+### Architecture
 
 <figure class="flow-subfigures">  
     <figcaption>Overview of Cross Pro-Duck.</figcaption>
