@@ -1,20 +1,6 @@
 #  Sim2real: Project report {#sim2real-final-report status=ready}
 
-Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
-
-<!--
-General notes:
-- REMEMBER to change:
-- "groupname" in the chapter labels to your group label (e.g. proj-xyz) - not doing this will cause the build to crash.
-- "group name" every where you read it to a string describing your project; e.g., parking, self-calibration, learning to follow the lane, etc.
--->
-
-_The objective of this report is to bring justice to your  hard work during the semester and make so that future generations of Duckietown students may take full advantage of it. Some of the sections of this report are repetitions from the preliminary design document (PDD) and intermediate report you have given._
-
 ## The final result {#sim2real-final-result}
-
-_Let's start from a teaser._
-
 
 The two folowing videos represent our best results. To reproduce, please refer to the [instructions to reproduce](#instructions-sim2real).
 
@@ -34,8 +20,6 @@ For CycleGAN, please read this [README.md](NOTEBOOK of Mo)
 
 ## Mission and Scope {#sim2real-final-scope}
 
-_Now tell your story:_
-
 The mission of this project was to find a way to close the reality gap by using Generative Adversarial Networks 
 and other deep learning techniques to generate realistic images from simulation images. The idea is that by 
 replacing the simulated image by a realistic image with the same general features of the simulated image, we could train an agent in the simulator that would not have to be tuned seperately on the simulator and on the robot.
@@ -47,53 +31,57 @@ We have two major goals that we want to attain with this attempt:
 
 ### Motivation {#sim2real-final-result-motivation}
 
-_Now step back and tell us how you got to that mission._
-
-- What are we talking about? [Brief introduction / problem in general terms]
+- What are we talking about?
 
 There exists a discrepancy between the simulation environment and the real environment that considerably reduces the performance of the robot in the real environment after being trained in simulation. This dsicrepancy if often referred to as the reality gap. Even though there are multiple factors causing this reality gap, visual perception is often the most influential component since synthetic images - images coming from simulation - do not constitute a realistic representation of the real world. They mislead the trained models in learning specific features without generalizing well. Instead of investing in extensive resources to develop a new, more realistic yet not realistic enough simulator, we propose to leverage the benefits of GAN to generate realistic images from simulated images.
 
-- Why is it important? [Relevance]
+- Why is it important?
 
 Training a robot in a simulated environment has many advantages: simulators are easier to use and control than the real environment and have the advantage of allowing reproducibility. However, this comes with a major drawback which is the complex transition from the simulated world to the real world. Successfully closing that gap could greatly improve autonomous vehicule research as it would allows for faster and less costly experimentations. For example, if we could be certain that an agent trained on a simulator would behave very similarly in real life, this could significantly reduce the cost of training compared to having to train an agent in the real world with real cars and potentially affecting real people. 
 
 
 ### Existing solution {#sim2real-final-literature}
 
--  Describe the "prior work"
 #### Domain Randomization [](#bib:domain-random)
 Domain randomization tries to mitigate the effect of training an agent in a simulator by randomly modifying the colors, lighting, material textures, noise, camera orientation, etc. of the images seen in the simulator. This is done in the hope that the resulting agent will be able to learn only the features that are common to all the randomized images and therefore provide a more robust agent that should generalize well and perform well in the real world.
 
+#### Active Domain Randomization [](#bib:active-domain-random)
+Instead of blindlty uniformly randomizing environments, Active Domain Randomization consists in an algorithm that can learn a parameters sampling strategy that allows to find the most useful environement variations by comparing the differences of policy rollouts in the original simulator environement and the randomized environements. This approach produces low-variance policies and is better than regular domain randomization.
+
 ### Opportunity {#sim2real-final-opportunity}
 
-* What was wrong with the baseline / prior work / existing solution? Why did it need improvement?
+Even if Domain Randomization has had some success in extracting common features between varying environment, some articles have been able to prove
+that it could lead to high-variance policies when used for training agents, therefore making it not ideal [](#bib:active-domain-random)
 
-Examples:
-- there wasn't a previous implementation
-- the previous performance, evaluated according to some specific metrics, was not satisfactory
-- it was not robust / reliable
-- somebody told me to do so (/s) (this is a terrible motivation. In general, never ever ever say "somebody told me to do it" or "everybody does like this")
+While Active Domain Randomization certainly fixes the problems of Domain Randomization, we still aimed to try something that had not been
+tried in the DuckieTown world: Domain Adaptation.
 
-* How did you go about improving the existing solution / approaching the problem? [contribution]
-(How did we approach the problem?)
+Domain Adaptation relates to different machine learning techniques that aim to learn to predict labels in a target domain from a source domain. 
+It can be considered some sort of transfer learning technique where there can be differences between label space and feature space [](#bib:domain-adaptation)
+Domain Adaptation can be applied to many use-cases such as text-to-speech in NLP. In our computer-vision use-case, et aim to learn a way to translate 
+simulation images into real world images. Since we did want to have to tediously label pairs of images in both domains, we leveraged Deep Domain Adaptation [](#bib:deep-domain-adaptation) techniques that allowed us to simple provide a dataset of images labeled as "sim" and a dataset of images labeled as "real".
 
-Our first approach was to try to use style transfer techniques to learn realistic featrues from a single real image and apply them to a dataset of simulated images. Our second approach relied on unsupervised image-to-image translations, where two unpaired datasets are provided, with one consisting of real data and the second one of simulated data. We tried two types of GANs architecture specifically adapted to domain adaptation: CycleGan and UNsupervised Image-to-image Translation Networks (UNIT). CycleGan uses (Mo Explanation ... ). UNIT build upon CycleGans work and and what the authors refer to as the notion of shared latent space between images from two domains. 
-### Style Transfer
 
-### CycleGan
+Concretely, our first approach was to try to use style transfer techniques to learn realistic features from a single real image and apply them to a dataset of simulated images. Our second approach relied on unsupervised image-to-image translation, where two unpaired datasets of 38 751 images were provided.  We tried two types of GANs architecture specifically suited to domain adaptation: CycleGan and UNsupervised Image-to-image Translation Networks (UNIT).
+
+#### Style Transfer
+
+#### CycleGan [](#bib:cyclegan)
+
 CycleGAN consists in learning a translation between a source domain X and a target domain Y in the absence of paired examples. We learn a mapping G : X -> Y such that the generated images G(X) follow a distribution that is, theoretically, identical to the target's domain distribution, Y. This is done using an adversarial loss. However, considering the under-constrained nature of the translation mapping, cycleGAN couples the adversarial loss with a cycle consistency loss by using the bijective inverse mapping F: Y -> X which enforces the fact that applying F to the mapping G(X) should return the original X (and vice-versa).
 
-### Nvidia UNIT [](#bib:unit)
+#### NVIDIA UNIT [](#bib:unit)
+
 UNIT attempts to learn the same mapping G : X -> Y as CycleGAN, but it uses a slightly different approach, by enforcing the idea of a shared latent space between pairs of images and using Variational Auto Encoders (VAE) in addition to a GAN network. Thus, UNIT tries to minimize the cycle consistency loss, the VAE losses as well as the adversarial losses.
 
 
 ## Background and Preliminaries {#sim2real-final-preliminaries}
 
-* Is there some particular theorem / "mathy" thing you require your readers to know before delving in the actual problem? Briefly explain it and links for more detailed explanations here.
 
-Definition of link:
-- could be the reference to a paper / textbook
-- (bonus points) it is best if it is a link to Duckiebook chapter (in the dedicated "Preliminaries" section)
+### Generative Adversarial Networks (GANs)
+Generative Adversarial Networks [](#bib:gan) or GANs are a type of networks composed of two key components: a Generator(G) and a Discriminator(D).
+The generator G aims to learn a distribution that would allow it to generate images similar to a training dataset, but from random noise. The discriminator D tries to estimate the probabily that an image comes from the training dataset of was generated by G. This framwork can thus be represented by a minimaz two-player game, where each network tries to maximize the other player's loss. In our use-case, the difference compared to a traditionnal GAN is that the Generator does not try to generate data from random noise, but from simulation image. Those types of GANs are denoted as conditionnal GANs because they receive some sort of conditionning input information.
+
 
 ## Definition of the problem {#sim2real-final-problem-def}
 
@@ -104,7 +92,7 @@ Make sure you include your:
 - assumptions made
 - quantitative performance metrics to judge the achievement of the goal
 
-Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand hre is learning the joint distribution between to domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consiting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution Px1.x2(x1,x2) from a samples (x1,x2), which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one datasets from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions PX1(x1) and PX2(x2). Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions. The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details. 
+Domain Adaptation in the realm of images corresponds to the image-to-image translation problem. This task at hand hre is learning the joint distribution between to domain of images that allows to transition from one domain to the other. When using a supervised approach, it implies that we have a dataset consiting of corresponding pairs of images in each domains. If this data is available, then the problem is limited to finding a joint distribution P<sub>X1,X2</sub>(x1,x2) from a samples (x1,x2), which is relatively easy to do. However, when using the unsupervised image-to-image translation approach, where the dataset consists of simply one dataset from each domain with no pairing of images, the task becomes harder. Indeed, with the unsupervised approach, the samples that are used are drawn from the marginal distributions P<sub>X1</sub>(x1) and P<sub>X2</sub>(x2). Therefore, the task is now to find the joint distribution between those two marginal distributions that would allow to translate from one domain to the other. The problem with that task is that there exist an infinity of possible joint distributions that could yield the marginal distributions according to coupling theory[](#bib:coupling). The goal is to find an approach to find the joint distribution that can accomplish the image-to-image translation task properly. To successfully reach this goal, different assumptions are made with each different model implementation we made. The next section will detail those assumption and implementation details. 
 
 ## Contribution / Added functionality {#sim2real-final-contribution}
 
@@ -206,8 +194,8 @@ Finally, during training of the networks, the goal is to minimize the VAE losses
 
 ### DuckieTown Integration
 To integrate our model to the duckietown stack and test its performance on the actual robot, we had to create a new ROS node specifically for the task.
-
-This ROS node acts as a proxy between the camera node publishing the compressed image topic and all the other nodes subscribing to that topic. Therefore, all other nodes are now using the generated realistic image instead of a simulated image.  
+The idea was to have a ROS node acting as a proxy between the camera image topic and the rest of the perception stack, where simulator images would be 
+augmented with our models. Unfortunately, due to a lack of time, our attempt to build that node was a failure.
 
 ## Formal performance evaluation / Results {#sim2real-final-formal}
 
@@ -228,7 +216,7 @@ _Be rigorous!_
 
 #### CycleGan
 
-Results: [Full video](https://www.youtube.com/watch?v=KRLdfhHJy1M&ab_channel=PhilippeReddy)
+Results: [Full video](https://youtu.be/KRLdfhHJy1M)
 
 <figure align="center">
     <figcaption>CycleGAN sim2real generation</figcaption>
@@ -265,20 +253,19 @@ Results: [Full video](https://youtu.be/iXRV7G1GGFo)
 
 ### Color Threshold calibration
 
-As previously mentionned, one of our goal was to test if by using generated realistic images in the simulator it would remove the need to tune the color tresholds for line detection when moving to the real robot environment. 
-However, we were not able to fully integrate our models to the Duckietown stack. We were only able to create a ROS Node subscribing to the camera image topic that acted as a proxy to the rest of the perception system. The model could not be integrated to the node. 
-
+As previously mentionned, one of our goal was to test if by generating realistic images based on the simulator images it would remove the need to tune the color tresholds for line detection when moving from the simulator to the real robot environment. 
+However, since we were not able to fully integrate our models to the Duckietown stack, we could not validaet or invalidate this hypotehsis. 
 
 ## Future avenues of development {#sim2real-final-next-steps}
 
-First, future work could aim to fully integrate our best models so the ROS node we created. Then, it would be possible to validate
+First, future works could aim to fully integrate our best models to the duckietown stack with the ROS node described. Then, it would be possible to validate
 the color calibration hypothesis that we had and could not fully evaluate.
 
 Also, future works could improve the models by using a more varied dataset that could help the model to better generalize when converting synthetic data to realistic data.
+
 A more varied "real" dataset would need to come from multiple different environment to prevent the model from learning background specific details. Another approach could be to train the model to generate only the bottom half of an image, which would include primarily the road and therefore would negate overfitting on the realistic environement from which the images where taken.
 
-Moreover, it would be interesting to test the effect of using our generative ROS node with different duckietown baselines such as the behavior cloning baseline or reinforcement learning baseline. Since the whole perception 
-stack would be affected by the generated images, it might positively affect the transition to the real robot.
+Moreover, it would be interesting to test the effect of using a generative ROS node with different duckietown baselines such as the behavior cloning baseline or reinforcement learning baseline. Since the whole perception stack would be affected by the generated images, it might positively affect the transition to the real robot.
 
 ## Bibliography
 <div id="put-bibliography-here">
