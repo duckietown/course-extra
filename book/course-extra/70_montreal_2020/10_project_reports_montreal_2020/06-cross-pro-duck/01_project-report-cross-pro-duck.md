@@ -94,9 +94,10 @@ We take advantage of the existing ROS-based Duckietown infrastructure to support
 * Point matching
 * Affine (SE2) Transformation
 
-In the vision component of this project, we compute the SE2 transformation matrix based on three lines(the red, yellow, white lanes) and two points (the intersection of the red+yellow lanes and the intersection of the red+white lanes).
+In the vision component of this project, we compute the SE2 transformation matrix based on three lines (the red, yellow, white lanes) and two points (the intersection of the red+yellow lanes and the intersection of the red+white lanes).
 
-In order to compute a feasible affine matrix for the control model, we rely on several assumptions about the ground porjected lanes:
+In order to compute a feasible affine matrix for the control model, we rely on several assumptions about the ground projected lanes:
+
 * the ground projected white lane and the ground projected yellow lane are parallel
 * the ground projected white lane and the ground projected yellow lane are perpendicular to the red lane
 * the distance between the ground projected white lane and the ground projected yellow lane are always constant
@@ -250,6 +251,7 @@ Example paths are shown in the images below, which are taken from [^dubin_curves
 
 ### Control
 The planner produces a set of ideal
+
 * poses $\mathbf{x}$,
 * linear velocities $\mathbf{v}$, and
 * angular velocities $\pmb{\omega}$,
@@ -276,6 +278,7 @@ Nonetheless, the feasibility of this approach has been proven and it is hoped th
 
 ## Future avenues of development {#cross-pro-duck-final-next-steps}
 Here we list down the aspects of our solution which can be tuned to greatly improve the outcome given more time.
+
 * Line detection: Solving a vision driven task, our solution heavily relies on correctly estimating image features such as lines and their colors. An accurate line detection module is even more important for navigating intersections since the bot needs to rely on several distant lines in all directions to estimate its state. We found our solution to mostly be limited by line detection's accuracy and we see a potentially better solution as a direct result of improving this module with more experimentation.
 * Algorithm start: The algorithm currently relies on the bot being in front of a red line marking the end of one line. As such, it would be necessary to implement a "pre-roll" in order to move into a better location for visual servoing to start.
 * User interface: The fully invisioned algorithm would be capable of traversing a duckietown fully autonomously, only requiring user input for decisions as to where to turn. With additional time, it would be great to implement loading in all 3 types of turns, as well as line following. The procedure could then be automated so that it would automatically enter lane following up until it reaches a red line, at which point the user could click an arrow to indicate which way the bot should turn. After executing the turn, the bot would automatically enter lane following again and repeat.
