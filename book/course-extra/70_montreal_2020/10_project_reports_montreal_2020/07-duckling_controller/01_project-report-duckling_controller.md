@@ -2,12 +2,16 @@
 
 ## The final result {#duckling_controller-final-result}
 
-_Let's start from a teaser._
+[Here's](https://youtu.be/uOWxnWE0eHQ) the final result on the simulator. ([README.md](https://github.com/Frank-Hebert/lane_control/blob/main/README.md))
 
-* Post a video of your best results (e.g., your demo video): remember to have duckies on the robots or something terrible might happen!
+<p>&nbsp;</p>
 
-You might want to add as a caption a link to your [instructions to reproduce](#instructions-duckling_controller) to reproduce these results.
-Moreover, add a link to the readme.txt of your code.
+[Here's](https://youtu.be/NsuGWjWAxIg) the final result on the duckiebot.  ([README.md](https://github.com/jerome-labonte-udem/duckietown-visual-servo/tree/daffy/visual_servo))
+
+<p>&nbsp;</p>
+
+You can reproduce these demonstrations by following the step from the [instructions](#instructions-duckling_controller).
+
 
 ## Mission and Scope {#duckling_controller-final-scope}
 
@@ -17,7 +21,10 @@ Our duckiebot has a camera with fisheye lens installed on it. This configuration
 
 <p>&nbsp;</p>
 
+
+
 ![](./images/camera.png)
+
 
 ![](./images/bumper.png)
 
@@ -399,9 +406,11 @@ Final position
 
 In this case, it able to get to the target, but we have some errors in the pose estimation. Probably due to the camera parameters in the simulation. We tried with differents ones and the following results is the best we got.
 
-$$D = \begin{bmatrix} 0 & 0 & 0 & 0 & 0 \end{bmatrix}$$
+![](./images/dist_1.png)
 
-$$A = \begin{bmatrix} 305.57 & 0 & 303.08 \\ 0 & 308.83 & 231.88 \\ 0 & 0 & 1 \end{bmatrix}$$
+![](./images/a_1.png)
+
+
 
 ![](./images/estimated0.png)
 Initial position
@@ -418,9 +427,9 @@ Final position
 
 For comparison, this is a possible result obtained, using the same distortion coefficients, in both cases the 5 parameters equal to 0, modifying only the matrix of intrinsic coefficients.
 
-$$D = \begin{bmatrix} 0 & 0 & 0 & 0 & 0 \end{bmatrix}$$
+![](./images/dist_1.png)
 
-$$A = \begin{bmatrix} 217.51 & 0 & 289.17 \\ 0 & 263.33 & 228.77 \\ 0 & 0 & 1 \end{bmatrix}$$
+![](./images/a_2.png)
 
 The robot POSE was worse estimated and as a result, our performance worsened a lot in all the metrics used:
 
