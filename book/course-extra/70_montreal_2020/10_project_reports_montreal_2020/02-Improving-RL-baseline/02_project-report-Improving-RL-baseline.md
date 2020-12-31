@@ -83,13 +83,23 @@ For more details, we suggest you to refer to [this very good blogpost](https://l
 TODO: add the basics of an RL setup (link to duckibook if it talk about it)
 Agent, Environment, Actions, Policy, Learning from examples.
 
+In a RL framework, the goal is to maximize the expected cumulative reward following a policy. In Duckietown, the reward is defined with collistion avoidance and lane deviation penalties, as well as a function of speed and lane pose for a positive reward. 
+In the Q-learning setting, an action-value function $Q$ estimates how good a certain action is, given a state, for an agent following a policy. The optimal Q-value function ($Q^*$) is such that the reward is maximized from a given state-action pair by any policy.
+Finding the optimal policy corresponds to taking the best action as defined by $Q^*$ at each time step.
+
+In deep Q-learning, a deep neural network is used to approximate the $Q$ function. 
+
+Have a look at the [RL section of the duckiebook](https://docs.duckietown.org/daffy/AIDO/out/embodied_rl.html). 
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
 
 We follow the method proposed in [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it. 
 We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task.
  
 ### Model architecture
-PUT IMAGE
+<figure>
+    <figcaption>DARLA architecture [](#bib:higgins2018darla): in grey, the RL module;  in blue, the $\beta$-VAE perceptual module, in yellow, the auxiliary DAE to get targets on which to train the $\beta$-VAE. $\theta$ and $\phi$ parameterize the decoder and encoder of the $\beta$-VAE.</figcaption>
+    <img style='width:20em' src="./figures/darla_architecture.png"/>
+</figure>
 
 #### Perceptual module
 The perceptual module consists of a $\beta_{DAE}$-VAE . 
