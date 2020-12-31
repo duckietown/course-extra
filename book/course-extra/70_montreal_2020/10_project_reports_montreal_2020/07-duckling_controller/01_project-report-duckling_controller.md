@@ -78,15 +78,7 @@ The image-based visual servo control the error is calculated in 2D image feature
 
 ### Opportunity {#duckling_controller-final-opportunity}
 
-We use package made by another colaborator that was in the dt-core folder. The package is called ... and recognizes the pattern on the back of another duckiebot.
-
-(A COMPLETER)
-
-* How did you go about improving the existing solution / approaching the problem? [contribution]
-
-Examples:
-- We used method / algorithm xyz to fix the gap in knowledge (don't go in the details here)
-- Make sure to reference papers you used / took inspiration from, lessons, textbooks, third party projects and any other resource you took advantage of (check [here](+duckumentation#bibliography-support) how to add citations in this document). Even in your code, make sure you are giving credit in the comments to original authors if you are reusing some components.
+We took inspiration from an existing package made by another colaborator (Frank-qcd-qk) that was in the dt-core folder. The package is called [vehicule_detection](https://github.com/duckietown/dt-core/tree/daffy/packages/vehicle_detection) and recognizes the pattern on the back of another duckiebot.  The pattern detection is performed using OpenCV's [*findCirclesGrid*](https://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html?highlight=solvepnp#findcirclesgrid) function. From this function, we can then calculate the pose of the bumper by using an other function from OpenCv called [solve.PnP](https://docs.opencv.org/3.4/d9/d0c/group__calib3d.html).
 
 
 ## Background and Preliminaries {#duckling_controller-final-preliminaries}
@@ -145,7 +137,9 @@ However, they differ in the way they predict the duckiebot's position if we lose
 We will explain in more detail below how the architecture and main features of the controller made in the simulator and duckiebot.
 
 
-### Simulator Description {#duckling_controller-final-description}
+## Simulator {#duckling_controller-final-simulator}
+
+### Description {#duckling_controller-final-description-sim}
 
 We implemented 2 architectures, one for the simulator and another for the duckiebot. They are similar in structure but different in their details. Both can estimate the position of our duckiebot in relation to the rear of the other, both predict the position of our duckiebot if we lose sight of the target and both are able to reach the desired target.
 
@@ -154,7 +148,7 @@ However, they differ in the way they predict the duckiebot's position if we lose
 We will explain in more detail below how the architecture and main features of the controller made in the simulator and duckiebot.
 
 
-### Simulator Architecture {#duckling_controller-final-architecture}
+### Architecture {#duckling_controller-final-architecture-sim}
 
 
 Here are the main components of this project.
@@ -168,7 +162,7 @@ Here are the main components of this project.
 
 <p>&nbsp;</p>
 
-##### Simulator - Visual servo
+##### Visual servo {#duckling_controller-final-visualservo-sim}
 
 <p>&nbsp;</p>
 
@@ -184,7 +178,7 @@ The second one, we can pass the ground truth information about the object locati
 
 ![](./images/visual_servo_2.png)
 
-##### Simulator - Estimator
+##### Estimator {#duckling_controller-final-estimator-sim}
 
 <p>&nbsp;</p>
 
@@ -234,7 +228,7 @@ In the duckiebot, we were able to use the parameters of our camera, but for the 
 
 <p>&nbsp;</p>
 
-##### Simulator - Controller
+##### Controller {#duckling_controller-final-controller-sim}
 
 <p>&nbsp;</p>
 
@@ -275,29 +269,9 @@ In order to better understand the flowchart, the variable and parameters are def
 
 ![](./images/controller_2.png)
 
-#### Simulator - Usage
+## Duckiebot {#duckling_controller-final-duckiebot}
 
-Before running for the first time, create a virtual environment and from the root folder if this repository run:
-
-<p>&nbsp;</p>
-
-`pip install -e .`
-
-to run the visual servo script, move inside the visual_servo directory and run:
-
-<p>&nbsp;</p>
-
-`python ./visual_servo.py`
-
-you can set the logging level to debug by adding the `--debug` flag. This will allow you to see additional information generated for debugging purposes
-
-### Known problems {#duckling_controller-final-problems}
-
-The estimation of the pose is not very precise at the moment. This is due to bad camera parameters. We did not succeed in finding the right parameters to use. You can see some of our tries in the estimation.py file, where each camera_mode was a guess about a way to get the right values.
-
-### Duckiebot
-
-#### Duckiebot - Architecture
+### Architecture {#duckling_controller-final-architecture-robot}
 
 Here are the main components of this project.
 
@@ -310,11 +284,11 @@ Here are the main components of this project.
 
 <p>&nbsp;</p>
 
-##### Duckiebot - Visual servo
+##### Visual servo {#duckling_controller-final-visualservo-robot}
 
 <p>&nbsp;</p>
 
-The lane_controller_node.py is the script for the control node implemented. It has 4 subscribers and 1 publisher as we can see in the graph below. 
+The *lane_controller_node.py* is the script for the control node implemented. It has 4 subscribers and 1 publisher as we can see in the graph below. 
 
 ![](./images/duckiebot_visual_servo_1.png)
 
@@ -328,7 +302,7 @@ Once the commands are given and our robot moves, we get new images, this being a
 
 <p>&nbsp;</p>
 
-##### Duckiebot - Estimator
+##### Estimator {#duckling_controller-final-estimator-robot}
 
 <p>&nbsp;</p>
 
@@ -336,7 +310,7 @@ The estimator is similar to the one implemented in the simulator. In this case w
 
 <p>&nbsp;</p>
 
-##### Duckiebot - Controller
+##### Controller {#duckling_controller-final-controller-robot}
 
 <p>&nbsp;</p>
 
@@ -344,31 +318,14 @@ The estimator is similar to the one implemented in the simulator. In this case w
 
 The controller implemented could be summarized in below:
 
-1)	The duckiebot rotates and translates to go in the direction of the target;
-2)	The duckiebot stops moving when it reaches de target distance;
-3)	The duckiebot stops rotating when it reaches the correct angle.
+1.	The duckiebot rotates and translates to go in the direction of the target;
+2.	The duckiebot stops moving when it reaches de target distance;
+3.	The duckiebot stops rotating when it reaches the correct angle.
 
 ![](./images/duckiebot_controller_2.png)
 
 <p>&nbsp;</p>
 
-#### Duckiebot - Usage
-
-<p>&nbsp;</p>
-
-
-Add this package like you would with any other packages. In your dt-exercises folder, go to your packages location (.../exercises_ws/src/) and git clone this github.
-
-To activate the code on your robot, go to an exercises folder of your choice and run these commands :
-
-$ dts exercises build
-$ dts exercises test --duckiebot_name ![ROBOT_NAME] --local --pull
-
-Then, open your browser and go to your local host address (http://localhost:8087/). From this NoVNC environement, launch the joystick controller and press "A" to activate the following and parking procedure.
-
-Before running for the first time, create a virtual environment and from the root folder if this repository run:
-
-<p>&nbsp;</p>
 
 ## Formal performance evaluation / Results {#duckling_controller-final-formal}
 
@@ -377,23 +334,38 @@ Before running for the first time, create a virtual environment and from the roo
 
 We evaluate the performance of the controller by answering the questions:
 
+<p>&nbsp;</p>
+
 - Could it arrive at the right place with the right angle?
 - Was it stable?
 - How many steps it was required to get to the target?
 - How far the calculated POSE is from the truth?
 
-For the simulator we have 2 configurations: 1) with the groud truth target POSE and 2) with estimated POSE.
+<p>&nbsp;</p>
 
-* With the ground truth target POSE
+For the simulator we have 2 configurations: 
+
+<p>&nbsp;</p>
+
+1. with the groud truth target POSE and 
+2. with estimated POSE.
+
+<p>&nbsp;</p>
+
+#### With the ground truth target POSE
+
+<p>&nbsp;</p>
 
 Since we have the ground truth position, we can evaluate just the controler by setting the target at certain distance of the bumper. 
 
 In this case, the controller worked the way we expected. Our duckiebot is able to rotate, go to the target and then, rotate back to be aligned with the bumper within few update steps.
 
 ![](./images/ground0.png)
+
 Initial position
 
 ![](./images/ground4.png)
+
 Final position
 
 ![](./images/ground1.png)
@@ -402,9 +374,13 @@ Final position
 
 ![](./images/ground3.png)
 
-* With estimated POSE
+<p>&nbsp;</p>
 
-In this case, it able to get to the target, but we have some errors in the pose estimation. Probably due to the camera parameters in the simulation. We tried with differents ones and the following results is the best we got.
+#### With estimated POSE
+
+<p>&nbsp;</p>
+
+In this case, it is able to get to the target, but we have some errors in the pose estimation. Probably due to the camera parameters in the simulation. We tried with differents ones and the following results is the best we got.
 
 ![](./images/dist_1.png)
 
@@ -413,9 +389,11 @@ In this case, it able to get to the target, but we have some errors in the pose 
 
 
 ![](./images/estimated0.png)
+
 Initial position
 
 ![](./images/estimated4.png)
+
 Final position
 
 ![](./images/estimated1.png)
@@ -438,9 +416,11 @@ The robot POSE was worse estimated and as a result, our performance worsened a l
 - In the end it became more distant, and with a greater angle.
 
 ![plot](./images/estimated0_2.png)
+
 Initial position
 
 ![plot](./images/estimated4_2.png)
+
 Final position
 
 ![plot](./images/estimated1_2.png)
@@ -458,7 +438,7 @@ Final position
 ## Future avenues of development {#duckling_controller-final-next-steps}
 
 
-We are, in general, satisfied with the results obtained, but many other things that could be explored. Here is a list of suggestions:
+We are, in general, satisfied with the results obtained, but many there are many other things that could be explored. Here is a list of suggestions:
 
 - One could try to get better parameters for the camera in the simulator;
 - One could implement a Kalman filter;

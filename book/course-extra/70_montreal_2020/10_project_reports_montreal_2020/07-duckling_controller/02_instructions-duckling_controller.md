@@ -1,90 +1,119 @@
 # Instructions template {#instructions-duckling_controller status=ready}
 
-Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
+For these demonstrations you will need : 
 
-This is the template for the description of a what we should do to reproduce the results you got in your project. 
-The spirit of this document is to be an operation manual, i.e., a straightforward, unambiguous recipe for reproducing the results of a specific behavior or set of behaviors.
 
-It starts with the "knowledge box" that provides a crisp description of the border conditions needed:
+- Duckiebot in configuration `DB19`
 
-* Duckiebot hardware configuration (see [Duckiebot configurations](+opmanual_duckiebot#duckiebot-configurations))
-* Duckietown hardware configuration (loops, intersections, robotarium, etc.)
-* Number of Duckiebots
-* Duckiebot setup steps
 
-For example:
+- Camera calibration completed
 
-<div class='requirements' markdown="1">
 
-Requires: Duckiebot in configuration `DB19`
-
-Requires: Duckietown without intersections
-
-Requires: Camera calibration completed
-
-</div>
 
 ## Video of expected results {#demo-duckling_controller-expected}
 
-First, we show a video of the expected behavior (if the demo is successful).
+The expected behaviors are shown in the following videos.
 
-Make sure the video is compliant with Duckietown, i.e. : the city meets the [appearance specifications](+opmanual_duckietown#dt-ops-appearance-specifications) and the Duckiebots have duckies on board.
+<p>&nbsp;</p>
 
-## Laptop setup notes {#demo-duckling_controller-laptop-setup}
+[Expected behavior](https://youtu.be/uOWxnWE0eHQ) on the simulator. 
 
-Does the user need to do anything to modify their local laptop configuration?
+<p>&nbsp;</p>
 
+[Expected behavior](https://youtu.be/NsuGWjWAxIg) on the duckiebot. 
 
-## Duckietown setup notes {#demo-duckling_controller-duckietown-setup}
-
-Here, describe the assumptions about the Duckietown, including:
-
-* Layout (tiles types)
-* Infrastructure (traffic lights, WiFi networks, ...) required
-* Weather (lights, ...)
-
-Do not write instructions on how to build the city here, unless you are doing something very particular that is not in the [Duckietown operation manual](+opmanual_duckietown#duckietowns). Here, merely point to them.
-
-## Duckiebot setup notes {#demo-duckling_controller-duckiebot-setup}
-
-Write here any special setup for the Duckiebot, if needed.
-
-Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#opmanual_duckiebot).
-
-## Pre-flight checklist {#demo-duckling_controller-pre-flight}
-
-The pre-flight checklist describes the steps that are sufficient to ensure that the demo will be correct:
-
-Check: operation 1 done
-
-Check: operation 2 done
-
-## Instructions {#demo-duckling_controller-run}
-
-Here, give step by step instructions to reproduce the demo.
-
-Step 1: XXX
-
-Step 2: XXX
-
-Make sure you are specifying where to write each line of code that needs to be executed, and what should the expected outcome be. If there are typical pitfalls / errors you experienced, point to the next section for troubleshooting.
-
-## Troubleshooting {#demo-duckling_controller-troubleshooting}
-
-Add here any troubleshooting / tips and tricks required, in the form:
+<p>&nbsp;</p>
 
 
-Symptom: The Duckiebot flies
 
-Resolution: Unplug the battery and send an email to info@duckietown.org
+## For the simulator {#demo-duckling_controller-simulator}
 
 
-Symptom: I run `this elegant snippet of code` and get this error: `a nasty line of gibberish`
+### Description
+This [script](https://github.com/jerome-labonte-udem/duckietown-visual-servo/tree/daffy/visual_servo) is meant as a first exploration of using visual servoing 
+to control the duckiebot. The visual servo package that can be installed on the duckiebot
+contains some improvements on this script but we decided to provide these files 
+as a sandbox to experiment new ideas.
 
-Resolution: Power cycle until it works.
+### Architecture
 
-## Demo failure demonstration {#demo-duckling_controller-failure}
+Here are the main components of this project.
 
-Finally, put here video of how the demo can fail, when the assumptions are not respected.
+<p>&nbsp;</p>
 
-You can upload the videos to the [Duckietown Vimeo account](https://vimeo.com/duckietown) and link them here.
+* estimation.py contains everything that is related to estimating the relative 
+pose of the target point to the robot.
+* control.py contains everything that is related to generating the
+duckiebot commands from the pose estimation
+* visual_servo.py is the main script that puts the two components together 
+* config.py contains the configuration values
+
+### Usage
+Before running for the first time, create a virtual environment and from the root folder if this repository
+run:
+```bash
+pip install -e .
+```
+
+To run the visual servo script, move inside the visual_servo directory and run:
+```bash
+python ./visual_servo.py
+```
+
+You can set the logging level to debug by adding the --debug flag. This will allow you to see additional information generated for debugging purposes
+
+### Expected behaviour
+Once the gym window is opened, your duckie but will move toward
+the stationnary bot and try to park 15cm behind it and look in the same direction. 
+You can change this value in the config.py file. If your bot doesn't not move, in means
+ it has not detected the pattern. You can either press backspace to reinitialize the bot in 
+a new location or move your duckiebot until it detects the pattern.
+
+### Known problems
+The estimation of the pose is not very precise at the moment. This is due to 
+bad camera parameters. We did not succeed in finding the right parameters to use. 
+You can see some of our tries in the estimation.py file, where
+each camera_mode was a guess about a way to get the right values.
+
+
+## For the Duckiebot {#demo-duckling_controller-duckiebot}
+
+
+### Description
+This [script](https://github.com/Frank-Hebert/lane_control) is meant as a first exploration of using visual servoing 
+to control the duckiebot. 
+
+### Architecture
+
+Here are the main components of this project.
+
+<p>&nbsp;</p>
+
+* include/estimation.py contains everything that is related to estimating the relative 
+pose of the target point to the robot.
+* include/control.py contains everything that is related to generating the
+duckiebot commands from the pose estimation
+* config/lane_controller_node/default.yaml contains the configuration values
+* src/lane_controller_node.py contains the logic to calculate and send the commands to the wheels
+
+### Usage
+
+Add this package like you would with any other packages. In your dt-exercises folder, go to your packages location (.../exercises_ws/src/) and git clone this github.
+
+<p>&nbsp;</p>
+
+To activate the code on your robot, go to an exercises folder of your choice and run these commands :
+
+```console
+dts exercises build
+dts exercises test --duckiebot_name ![ROBOT_NAME] --local --pull
+```
+
+Then, open your browser and go to your local host address (http://localhost:8087/). From this NoVNC environement, launch the joystick controller and press "A" to activate the following and parking procedure.
+
+### Expected behaviour
+If your duckiebot detect a circles grid pattern (rear bumper of a duckiebot), it will go toward it and will park itself behind the other duckiebot.
+
+
+### Known problems
+The robot can oscillate when he's near the other bumper. By sending a command high enough to fight the static friction, it can overshoot the target and it will repeat this pattern again and again.

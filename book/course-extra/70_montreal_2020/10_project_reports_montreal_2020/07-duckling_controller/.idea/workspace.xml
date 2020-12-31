@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="843d3337-7611-4e27-819e-ee3c11346816" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/01_project-report-duckling_controller.md" beforeDir="false" afterPath="$PROJECT_DIR$/01_project-report-duckling_controller.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/02_instructions-duckling_controller.md" beforeDir="false" afterPath="$PROJECT_DIR$/02_instructions-duckling_controller.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/camera.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/camera.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/ground0.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ground0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/ground1.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ground1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/ground2.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ground2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/ground3.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ground3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/ground4.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/ground4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/homography.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/homography.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/intrinsic.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/intrinsic.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +45,7 @@
       <option name="presentableId" value="Default" />
       <updated>1609428911366</updated>
       <workItem from="1609428912600" duration="2523000" />
-      <workItem from="1609438576883" duration="2348000" />
+      <workItem from="1609438576883" duration="8559000" />
     </task>
     <servers />
   </component>
