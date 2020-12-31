@@ -16,7 +16,7 @@ For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
     <img style='width:24em' src="images/cyclegan-compare.gif"/>
 </figure>
 
-For CycleGAN, please read this [README.md](NOTEBOOK of Mo)
+For CycleGAN, please read this [README.md](https://github.com/mokleit/ift6757-gan/blob/main/README.md)
 
 ## Mission and Scope {#sim2real-final-scope}
 

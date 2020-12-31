@@ -7,7 +7,7 @@ Since we implemented three different models for the task, the instruction to rep
 ### Style Transfer
 - [README.md](LINK_AYMAN)
 ### CycleGan
-- [README.md](LINK_MO)
+Please follow the README file. The link provided in it will lead you to an already prepared notebook (with the dataset already prepared) that simply needs to be run in order to reproduce the results: [README.md](https://github.com/mokleit/ift6757-gan/blob/main/README.md)
 ### UNIT
 For UNIT, if you don't want to go through the tedious task of creating the dataset in the right format by yourself, you simply download those two zip files containing the training and testing set we used to obtain our results. 
 
