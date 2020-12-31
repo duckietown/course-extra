@@ -70,11 +70,25 @@ An autoencoder is a neural network designed to learn an identity function in an 
 - a decoder that reconstructs the original input data from the latent vector. 
 
 DAEs are modified autoencoders where the input is partially corrupted by adding noise to or masking some values of the input vector in a stochastic manner to prevent the network from overfitting and thus to improve the robustness. 
-
+<figure>
+    <figcaption>DAE model ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
+    <img style='width:20em' src="./figures/vae.png"/>
+</figure>
 ### Variational Autoencoder (VAE)
-In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution. The reconstructed input is sampled from the decoder's distribution. 
+In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution.  
+<figure>
+    <figcaption>VAE with the multivariate Gaussian assumption ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
+    <img style='width:20em' src="./figures/vae.png"/>
+</figure>
+The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean and variances for the latent vectors distribution. Then latent vector $\mathbf{z}$ corresponding to input $\mathbf{x}$  is obtained by sampling :
+\[
+    \mathbf{z}  = \mu + \sigma \epsilon
+\]
+where $\epsilon \sim \mathcal{N}(0,I)$
 
+Then, the decoder reconstructs from the sampled latent vector.
 ### $\beta$-VAE
+
 $\beta$-VAEs are a modification of VAEs to force the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
 
 For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken.
@@ -111,7 +125,7 @@ The objective function of the $\beta$-VAE is:
 \[
     \mathcal{L}(\theta, \phi, \mathbf{x},\mathbf{z}, \beta) = \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
-where $\theta, \phi$ are the parameters of the encoder and decoder resp. 
+where $\theta, \phi$ are the parameters of the encoder and decoder resp.
 
 In our setting, we write this function as: 
 \[
@@ -121,14 +135,11 @@ where $J$ corresponds to passing the imput image in the trained DAE up to a chos
 
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
 
-The KL divergence can be expressed as:
-TODO: add KL
+Denoting $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mathbf{z} | \mu, \sigma)$ the encoder distribution, and given the latent prior $p(\mathbf{z}) = \mathcal{N}(), I)$, the KL divergence can be expressed as:
 \[
-    
+  \dfrac{1}{2}\left ( \sum_{i} \mu_i^2 + \sigma_i^2 - (1 + \log \sigma_i^2) \right )  
 \]
-
-[DAE architecture drawing]
-[Beta VAE architecture drawing]
+You can find the full derivation [here](https://arxiv.org/pdf/1907.08956.pdf).
 #### RL agent
 We use the DDPG agent of the baseline. 
 
@@ -136,9 +147,7 @@ We use the DDPG agent of the baseline.
 
 ### Dataset 
 
-We collected 6000 images in the duckietown gym simulator, positioning and orienting the duckiebot randomly, and covering
-every object mesh and
-every type of tile. 
+We collected 6000 images in the duckietown gym simulator, positioning and orienting the duckiebot randomly, and covering every object mesh and every type of tile. 
 
 <figure>
     <figcaption>Dataset samples</figcaption>
@@ -148,12 +157,13 @@ every type of tile.
 You can find instructions to collect the dataset [here](TODO: add link to instructions paragraph).
 
 ### DAE 
-We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. 
-The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations. 
+We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. We choose the  
+The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations.
+The network is trained on images of size 280 x 320 pixels. 
 
 ### Beta VAE
 
-We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer. 
+We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer, using images of size 280 x 320 pixels.
 $\beta$ is chosen to be 1, so we actually have a VAE. 
 - write something about the loss - 
 We compute the perceptual similarity loss term using the outputs of our previously trained DAE as targets.
