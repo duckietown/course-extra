@@ -107,7 +107,11 @@ Resolution: Make sure you specify the full path `/code/exercise_ws/checkpoints/Y
 
 Symptom: My checkpoints are not being added or saved.
 
-Resolution: Make sure your `checkpoints_path` is set to `None`.
+Resolution: Make sure your `checkpoints_path` is set to `None`. 
+
+Symptom: The joystick commands are not working.
+
+Resolution: Make sure that you are not in autonomous driving mode when trying to use the joystick to manually control the robot or use any of the functionalities available after pressing the <kbd>e</kbd> key. Simply press <kbd>s</kbd> to ensure that you are not in autonomous mode.
 
 ## Demo failure demonstration {#demo-cross-pro-duck-failure}
 Below is a video showing some of the common failures that we came across. Note that these occured with various settings, some of which have been better tuned since then. However, if a reader is to progress this work then they will inevitably change the parameters again and may observe similar issues. 
