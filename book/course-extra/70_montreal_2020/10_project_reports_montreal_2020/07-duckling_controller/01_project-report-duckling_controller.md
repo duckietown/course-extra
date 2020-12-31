@@ -129,8 +129,16 @@ With this strategy, in order to reach our goal we need 3 steps:
 
 As it is a closed loop control system, where the POSE of our objective is being updated with a certain frequency. Therefore, the controller is always looking to minimize the distance from something that may be stopped or moving.
 
+## Contribution / Added functionality {#duckling-controller-final-contribution}
 
-### Description {#duckling_controller-final-description}
+### Description {#duckling-controller-final-contribution-description}
+
+We implemented 2 architectures, one for the simulator and another for the duckiebot. They are similar in structure but different in their details. Both can estimate the position of our duckiebot in relation to the rear of the other, both predict the position of our duckiebot if we lose sight of the target and both are able to reach the desired target.
+However, they differ in the way they predict the duckiebot's position if we lose sight of the target: in duckiebot we use information from the encoder to predict where we are if we no longer see the target. They also differ in control: in the simulator or linear or angular speed is applied, never the 2 simultaneously. In duckiebot, the 2 are applied at the same time with a controller proportional to the error in distance and angle.
+We will explain in more detail below how the architecture and main features of the controller made in the simulator and duckiebot.
+
+
+### Simulator Description {#duckling_controller-final-description}
 
 We implemented 2 architectures, one for the simulator and another for the duckiebot. They are similar in structure but different in their details. Both can estimate the position of our duckiebot in relation to the rear of the other, both predict the position of our duckiebot if we lose sight of the target and both are able to reach the desired target.
 
@@ -138,9 +146,9 @@ However, they differ in the way they predict the duckiebot's position if we lose
 
 We will explain in more detail below how the architecture and main features of the controller made in the simulator and duckiebot.
 
-### Simulator
 
-#### Simulator - Architecture
+### Simulator Architecture {#duckling_controller-final-architecture}
+
 
 Here are the main components of this project.
 
@@ -276,6 +284,9 @@ to run the visual servo script, move inside the visual_servo directory and run:
 
 you can set the logging level to debug by adding the `--debug` flag. This will allow you to see additional information generated for debugging purposes
 
+### Known problems {#duckling_controller-final-problems}
+
+The estimation of the pose is not very precise at the moment. This is due to bad camera parameters. We did not succeed in finding the right parameters to use. You can see some of our tries in the estimation.py file, where each camera_mode was a guess about a way to get the right values.
 
 ### Duckiebot
 
