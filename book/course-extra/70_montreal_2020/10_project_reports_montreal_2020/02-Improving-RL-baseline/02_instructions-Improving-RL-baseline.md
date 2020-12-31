@@ -66,6 +66,12 @@ Install the requirements in ![requirements.txt].
 
 ### Collecting your dataset
 
+To collect the dataset, follow the instructions [TODO: add instructions]
+
+In the code, the camera images for a run will be saved in one numpy array. 
+
+In order to use your dataset to train the perceptual model, you will need to convert the arrays to image files (JPG, PNG, JPEG). 
+Then, make a ![.txt] file containing the paths to the images you want to include for training your model. You can check the [make_txt.py](https://github.com/lifetheater57/DARLA/blob/duckietown-rl/utils/make_txt.py) script as a helper. 
 ### Training the perceptual model
 You will be using the DARLA submodule. 
 Check that the version you are using is the same as (here)[https://github.com/lifetheater57/DARLA/tree/duckietown-rl].

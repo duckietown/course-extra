@@ -2,7 +2,7 @@
 
 In this project, we propose to improve the [Reinforcement Learning (RL) baseline](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md).
 
-All of the work was done in collaboration between Étienne Boucher (@lifetheater57) and Mélisande Teng (@melisandeteng). You can find the slides for our mid-progress presentation [here](TODO: add a link to the slides).
+All of the work was done in collaboration between Étienne Boucher (@lifetheater57) and Mélisande Teng (@melisandeteng). You can find the slides for our mid-progress presentation [here](https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch/blob/DAE/slides.pdf).
 
 ## The final result {#improving-rl-baseline-final-result}
 
@@ -27,15 +27,15 @@ So far, two main approaches have been explored to control duckiebots : classical
 
 - **RL approaches** allow the exploration of solutions that could not necessarily be found through classical methods or even imitating existing expert behavior, but they are often computationally expensive and data inefficient. In Duckietown, no pure RL approach seems to have outbeaten, or even matched the performance of classical methods.
 
-The hope of a DARLA is that, by reducing the dimensionality of the input of the policy, it will outperform a pure RL agent and generalize better than the classical methods. In fact, the DARLA approach beat the pure RL agents over a range of popular RL algorithms (DQN, A3C and EC) and simulation environments (Jaco arm, DeepMind Lab). We expect it to work within the Duckietown environment.
+The hope of a DARLA is that, by reducing the dimensionality of the input of the policy, it will outperform a pure RL agent and generalize better than the classical methods. In fact, the DARLA approach outbeats the pure RL agents over a range of popular RL algorithms (DQN, A3C and EC) and simulation environments (Jaco arm, DeepMind Lab). We expect it to work within the Duckietown environment.
 
 ### Existing solution {#improving-rl-baseline-final-literature}
 
 The current RL baseline consists of a Deep Deterministic Policy Gradient (DDPG) agent [](#bib:lillicrap2019continuous). 
 In Duckietown, the action space is consists of the wheel commands $v$ and $\omega$, and is continuous. 
-DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q$ function and an approximator to the optimal action function are learned. It can be thought of as Deep Q-learning [TODO: PUT A REFERENCE] for continuous action spaces.
+DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q$ function and an approximator to the optimal action function are learned. It can be thought of as Deep Q-learning [](#bib:mnih2013atari).
 
-We have access to the Duckietown simulator in a setup that allow the training of a RL agent. 
+We have access to the Duckietown simulator in a setup that allows the training of a RL agent. 
 
 You can learn more about DDPG [here](https://spinningup.openai.com/en/latest/algorithms/ddpg.html).
 
@@ -53,9 +53,12 @@ Moreover, the agent is trained in the Duckietown simulator, and there is no guar
 
 We propose to implement and train a DARLA [](#bib:higgins2018darla).  
 There are three steps to follow: 
-- Learn to see: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts and more importantly to have a representation of the most important "concepts" present in the image that the RL agent will be able to use directly.
-- Learn to act: train an RL agent.
-- Transfer: evaluate on new target domain without retraining.
+
+- **Learn to see**: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts and more importantly to have a representation of the most important "concepts" present in the image that the RL agent will be able to use directly.
+
+- **Learn to act**: train an RL agent.
+
+- **Transfer**: evaluate on new target domain without retraining.
 
 This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transfered to new domains without further training. Instead of feeding the camera images directly to the RL model, we project it to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the details of the domain. 
 
@@ -109,7 +112,10 @@ where $J$ corresponds to passing the imput image in the trained DAE up to a chos
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
 
 The KL divergence can be expressed as:
-
+TODO: add KL
+\[
+    
+\]
 
 [DAE architecture drawing]
 [Beta VAE architecture drawing]
@@ -119,12 +125,17 @@ We use the DDPG agent of the baseline.
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
 
 ### Dataset 
-[LINK TO DATASET ? or code to collect data] 
+
 We collected 6000 images in the duckietown gym simulator, positioning and orienting the duckiebot randomly, and covering
 every object mesh and
 every type of tile. 
 
-[ADD SAMPLE DATA IMAGE]
+<figure>
+    <figcaption>Dataset samples</figcaption>
+    <img style='width:20em' src="./figures/dataset_sample.png"/>
+</figure>
+
+You can find instructions to collect the dataset [here](TODO: add link to instructions paragraph).
 
 ### DAE 
 We first train the DAE for XXX epochs, with learning rate XXX and XX optimizer. 
