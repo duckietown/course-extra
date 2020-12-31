@@ -1,45 +1,43 @@
-#  Improving the RL baseline: Project report {#improving-rl-baseline-final-report status=ready}
+# Improving the RL baseline: Project report {#improving-rl-baseline-final-report status=ready}
 
 In this project, we propose to improve the [Reinforcement Learning (RL) baseline](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md).
 
-
-All of the work was done in collaboration between Étienne Boucher(@lifetheater57) and Mélisande Teng (@melisandeteng).
-You can find the slides for our mid-progress presentation [here]().
-
+All of the work was done in collaboration between Étienne Boucher (@lifetheater57) and Mélisande Teng (@melisandeteng). You can find the slides for our mid-progress presentation [here](TODO: add a link to the slides).
 
 ## The final result {#improving-rl-baseline-final-result}
 
-* VIDEO OF OUR AGENT - ideally video of episodes with the episode number displayed
+TODO: complete.
+You should expect the agent to perform... in x context.
 
-You can find the [instructions to reproduce](#instructions-improving-rl-baseline) and code here LINK TO CODE.
+* TODO: VIDEO OF OUR AGENT - ideally video of episodes with the episode number displayed
+
+TODO: A caption to the video.
+
+You can find the [instructions to reproduce](#instructions-improving-rl-baseline) and the code is available on [Github](https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch/commits/darla).
 
 ## Mission and Scope {#improving-rl-baseline-final-scope}
 
-The goal of this project is to improve the RL baseline in Duckietown by 
-
+The goal of this project is to improve the RL baseline in Duckietown by implementing a DARLA (DisentAngled Representation Learning Agent). At the end of the project, we hope to have done the implementation of the DARLA architecture and do some training of the agent in the simulator. 
 
 ### Motivation {#improving-rl-baseline-final-result-motivation}
 
 So far, two main approaches have been explored to control duckiebots : classical robotics methods and pure RL approaches.
 
-- **Classical robotics methods** work well when the state information from the camera feed is correct and can ne interpreted in a meaningful way. However, they often require careful tuning of the parameters depending on the duckie / the environment (e.g. color range for line segments when the lighting conditions change) . 
+- **Classical robotics methods** work well when the state information from the camera feed is correct and can be interpreted in a meaningful way. However, they often require careful tuning of the parameters depending on the duckie / the environment (e.g. color range for line segments when the lighting conditions change) . 
 
-- **RL approaches** allow the exploration of solutions that could not necessarily be found through classical methods or even imitating existing expert behavior. But they are often computationally expensive and data inefficient. In Duckietown, no pure RL approach seems to have outbeaten, or even matched the performance of classical methods.
+- **RL approaches** allow the exploration of solutions that could not necessarily be found through classical methods or even imitating existing expert behavior, but they are often computationally expensive and data inefficient. In Duckietown, no pure RL approach seems to have outbeaten, or even matched the performance of classical methods.
 
-[ADD SOMETHING] 
-
+The hope of a DARLA is that, by reducing the dimensionality of the input of the policy, it will outperform a pure RL agent and generalize better than the classical methods. In fact, the DARLA approach beat the pure RL agents over a range of popular RL algorithms (DQN, A3C and EC) and simulation environments (Jaco arm, DeepMind Lab). We expect it to work within the Duckietown environment.
 
 ### Existing solution {#improving-rl-baseline-final-literature}
 
 The current RL baseline consists of a Deep Deterministic Policy Gradient (DDPG) agent [](#bib:lillicrap2019continuous). 
 In Duckietown, the action space is consists of the wheel commands $v$ and $\omega$, and is continuous. 
-DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q$ function and an approximator to the optimal action function are learnt. It can be thought of as Deep Q-learning [PUT A REFERENCE] for continuous action spaces.
+DDPG is an off-policy algorithm, in which both an approximator to the optimal $Q$ function and an approximator to the optimal action function are learned. It can be thought of as Deep Q-learning [TODO: PUT A REFERENCE] for continuous action spaces.
 
-[ELABORATE?]
+We have access to the Duckietown simulator in a setup that allow the training of a RL agent. 
 
 You can learn more about DDPG [here](https://spinningup.openai.com/en/latest/algorithms/ddpg.html).
-
-
 
 ### Opportunity {#improving-rl-baseline-final-opportunity}
 
@@ -47,21 +45,19 @@ The RL approaches explored so far were pure RL approaches.
 
 After a day of training on a Nvidia RTX2060 mobile paired with an Intel i7-9750H and 16 GB of RAM, the agent of the RL baseline was going forward turning to the right straight out of lane independently of the configuration of the lane, and was still far from following the lane. 
 
-Limitations of such pure RL models might include the lack of computing power since it is not possible to take advantage of the hardware acceleration on acomputation cluster, or bad parameters initialization or reward function that didn’t foster convergence to a competent agent.
+Limitations of such pure RL models might include the lack of computing power since it is not possible to take advantage of the hardware acceleration on a computation cluster, or bad parameters initialization or reward function that didn’t foster convergence to a competent agent.
 
 Moreover, the agent is trained in the Duckietown simulator, and there is no guarantee that transferring from sim to real will be successful with this approach.
 
 #### Contribution{#improving-rl-baseline-final-opportunity-contribution}
 
-We propose to train a DARLA agent [](#bib:higgins2018darla).  
+We propose to implement and train a DARLA [](#bib:higgins2018darla).  
 There are three steps to follow: 
-- Learn to see: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts.
-- Learn to act: train an RL agent
+- Learn to see: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts and more importantly to have a representation of the most important "concepts" present in the image that the RL agent will be able to use directly.
+- Learn to act: train an RL agent.
 - Transfer: evaluate on new target domain without retraining.
 
-This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transferred to new domains without further training. 
-Instead of feeding the camera images to the RL model, we project the agent observation state space to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. 
-The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the domain. 
+This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transfered to new domains without further training. Instead of feeding the camera images directly to the RL model, we project it to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the details of the domain. 
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
@@ -70,16 +66,19 @@ An autoencoder is a neural network designed to learn an identity function in an 
 - an encoder that compresses the input data into a latent lower-dimensional representation
 - a decoder that reconstructs the original input data from the latent vector. 
 
-DAEs are modified autoencoders where the input is partially corrupted by adding noises to or masking some values of the input vector in a stochastic manner to prevent the network from overfitting (e.g. when there are more parameters then number of data points) and to improve the robustness. 
+DAEs are modified autoencoders where the input is partially corrupted by adding noise to or masking some values of the input vector in a stochastic manner to prevent the network from overfitting and thus to improve the robustness. 
 
 ### Variational Autoencoder (VAE)
-In variational autoencoders, the encoder and decoder are probabilistic. Insteand of mapping the input into a fixed vector,we parameterize the encoder and decoder distributions as gaussians, and sample the latent vector from the encoder distribution. The reconstructed input is sampled from the decoder's distribution. 
+In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution. The reconstructed input is sampled from the decoder's distribution. 
 
 ### $\beta$-VAE
-$\beta$-VAEs are a modification of VAEs to encourage the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
+$\beta$-VAEs are a modification of VAEs to force the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
 
-For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken. 
+For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken.
 
+### RL agent
+TODO: add the basics of an RL setup (link to duckibook if it talk about it)
+Agent, Environment, Actions, Policy, Learning from examples.
 
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
 
@@ -117,7 +116,6 @@ The KL divergence can be expressed as:
 #### RL agent
 We use the DDPG agent of the baseline. 
 
-
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
 
 ### Dataset 
@@ -146,6 +144,7 @@ We also train a $\beta$-VAE with the original images as targets.
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
 ### Denoising Auto Encoder
+
 We train the DAE on our simulated images dataset for XXX epochs. 
 something about the loss
 [IMAGE of some RECONSTRUCTIONS]
@@ -161,7 +160,6 @@ _Be rigorous!_
 - Include an explanation / discussion of the results. Where things (as / better than / worst than) you expected? What were the biggest challenges?
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
-
 
 _Is there something you think still needs to be done or could be improved? List it here, and be specific!_
 Reward function
