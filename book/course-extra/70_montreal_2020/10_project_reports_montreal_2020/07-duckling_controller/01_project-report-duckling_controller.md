@@ -32,11 +32,7 @@ Our duckiebot has a camera with a fisheye lens installed on it. This configurati
 
 ## Motivation {#duckling_controller-final-result-motivation}
 
-This project is challenging as it has many applications. Visual servoing can be used to pick up an object from one place and place it in another or to follow and track an object by an autonomous vehicle.
-<p>&nbsp;</p>
-
-This project is of great importance as it has many applications. Visual servoing can be used to pick up an object from one place and place it in another, or to follow and track an object by an autonomous vehicle.
-
+This project is challenging as it has many applications. Visual servoing can be used to pick up an object from one place and place it in an other specific location or to follow and track an object.
 
 ## Existing solution {#duckling_controller-final-literature}
 
