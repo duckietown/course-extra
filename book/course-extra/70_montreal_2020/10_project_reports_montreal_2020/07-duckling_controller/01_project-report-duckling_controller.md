@@ -17,15 +17,14 @@ You can reproduce these demonstrations by following the steps from the [instruct
 
 Our mission is to create a controller that is capable of using images from the duckiebot's camera to follow an other duckiebot and stop a certain distance away, in line with its rear. We would like to implement this controller in the duckiebot and also a similar controller that would be able to only stop behind another duckiebot using the simulator.
 <p>&nbsp;</p>
-Our duckiebot has a camera with fisheye lens installed on it. This configuration is called eye-in-hand because it is rigidly mounted on the robot. Our target is at a certain distance of the bumper of other duckiebot. The bumper has a circle's pattern: 8 columns by 3 rows on simulator and 7 columns by 3 rows on the duckiebot.
-
+Our duckiebot has a camera with a fisheye lens installed on it. This configuration is called eye-in-hand because it is rigidly mounted on the robot. Our target is at a certain distance from the bumper of other duckiebot. The bumper has a circle pattern: 8 columns by 3 rows on the simulator and 7 columns by 3 rows on the duckiebot.
 <p>&nbsp;</p>
 
 
 
 ![](./images/camera.png)
 
-*Figure 1 : Duckiebot's fish eye camera*
+*Figure 1 : Duckiebot's fisheye camera*
 
 ![](./images/bumper.png)
 
@@ -33,8 +32,7 @@ Our duckiebot has a camera with fisheye lens installed on it. This configuration
 
 ## Motivation {#duckling_controller-final-result-motivation}
 
-This project is a visual servo controller. It is a technique of using visual sensors to control the movements of a robot. 
-
+This project is challenging as it has many applications. Visual servoing can be used to pick up an object from one place and place it in another or to follow and track an object by an autonomous vehicle.
 <p>&nbsp;</p>
 
 This project is of great importance as it has many applications. Visual servoing can be used to pick up an object from one place and place it in another, or to follow and track an object by an autonomous vehicle.
@@ -42,7 +40,7 @@ This project is of great importance as it has many applications. Visual servoing
 
 ## Existing solution {#duckling_controller-final-literature}
 
-Visual servoing is the use of visual sensors in order to control the motion of the robot. There are three main approaches to tackle this challenge. One is called positional-based visual servo (PBVS), another is called Image-based visual servo (IBVS) and the third one is an hybrid that combines the two first. For more information about both methods, we looked at “A tutorial on visual servo control”[1]  and at "A Comparison between Position-Based and Image-Based Dynamic Visual Servoings in the Control of a Translating Parallel Manipulator"[2].
+Visual servoing is the use of visual sensors to control the motion of the robot. There are three main approaches to tackle this challenge. One is called positional-based visual servo (PBVS), another is called Image-based visual servo (IBVS) and the third one is a hybrid that combines the two first. For more information about both methods, we looked at “A tutorial on visual servo control”[1] and at "A Comparison between Position-Based and Image-Based Dynamic Visual Servoings in the Control of a Translating Parallel Manipulator"[2].
 
 <p>&nbsp;</p>
 
@@ -53,9 +51,9 @@ Visual servoing is the use of visual sensors in order to control the motion of t
 
 ### Positional-based visual servo (PBVS) {#duckling_controller-final-pbvs}
 
-The positional-based visual servo control the task is defined in the 3D Cartesian frame. The visual data tries to reconstruct the 3D pose of the camera and the kinematic error is generated in Cartesian space.
+The PBVS task is defined in the 3D Cartesian frame. The visual data tries to reconstruct the 3D pose of the camera and the kinematic error is generated in Cartesian space.
 <p>&nbsp;</p>
-In order to perform a PBVS, the follow steps is necessary:
+To perform a PBVS, the follow steps is necessary:
 
 <p>&nbsp;</p>
 
@@ -77,7 +75,7 @@ The image-based visual servo control the error is calculated in 2D image feature
 
 1. Define the interaction matrix that relates the Cartesian velocity with the image space velocity. This matrix depends on: the focal length expressed in pixel, image-space vectors s = {u, v, d}^T, and the z estimated.
 
-2. Control the motion of the robot to minimize the distance between the target and current pixels. It is necessary to invert the interaction matrix for each step of the control in order to have the camera motion.
+2. Control the motion of the robot to minimize the distance between the target and current pixels. It is necessary to invert the interaction matrix for each step of the control to have the camera motion.
 
 ### Opportunity {#duckling_controller-final-opportunity}
 
@@ -95,7 +93,7 @@ The homography relates the transformation between two planes, as shown below:
 
 It is a 3 x 3 matrix with 8 DoF since it's generally normalized with h_33 = 1
 <p>&nbsp;</p>
-The function solvePnP from OPENCV allows to compute the camera pose from the correspondences (3D object points expressed in the object frame) and the projected 2D image points (object points viewed in the image). The intrinsic parameters and the distortion coefficients are required as inputs in the function. We do have the intrinsic values the duckiebot camera (from the calibration file), but we don't have it for simulation. It led to some inaccuracy in the POSE estimation in the simulator.
+The function solvePnP from OPENCV allows to compute the camera pose from the correspondences (3D object points expressed in the object frame) and the projected 2D image points (object points viewed in the image). The intrinsic parameters and the distortion coefficients are required as inputs in the function. We do have the intrinsic values of the duckiebot camera (from the calibration file), but we don't have it for simulation. It led to some inaccuracy in the POSE estimation in the simulator.
 
 ![](./images/intrinsic.png)
 
@@ -105,21 +103,21 @@ Our project has two main objectives:
 
 <p>&nbsp;</p>
 
-1. **For the duckiebot** : Follow an other duckiebot and stop at a certain distance from it
+1. **For the duckiebot**: Follow an other duckiebot and stop at a certain distance from it
   
-2. **For the simulator** : Park behind a duckiebot
+2. **For the simulator**: Park behind a duckiebot
 
 <p>&nbsp;</p>
 
-In order for both objectives to be achieved, we first need to define the control strategy. As explained in the previous section there are PBVS, IBVS and hybrids.
+For both objectives to be achieved, we first need to define the control strategy. As explained in the previous section there are PBVS, IBVS, and hybrids.
 
 <p>&nbsp;</p>
 
-In the case of our project, we chose PBVS which is a closed loop control system where the feedback loop is the POSE of our goal. The objective of this controler is to minimize this POSE. We consider that we have reached our goal when the POSE falls below an established range.
+In the case of our project, we chose PBVS which is a closed-loop control system where the feedback loop is the POSE of our goal. The objective of this controller is to minimize this POSE. We consider that we have reached our goal when the POSE falls below an established range.
 
 <p>&nbsp;</p>
 
-With this strategy, in order to reach our goal we need three steps:
+With this strategy, to reach our goal we need three steps:
 
 <p>&nbsp;</p>
 
@@ -129,16 +127,16 @@ With this strategy, in order to reach our goal we need three steps:
 
 <p>&nbsp;</p>
 
-This is a closed loop control system, where the POSE of our objective is being updated with a certain frequency. Therefore, the controller is always looking to minimize the distance from the target.
+This is a closed-loop control system, where the POSE of our objective is being updated with a certain frequency. Therefore, the controller is always looking to minimize the distance from the target.
 
 ## Contribution / Added functionality {#duckling-controller-final-contribution}
 
 ### Description {#duckling-controller-final-contribution-description}
 
 We implemented two architectures, one for the simulator and one for the duckiebot. They are similar in structure but different in their details. Both can estimate the position of our duckiebot in relation to the rear of the other, both predict the position of our duckiebot if we lose sight of the target and both are able to reach the desired target.
-However, their predict method (when there is no detection) are different. On the duckiebot, we have access to the wheel encoders to update our position. In the simulator, we simply use the last commands used and the duration to update the belief.
+However, their predict methods (when there is no detection) are different. On the duckiebot, we have access to the wheel encoders to update our position. In the simulator, we simply use the last commands used and the duration to update the belief.
 
-We will explain in more details below the architecture and main features for the simulator and the duckiebot.
+We will explain in more detail below the architecture and main features for the simulator and the duckiebot.
 
 ## Simulator {#duckling_controller-final-simulator}
 
@@ -151,8 +149,8 @@ Here are the main components of this project.
 
 * *config.py* contains the configuration values
 * *visual_servo.py* is the main script that puts the estimation.py and control.py together
-* *estimation.py* contains everything that is related to estimating the relative pose of the target point to the robot
-* *control.py* contains everything that is related to generating the duckiebot commands from the pose estimation
+* *estimation.py* contains everything related to estimating the relative pose of the target point to the robot
+* *control.py* contains everything related to generating the duckiebot commands from the pose estimation
 
 <p>&nbsp;</p>
 
@@ -160,21 +158,25 @@ Here are the main components of this project.
 
 <p>&nbsp;</p>
 
-This script is implemented in *visual_servo.py* and is allowing you to manually control Duckiebot using the keyboard arrows and toggles visual servoing to go park behind another duckie bot if detected. There are two options implemented in the simulator.
+This script is implemented in *visual_servo.py* and is allowing you to manually control duckiebot using the keyboard arrows and toggles visual servoing to go park behind another duckiebot if detected. There are two options implemented in the simulator.
 
 <p>&nbsp;</p>
 
-With the first option, we can estimate the pose based on the image and the schema is represented below:
+With the first option, we can estimate the pose based on the image, and the schema is represented below:
 
 ![](./images/visual_servo_1.png)
 
 *Figure 3 : First option in the simulator using the estimated pose*
+
+<p>&nbsp;</p>
 
 With the second one, we use directly the ground truth information about the object location as the schema below:
 
 ![](./images/visual_servo_2.png)
 
 *Figure 4 : Second option in the simulator using the ground truth*
+
+<p>&nbsp;</p>
 
 ##### Estimator {#duckling_controller-final-estimator-sim}
 
@@ -186,7 +188,9 @@ This module is implemented in *estimator.py* and contains the logic to estimate 
 
 *Figure 5 : Estimation of the POSE*
 
-In order to estimate our POSE, we use the SolvePnP method implemented in OpenCV. We passed it four inputs and it computes the relative rotation and translation matrices of our target.
+<p>&nbsp;</p>
+
+In order to estimate our POSE, we use the SolvePnP method implemented in OpenCV. We need four inputs and it computes the relative rotation and translation matrices of our target.
 
 <p>&nbsp;</p>
 
@@ -216,7 +220,7 @@ objectPoint =
 ```
 <p>&nbsp;</p>
 
--	**imagePoints**: Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. In our case it has the center of the circle’s and it change everytime before entering in SOLVEPNP and it deppends on the image got from the camera. The format of this matrix is 24 x 2 in the simulator and 21 x 2 in the bot.
+-	**imagePoints**: Array of corresponding image points, Nx2 1-channel or 1xN/Nx1 2-channel, where N is the number of points. In our case, it has the center of the circle’s and it changes everytime before entering in SOLVEPNP and it depends on the image got from the camera. The format of this matrix is 24 x 2 in the simulator and 21 x 2 in the bot.
 
 <p>&nbsp;</p>
 
@@ -226,7 +230,7 @@ objectPoint =
 ![](./images/camera_matrix.png)
 
 
-On the duckiebot, we were able to use the parameters from the calibration file, but for the simulation we tried different combination of parameters since we don’t know the exact values. This led to the error in our pose estimation and we are going to discuss it in results.
+On the duckiebot, we were able to use the parameters from the calibration file, but for the simulation, we tried different combinations of parameters since we don’t know the exact values. This led to the error in our pose estimation. We are going to discuss it in the results.
 
 <p>&nbsp;</p>
 
@@ -274,7 +278,7 @@ The controller implemented could be summarized in the steps below:
 
 <p>&nbsp;</p>
 
-The steps one and two could be performed several times since while the step three  is performed just once when we achieve our target distance. In the case where the pose is perfecly estimated, we could represent by this drawing:
+The steps one and two could be performed several times  while the step three is performed just once when we achieve our target distance. In the case where the pose is perfecly estimated, we could represent by this drawing:
 
 
 ![](./images/bob.png)
@@ -290,11 +294,11 @@ In order to better understand the next flowchart, the variables and parameters a
 -	**distance**:				distance between our bot and the target. The target is at a certain distance behind the bumper. 
 -	**angle to target**:			angle between our bot and the target. 
 -	**angle to goal pose**:			angle between our bot and the bumper.
--	**V_constant**:				constant linear velocity
+-	**V_constant**:				constant linear velocity.
 -	**W_constant**:				constant angular velocity
--	**threshold distance**:			distance below which we achieve our task
--	**threshold angle**:			angle below which we achieve our task
--	**threshold pure pursuit distance**:	distance that allows to pursue a moving target
+-	**threshold distance**:			distance below which we achieve our task.
+-	**threshold angle**:			angle below which we achieve our task.
+-	**threshold pure pursuit distance**:	distance that allows to pursue a moving target.
 
 ![](./images/controller_2.png)
 
@@ -310,7 +314,7 @@ These are the main components for the duckiebot system.
 * *config.py* contains the configuration values
 * *lane_controller_node.py* is the main script that puts the estimation.py and control.py together
 * *estimation.py* contains everything that is related to estimating the relative pose of the target point to the robot.
-* *control.py* contains everything that is related to generating the duckiebot commands from the pose estimation
+* *control.py* contains everything that is related to generating the duckiebot commands from the pose estimation.
 
 <p>&nbsp;</p>
 
@@ -326,10 +330,10 @@ The *lane_controller_node.py* is the script for the control node implemented. It
 
 <p>&nbsp;</p>
 
-The first two subscribers are used to get the camera image and the instrinsic camera parameters. They are necessary to estimate the position and orientation of our duckiebot with respect to the target. The last two are used to predict our position by using the robot kinematics in case we lose sight of our target. Once we have information about the target, we rely on this information, thus not using the predicted data. A Kalman filter would be a nice upgrade for future exploration.
+The first two subscribers are used to get the camera image and the intrinsic camera parameters. They are necessary to estimate the position and orientation of our duckiebot with respect to the target. The last two are used to predict our position by using the robot kinematics in case we lose sight of our target. Once we have information about the target, we rely on this information, thus not using the predicted data. A Kalman filter would be a nice upgrade for future exploration.
 
 
-Once the commands are given and the robot is moving, we process the new images. It is worth saying that we can control the movement of the robot also by controlling the keyboard as described below.
+Once the commands are given, and the robot is moving, we process the new images. It is worth saying that we can control the movement of the robot also by controlling the keyboard as described below.
 
 
 ![](./images/duckiebot_visual_servo_2.png)
@@ -380,7 +384,7 @@ We evaluate the performance of the controller by answering the questions:
 
 - Could it arrive at the right place with the right angle?
 - Was it stable?
-- How many steps it was required to get to the target?
+- How many steps are required to get to the target?
 - How far the calculated POSE is from the truth?
 
 <p>&nbsp;</p>
@@ -389,7 +393,7 @@ For the simulator we have two configurations:
 
 <p>&nbsp;</p>
 
-1. with the groud truth target POSE
+1. with the ground truth target POSE.
 2. with estimated POSE.
 
 <p>&nbsp;</p>
@@ -502,6 +506,9 @@ The robot POSE estimation was worse and as a result, our performance worsened a 
 ### Duckiebot - Performance/Results
 
 For the performance on the duckiebot we could not plot results, but here is what we noticed:
+
+<p>&nbsp;</p>
+
 -  We got good [results](https://www.youtube.com/watch?v=NsuGWjWAxIg);
 -  It could estimate our relative position and orientation better because we had the right camera parameters;
 -  It was able to go faster when the target was far and slow when it was closer;
@@ -513,7 +520,9 @@ For the performance on the duckiebot we could not plot results, but here is what
 
 We are, in general, satisfied with the results obtained, but many there are many other things that could be explored. Here is a list of suggestions:
 
+<p>&nbsp;</p>
+
 - One could try to get better parameters for the camera in the simulator by doing a calibration with images from the simulator;
 - One could implement a Kalman filter;
 - One could implement some restrictions to the motion. For example: the car can only move in the lane or avoid running over a duckie if it is in the way. No such restrictions are implemented;
-- A PID controller can be implemented;
+- A PID controller can be implemented.
