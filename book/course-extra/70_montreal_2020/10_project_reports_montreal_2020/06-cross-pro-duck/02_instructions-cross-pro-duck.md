@@ -70,7 +70,7 @@ Here, give step by step instructions to reproduce the demos shown in [the videos
 
 **Step 7:** To manually drive the robot through the checkpoints, simply follow the same procedure as in Step 6, however do not press <kbd>a</kbd>. You can simply use the arrow keys in the virtual joystick to drive the robot with the checkpoints being active. It is possible to switch into autonomous mode at any point by pressing <kbd>a</kbd> and to switch back to manual mode by pressing <kbd>s</kbd>. If you wish to stop checkpoints from being used, simply press <kbd>e</kbd> and then the <kbd>down</kbd> arrow in the virtual joystick.
 
-**Step 8**: Interested users are again referred to the topic `/agent/line_detector_node/debug/vs_lines_all/compressed` to monitor the state of the robot. The visualization displays all the detected yellow, red, and white. It also displays in green the lines or intersection points in blue that are being used to compute the transformation matrix.
+**Step 8**: Interested users are again referred to the topic `/agent/line_detector_node/debug/vs_lines_all/compressed` to monitor the state of the robot. The visualization displays all the detected yellow, red, and white lines. It also displays in green the lines or intersection points in blue that are being used to compute the transformation matrix.
 
 **Step 9**: Once finished, users can drive the robot back to the starting position to try again or load a different set of checkpoints by specifying its path in  parameter of `LineDetectorNode`'s config and restarting the agent.
 
@@ -91,7 +91,7 @@ In addition to the default set of checkpoints that we provide, it is easy to col
 
 Symptom: The Duckiebot did not follow the reference trajectory/checkpoints.
 
-Resolution: Unfortunately, our solution is not very robust right now and it is expected that the robot will occasionally irreversibly deviate from its intended path. If this happens, stop the robot by pressing the key <kbd>s</kbd> and drive back to the initial position to try again or try different checkpoints/maps/turns. It is strongly advised users try to manually run through checkpoints before engaging autonomous mode. Most of our successful experiments involve checkpoints for lane following, turning right or going straight at an intersection.
+Resolution: Unfortunately, our solution is not very robust right now and it is expected that the robot will occasionally irreversibly deviate from its intended path. If this happens, stop the robot by pressing the key <kbd>s</kbd> and drive back to the initial position to try again or try different checkpoints/maps/turns. It is strongly advised that users try to manually run through checkpoints before engaging autonomous mode. Most of our successful experiments involve checkpoints for lane following, turning right or going straight at an intersection.
 
 Symptom: The visual output gets stuck in the simulator.
 
