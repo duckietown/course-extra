@@ -130,12 +130,20 @@ With this strategy, in order to reach our goal we need 3 steps:
 
 As it is a closed loop control system, where the POSE of our objective is being updated with a certain frequency. Therefore, the controller is always looking to minimize the distance from something that may be stopped or moving.
 
+## Contribution / Added functionality {#duckling-controller-final-contribution}
 
-### Description {#duckling_controller-final-description}
+### Description {#duckling-controller-final-contribution-description}
+
+We implemented 2 architectures, one for the simulator and another for the duckiebot. They are similar in structure but different in their details. Both can estimate the position of our duckiebot in relation to the rear of the other, both predict the position of our duckiebot if we lose sight of the target and both are able to reach the desired target.
+However, they differ in the way they predict the duckiebot's position if we lose sight of the target: in duckiebot we use information from the encoder to predict where we are if we no longer see the target. They also differ in control: in the simulator or linear or angular speed is applied, never the 2 simultaneously. In duckiebot, the 2 are applied at the same time with a controller proportional to the error in distance and angle.
+We will explain in more detail below how the architecture and main features of the controller made in the simulator and duckiebot.
+
+
+### Simulator Description {#duckling_controller-final-description}
 
 This script is meant as a first exploration of using visual servoing to control the duckiebot. The visual servo package that can be installed on the duckiebot contains some improvements on this script but we decided to provide these files as a sandbox to experiment new ideas.
 
-### Architecture {#duckling_controller-final-architecture}
+### Simulator Architecture {#duckling_controller-final-architecture}
 
 Here are the main components of this project.
 
@@ -309,7 +317,7 @@ Initial position
 
 Final position
 
-[](./images/ground1.png){:height="36px" width="36px"}
+[](./images/ground1.png)
 
 [](./images/ground2.png)
 
