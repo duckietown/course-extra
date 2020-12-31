@@ -62,7 +62,7 @@ Here, give step by step instructions to reproduce the demos shown in [the videos
 
 **Step 3:** Run `dts exercises test --sim --pull` command. You should initially see the Duckietown shell pulling the latest Docker images. Once that is done, the shell will launch the ROS interface and the agent. 
 
-**Step 4**: The agent can be controlled via the noVNC2 web app hosted by default at [localhost:8087](localhost:8087). Launch the virtual joystick app by running `dt-launcher-joystick` in the noVNC2 command prompt to control the robot. The robot's current view can be visualized in `RQT Image View` on topic `/agent/camera_node/image/compressed`. The detected lines can be viewed on topic `/agent/line_detector_node/debug/vs_lines_all/compressed`.
+**Step 4**: The agent can be controlled via the noVNC2 web app hosted by default at [localhost:8087](localhost:8087). Launch the virtual joystick app by running `dt-launcher-joystick` in the noVNC2 command prompt to control the robot. The robot's current view can be visualized in `RQT Image View` on topic `/agent/camera_node/image/compressed`. The detected lines can be viewed on topic `/agent/line_detector_node/debug/vs_lines_all/compressed` as shown in the demo videos above.
 
 **Step 5**: For the purpose of this demonstration, the user is expected to drive the Duckiebot to a point from where the checkpoint image is visible. For an intersection crossing, this means driving the bot right in front of the red line until the red line to the right of you is visible. For lane following/red line approach the bot simply needs to be in a lane. This is to ensure that the target image is visible from the current view which is a requirement of the Visual Servoing algorithm.
 
