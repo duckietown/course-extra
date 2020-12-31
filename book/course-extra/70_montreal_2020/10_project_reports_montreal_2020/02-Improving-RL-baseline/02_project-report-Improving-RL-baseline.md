@@ -163,9 +163,14 @@ The dataset generation script has the following options available in addition to
 You can find instructions to collect the dataset in the [instructions](TODO: add link to instructions paragraph).
 
 ### DAE 
-We first train the DAE for 2400 epochs, with learning rate 0.001 and adam optimizer. We choose the  
+We first train the DAE for 2400 epochs, with learning rate 0.001 and adam optimizer.   
 The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations.
 The network is trained on images of size 280 x 320 pixels. 
+
+<figure>
+    <figcaption>Samples of original image (left) and reconstruction by the DAE (right)</figcaption>
+    <img style='width:20em' src="./figures/dae_sample.png"/>
+</figure>
 
 ### Beta VAE
 
