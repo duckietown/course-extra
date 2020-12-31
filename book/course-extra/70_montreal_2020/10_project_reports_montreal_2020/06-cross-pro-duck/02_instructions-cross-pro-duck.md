@@ -81,11 +81,7 @@ In addition to the default set of checkpoints that we provide, it is easy to col
 
 **Step 2**: Perform Steps 2 - 4 of the previous section
 
-**Step 3**: Using the joystick, drive to the locations that you want to save as checkpoints. At each intended location, run
-
-docker exec -it $(docker ps -aqf "name=^agent$") /bin/bash /code/exercise_ws/src/checkpoint.sh
-
-or press <kbd>e</kbd> and then the <kbd>left</kbd> arrow in the virtual joystick to save the current image as a checkpoint. Repeat this step until all the checkpoints have been captured. At each save, you should see an stdout message like "Saved checkpoint with id xxxxxxxx. Total checkpoints: 3."
+**Step 3**: Using the joystick, drive to the locations that you want to save as checkpoints. At each intended location, run `docker exec -it $(docker ps -aqf "name=^agent$") /bin/bash /code/exercise_ws/src/checkpoint.sh` or press <kbd>e</kbd> and then the <kbd>left</kbd> arrow in the virtual joystick to save the current image as a checkpoint. Repeat this step until all the checkpoints have been captured. At each save, you should see an stdout message like "Saved checkpoint with id xxxxxxxx. Total checkpoints: 3."
 
 **Step 4**: Run `docker exec -it $(docker ps -aqf "name=^agent$") /bin/bash /code/exercise_ws/src/checkpoints_to_disk.sh`or <kbd>e</kbd> and then the <kbd>right</kbd> arrow in the virtual joystick to save all the collected checkpoints to disk. To load the checkpoints in future, simply set the `checkpoints_path` parameter to the path printed in the output of the command.
 
