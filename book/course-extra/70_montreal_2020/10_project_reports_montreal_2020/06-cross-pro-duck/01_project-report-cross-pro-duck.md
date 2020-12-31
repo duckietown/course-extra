@@ -273,7 +273,7 @@ Qualitatively, the presented algorithm can serve as a proof of concept that visu
 
 Unfortunately, due to the issues outlined throughout this report and the required next steps, the algorithm does not currently perform robustly enough. A likely reason is the inconsistency of the line detection and mismatches happening due to a lack of checks and balances. For example, the algorithm will sometimes match a corner that is off the visible screen, which is clearly not a good match. These checks and balances are only found during testing, and we unfortunately ran out of time to implement all of them. 
 
-Nonetheless, the feasibility of this approach has been proven and it is hoped that subsequent work will occur to implement the next steps listed below. For some fun failure videos, please refer to [this instructions section]{#demo-cross-pro-duck-failure} for some fun failure videos!
+Nonetheless, the feasibility of this approach has been proven and it is hoped that subsequent work will occur to implement the next steps listed below. Please refer to [this instructions section]{#demo-cross-pro-duck-failure} for some fun failure videos!
 
 
 ## Future avenues of development {#cross-pro-duck-final-next-steps}
