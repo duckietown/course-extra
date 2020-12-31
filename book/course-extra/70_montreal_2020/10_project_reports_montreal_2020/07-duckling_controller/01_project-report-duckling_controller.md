@@ -271,16 +271,71 @@ to run the visual servo script, move inside the visual_servo directory and run:
 
 you can set the logging level to debug by adding the `--debug` flag. This will allow you to see additional information generated for debugging purposes
 
+### Known problems {#duckling_controller-final-problems}
+
+The estimation of the pose is not very precise at the moment. This is due to bad camera parameters. We did not succeed in finding the right parameters to use. You can see some of our tries in the estimation.py file, where each camera_mode was a guess about a way to get the right values.
 
 ## Formal performance evaluation / Results {#duckling_controller-final-formal}
 
-_Be rigorous!_
+We evaluate the performance of the controller by answering the questions:
 
-- For each of the tasks you defined in you problem formulation, provide quantitative results (i.e., the evaluation of the previously introduced performance metrics)
-- Compare your results to the success targets. Explain successes or failures.
-- Compare your results to the "state of the art" / previous implementation where relevant. Explain failure / success.
-- Include an explanation / discussion of the results. Where things (as / better than / worst than) you expected? What were the biggest challenges?
+<p>&nbsp;</p>
+
+- Could it arrive at the right place with the right angle?
+- Was it stable?
+- How many steps it was required to get to the target?
+- How far the calculated POSE is from the truth?
+
+<p>&nbsp;</p>
+
+For the simulator we have 2 configurations: 
+
+<p>&nbsp;</p>
+
+1. with the ground truth target POSE
+2. with estimated POSE.
+
+## With the ground truth target POSE
+
+Since we have the ground truth position, we can evaluate just the controler by setting the target at certain distance of the bumper. 
+
+In this case, the controller worked the way we expected. Our duckiebot is able to rotate, go to the target and then, rotate back to be aligned with the bumper within few update steps.
+
+![](./images/ground0.png)
+
+Initial position
+
+![](./images/ground4.png)
+
+Final position
+
+[](./images/ground1.png){:height="36px" width="36px"}
+
+[](./images/ground2.png)
+
+[](./images/ground3.png)
+
+## With estimated POSE
+
+In this case, it able to get to the target, but we have some errors in the pose estimation. Probably due to the camera parameters in the simulation. We tried with differents ones and the following results is the best we got.
+
+![plot](./images/estimated0.png)
+
+Initial position
+
+![plot](./images/estimated5.png)
+
+Final position
+
+![plot](./images/estimated1.png)
+
+![plot](./images/estimated2.png)
+
+![plot](./images/estimated3.png)
+
+
+### Performance on the duckiebot
+
 
 ## Future avenues of development {#duckling_controller-final-next-steps}
 
-_Is there something you think still needs to be done or could be improved? List it here, and be specific!_
