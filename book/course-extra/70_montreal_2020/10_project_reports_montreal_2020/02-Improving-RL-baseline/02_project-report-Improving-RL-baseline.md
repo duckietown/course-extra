@@ -78,7 +78,7 @@ DAEs are modified autoencoders where the input is partially corrupted by adding 
 In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution.  
 <figure>
     <figcaption>VAE with the multivariate Gaussian assumption ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
-    <img style='width:15em' src="./figures/vae.png"/>
+    <img style='width:18em' src="./figures/vae.png"/>
 </figure>
 The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean and variances for the latent vectors distribution. Then latent vector $\mathbf{z}$ corresponding to input $\mathbf{x}$  is obtained by sampling :
 \[
@@ -94,14 +94,14 @@ $\beta$-VAEs are a modification of VAEs to force the disentanglement of latent f
 For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken.
 
 ### RL agent
-TODO: add the basics of an RL setup (link to duckibook if it talk about it)
-Agent, Environment, Actions, Policy, Learning from examples.
 
 In a RL framework, the goal is to maximize the expected cumulative reward following a policy. In Duckietown, the reward is defined with collistion avoidance and lane deviation penalties, as well as a function of speed and lane pose for a positive reward. 
 In the Q-learning setting, an action-value function $Q$ estimates how good a certain action is, given a state, for an agent following a policy. The optimal Q-value function ($Q^*$) is such that the reward is maximized from a given state-action pair by any policy.
 Finding the optimal policy corresponds to taking the best action as defined by $Q^*$ at each time step.
 
 In deep Q-learning, a deep neural network is used to approximate the $Q$ function. 
+
+For a DDPG algorithm, both the optimal Q function and the optimal action function are approximated. 
 
 Have a look at the [RL section of the duckiebook](https://docs.duckietown.org/daffy/AIDO/out/embodied_rl.html). 
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
