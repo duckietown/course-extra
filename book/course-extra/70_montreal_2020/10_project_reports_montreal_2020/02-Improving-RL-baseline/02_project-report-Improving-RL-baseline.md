@@ -49,7 +49,7 @@ Limitations of such pure RL models might include the lack of computing power sin
 
 Moreover, the agent is trained in the Duckietown simulator, and there is no guarantee that transferring from sim to real will be successful with this approach.
 
-#### Contribution{#improving-rl-baseline-final-opportunity-contribution}
+#### Contribution {#improving-rl-baseline-final-opportunity-contribution}
 
 We propose to implement and train a DARLA [](#bib:higgins2018darla).  
 There are three steps to follow: 
@@ -125,17 +125,19 @@ The objective function of the $\beta$-VAE is:
 \[
     \mathcal{L}(\theta, \phi, \mathbf{x},\mathbf{z}, \beta) = \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
+
 where $\theta, \phi$ are the parameters of the encoder and decoder resp.
 
 In our setting, we write this function as: 
 \[
     \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}||J(\mathbf{\widehat{x}}) - J(\mathbf{x})||_2^2 - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
+
 where $J$ corresponds to passing the imput image in the trained DAE up to a chosen layer. 
 
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
 
-Denoting $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mathbf{z} | \mu, \sigma)$ the encoder distribution, and given the latent prior $p(\mathbf{z}) = \mathcal{N}(), I)$, the KL divergence can be expressed as:
+Denoting $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mathbf{z} | \mu, \sigma)$ the encoder distribution, and given the latent prior $p(\mathbf{z}) = \mathcal{N}(0, I)$, the KL divergence can be expressed as:
 \[
   \dfrac{1}{2}\left ( \sum_{i} \mu_i^2 + \sigma_i^2 - (1 + \log \sigma_i^2) \right )  
 \]
@@ -157,10 +159,10 @@ The dataset generation script has the following options available in addition to
 
 <figure>
     <figcaption>Dataset samples</figcaption>
-    <img style='width:20em' src="./figures/dataset_sample.png"/>
+    <img style='width:22em' src="./figures/dataset_sample.png"/>
 </figure>
 
-You can find instructions to collect the dataset in the [instructions](TODO: add link to instructions paragraph).
+You can find instructions to collect the dataset in the [instructions](+02_instructions-Improving-RL-baseline#collect-dataset-improving-rl-baseline-run).
 
 ### DAE 
 We first train the DAE for 2400 epochs, with learning rate 0.001 and adam optimizer.   
@@ -181,6 +183,23 @@ We compute the perceptual similarity loss term using the outputs of our previous
 
 We also train a $\beta$-VAE with the original images as targets. 
 
+We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
+The model was able to roughly reconstruct some lines but still output grayscale like images. 
+
+<figure>
+    <figcaption>Samples of inputs and the VAE for  64*64 input size outputs </figcaption>
+    <img style='width:20em' src="./figures/small_vae.png"/>
+</figure>
+
+Leaving the colorjittering transformations out of the data processing with the same model, we were able to produce color reconstructions. We did not push the training of this model too far as we then wanted to try the same setting on larger input images. However, we might want to revert to a smaller inputs setting in future experiments. 
+
+<figure>
+    <figcaption>Samples of inputs and the VAE for  64*64 input size outputs without color jittering after 5 epochs</figcaption>
+    <img style='width:20em' src="./figures/small_color_vae.png"/>
+</figure>
+
+These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
+
 ### RL agent 
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
@@ -196,9 +215,9 @@ We also train a $\beta$-VAE with the original images as targets.
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
 
-_Is there something you think still needs to be done or could be improved? List it here, and be specific!_
+The first step would be to complete the search for an untangled representation and then try using it to train the RL agent.
+One way to go would be to start with a model taking 64*64 images as it seemed like the most promising run of VAE, and then, maybe 
 
-Completing the search for an untangled representation and then try using it to train the RL agent.
-Reward function
+Depending on the performance of the agent, it could also be interesting to investigate the reward function.
 
 &lt;div id="./bibliography.bib"&gt;&lt;/div&gt;
