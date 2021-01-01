@@ -7,7 +7,11 @@ All of the work was done in collaboration between Étienne Boucher (@lifetheater
 ## The final result {#improving-rl-baseline-final-result}
 
 ... they are not there yet 
-TODO: put some artsy vae stuff
+<figure>
+    <figcaption>Samples of original image (left) and reconstruction by the DAE (right)</figcaption>
+    <img style='width:20em' src="figures/dae_sample.png"/>
+</figure>
+
 
 You can find the [instructions to reproduce](#instructions-improving-rl-baseline) and the code is available on [Github](https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch/commits/darla).
 
@@ -159,9 +163,9 @@ The DDPG agent of the baseline is used both for time constraints and allowing a 
 
 ### Performance assessment
 
-We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task. Concretely, the process will be as follow.
+We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task. More precisely, the process will be as follow.
 
-1. We train the perceptual model of the DARLA, then we train its RL agent until it is able to follow the lane in the `straight_road` map of the gym Duckietown. Then, we setup a straight line in a real life tiles and run the DARLA on a Duckiebot and monitor both the distance travelled along the road and its distance to the center of the lane.
+1. We train the perceptual model of the DARLA, then we train its RL agent until it is able to follow the lane in the `straight_road` map of the gym Duckietown. Then, we set up a straight line in a real life tiles and run the DARLA on a Duckiebot and monitor both the distance travelled along the road and its distance to the center of the lane.
 
 2. We train the pure RL agent for the same duration that the DARLA was and we check if it can follow the lane in the `straight_road` map. If it does, we do the test and measurements on the real straight line.
 
@@ -171,7 +175,9 @@ If the pure RL agent in 2 fails to follow the straight road in the simulator, th
 
 If the pure RL agent in 3 fails to follow the straight road in the simulator, then we can approximately conclude that the DARLA agent did improve over the pure RL agent in term of data efficiency for the overall training, including the training of its perception model.
 
-For both training steps of the pure RL agent, if the DARLA stays in lane over a greater distance or if the mean of its distance to the center of the lane is inferior to that of the pure RL in case both succeeds to get to the end, then it will have improved its performance over the pure RL agent in domain adaptation. If DARLA beats pure RL agent in 3, then it would have beaten the pure RL methode in domain adaptation even with overall the same training time. But if it only beats the pure RL agent in 2, then it would have improved the domain adaptation for equivalent RL training time.
+For both training steps of the pure RL agent, if the DARLA stays in lane over a greater distance, or if the mean of its distance to the center of the lane is inferior to that of the pure RL (in the case when both succeed to get to the end), then it will have improved its performance over the pure RL agent in domain adaptation. 
+
+If DARLA beats the pure RL agent in 3, then it would have beaten the pure RL method in domain adaptation even with overall the same training time. But if it only beats the pure RL agent in 2, then we would conclude it has improved the domain adaptation for equivalent RL training time.
 
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
 
@@ -179,13 +185,13 @@ Overall, this can be divided into two main sections, the dataset generation and 
 
 For the training of the perception model, we approximately used the following protocol:
 
-1. Train the DAE until the loss stabilize.
-2. Check that images a really reconstructed by the DAE. If they are, go to step 3. Otherwise, increase the network complexity and go to step 1.
-3. Train the $beta$-VAE until the loss stabilize.
-4. Check that images a really reconstructed by the VAE. If they are, go to step 5. Otherwise, increase the network complexity and go to step 3. If, after increasing the network complexity, increase the latent space dimension. After increasing the latent space dimension, if there is no significant improvement in image reconstruction, try reducing $beta$.
-5. Visualize the traversals and check if each dimension represent a specific generative factor. If not, increase $beta$ or decrease the number of dimensions in the latent space depending on what have been done in 4 and go to step 3.
+1. Train the DAE until the loss stabilizes.
+2. Check that images are really reconstructed by the DAE. If they are, go to step 3. Otherwise, increase the network complexity and go to step 1.
+3. Train the $beta$-VAE until the loss stabilizes.
+4. Check that images are really reconstructed by the VAE. If they are, go to step 5. Otherwise, increase the network complexity and go to step 3. If, after increasing the network complexity, increase the latent space dimension. After increasing the latent space dimension, if there is no significant improvement in image reconstruction, try reducing $beta$.
+5. Visualize the traversals and check whether each dimension represent a specific generative factor. If not, increase $beta$ or decrease the number of dimensions in the latent space depending on what has been done in 4 and go to step 3.
 
-For all the training sessions of both the DAE and $beta$-VAE, the images were resized to 240 x 320 pixels. The images were corrupted on runtime by randomly masking a rectangular area and applying a random color jittering transformation.
+For all the training sessions of both the DAE and $beta$-VAE, the images were resized to 240 x 320 pixels. The images were corrupted at runtime by randomly masking a rectangular area and applying a random color jittering transformation.
 
 ### Dataset 
 
@@ -209,7 +215,7 @@ You can find instructions to collect the dataset in the [instructions](#demo-imp
 
 ### Neural network architectures
 
-Until mentionned otherwise, the neural network architectures used were the ones described in the appendix A.3.1 and A.3.2 of the DARLA article [](#bib:higgins2018darla) almost as is.
+Unless mentioned otherwise, the neural network architectures used were the ones described in the appendix A.3.1 and A.3.2 of the DARLA article [](#bib:higgins2018darla) almost as is.
 
 For the DAE, the encoder was composed of four convolution layers with 32, 32, 64, 64 filters respectively. They all have a kernel size of 4 and a stride of 2. The encoder was bottlenecked by a fully connected of 128 neurons. Finally, the decoder on top of the dense layer was composed of 4 transposed convolution layers also all with kernel size of 4 and stride of 2 and with number of filters of 64, 64, 32, 32 respectively. ReLu non linearity was used after the convolution layers of the decoder and before the transposed convolution layers of the decoder.
 
@@ -286,15 +292,7 @@ TODO: intégrer la légende suivante à tout les titre suivant qui corespondent
 '23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
 
 
-<figure>
-    <figcaption>Samples of original image (left) and reconstruction by the DAE (right)</figcaption>
-    <img style='width:20em' src="figures/dae_sample.png"/>
-</figure>
-
 ### Beta VAE
-
-We train the $\beta_{DAE}$-VAE 
-We also train a $\beta$-VAE with the original images as targets. 
 
 We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
 The model was able to roughly reconstruct some lines but still output grayscale like images. 
@@ -313,8 +311,6 @@ Leaving the colorjittering transformations out of the data processing with the s
 
 These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
 
-TODO: link to experiment.
-
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
 ### Beta Variational Auto Encoder
@@ -328,20 +324,14 @@ TODO: add the graph of the dae loss of the run of the 23 (https://www.comet.ml/m
 We can see the 1st plateau... see coresponding figure above... at 300 gray, while at 600 after the drop, in color.
 
 
-We didn't get to trying to train the RL part of DARLA, so we don't really have what was required to make the measure we planned. So we cannot really assess the success in that manner.
+We didn't get to trying to train the RL part of DARLA, so we don't really have what was required to assess the performance of our model as outlined previously.
 
 Instead, we have set the basis and infrastructure for future work in that direction.
-
-- For each of the tasks you defined in you problem formulation, provide quantitative results (i.e., the evaluation of the previously introduced performance metrics)
-- Compare your results to the success targets. Explain successes or failures.
-- Compare your results to the "state of the art" / previous implementation where relevant. Explain failure / success.
-- Include an explanation / discussion of the results. Where things (as / better than / worst than) you expected? What were the biggest challenges?
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
 
 The first step would be to complete the search for an untangled representation and then try using it to train the RL agent.
-One way to go would be to start with a model taking 64*64 images as it seemed like the most promising run of VAE, and then, maybe 
-
-Depending on the performance of the agent, it could also be interesting to investigate reward shaping and other RL learning techniques like Rainbow DQN, TD3, and SAC.
+One way to go would be to start with a model taking 64*64 images as it seemed like the most promising run of VAE, and then,
+depending on the performance of the agent, it could also be interesting to investigate reward shaping and other RL learning techniques like Rainbow DQN, TD3, and SAC.
 
 <div id="./bibliography.bib"></div>
