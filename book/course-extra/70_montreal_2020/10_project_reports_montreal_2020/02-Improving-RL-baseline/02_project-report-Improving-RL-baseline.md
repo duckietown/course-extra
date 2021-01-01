@@ -13,11 +13,11 @@ You can find the [instructions to reproduce](#instructions-improving-rl-baseline
 
 ## Mission and Scope {#improving-rl-baseline-final-scope}
 
-The goal of this project is to improve the RL baseline in Duckietown by implementing a DARLA (DisentAngled Representation Learning Agent). At the end of the project, we hope to have done the implementation of the DARLA architecture and do some training of the agent in the simulator. 
+The goal of this project was to improve the RL baseline in Duckietown by implementing a DARLA (DisentAngled Representation Learning Agent). At the end of the project, we hoped to have done the implementation of the DARLA architecture and some training of the agent in the simulator. 
 
 ### Motivation {#improving-rl-baseline-final-result-motivation}
 
-So far, two main approaches have been explored to control duckiebots : classical robotics methods and pure RL approaches.
+So far, two main approaches have been explored to control Duckiebots : classical robotics methods and pure RL approaches.
 
 - **Classical robotics methods** work well when the state information from the camera feed is correct and can be interpreted in a meaningful way. However, they often require careful tuning of the parameters depending on the duckie / the environment (e.g. color range for line segments when the lighting conditions change) . 
 
@@ -47,8 +47,9 @@ Moreover, the agent is trained in the Duckietown simulator, and there is no guar
 
 #### Contribution {#improving-rl-baseline-final-opportunity-contribution}
 
-We propose to implement and train a DARLA [](#bib:higgins2018darla).  
-There are three steps to follow: 
+To adress these issues, we implemented a DARLA [](#bib:higgins2018darla).
+
+There are three steps to follow to train a DARLA: 
 
 - **Learn to see**: solve the perception task. The goal is to learn a disentangled representation of the environment to be robust to domain shifts and more importantly to have a representation of the most important "concepts" present in the image that the RL agent will be able to use directly.
 
@@ -56,25 +57,31 @@ There are three steps to follow:
 
 - **Transfer**: evaluate on new target domain without retraining.
 
-This approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transfered to new domains without further training. Instead of feeding the camera images directly to the RL model, we project it to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. The idea is that the latent features should be representative of the environment, and in this approach, not dependent on the details of the domain. 
+We achieved to implement a DARLA and produce the infrastructure required to explore different designs of the perception model. Doing so, we set the basis for future work to find the right perception configuration in the context of Duckietown.
+
+The DARLA approach is particularly interesting for Duckietown because of the domain shifts due to the variation of parameters in the simulator or the sim2real gap. Indeed, Higgins et al. argue that if a good disentangled representation of the environment is learned, the model can be transfered to new domains without further training. Instead of feeding the camera images directly to the RL model, we project it to a latent state space expressed in terms of factorised data generative factors and use this projection as the input for the RL agent training. The idea is that the latent features should be representative of the meaningful component of the environment, and not dependent on the details of the domain.
 
 ## Background and Preliminaries {#improving-rl-baseline-final-preliminaries}
 
+Different neural network models are proposed to be used jointly within the DARLA training. They are the Denoising Autoencoder (DAE), $\beta$ Variational Autoencoder ($\beta$-VAE) and a deep RL agent.
+
 ### Denoising Autoencoder (DAE)
-An autoencoder is a neural network designed to learn an identity function in an unsupervised way. It consists of: 
-- an encoder that compresses the input data into a latent lower-dimensional representation
-- a decoder that reconstructs the original input data from the latent vector. 
+
+An autoencoder is a neural network designed to learn an identity function in an unsupervised way. It consists of two parts.
+
+- An encoder that compresses the input data into a latent lower-dimensional representation
+- A decoder that reconstructs the original input data from the latent vector. 
 
 DAEs are modified autoencoders where the input is partially corrupted by adding noise to or masking some values of the input vector in a stochastic manner to prevent the network from overfitting and thus to improve the robustness. 
 <figure>
     <figcaption>DAE model ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
-    <img style='width:20em' src="./figures/vae.png"/>
+    <img style='width:20em' src="figures/dae.png"/>
 </figure>
 ### Variational Autoencoder (VAE)
 In variational autoencoders, the encoder and decoder are probabilistic. Instead of mapping the input into a fixed vector, we parameterize the encoder and decoder distributions as gaussians and sample the latent vector from the encoder distribution.  
 <figure>
     <figcaption>VAE with the multivariate Gaussian assumption ([ref](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html)).</figcaption>
-    <img style='width:18em' src="./figures/vae.png"/>
+    <img style='width:18em' src="figures/vae.png"/>
 </figure>
 The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean and variances for the latent vectors distribution. Then latent vector $\mathbf{z}$ corresponding to input $\mathbf{x}$  is obtained by sampling :
 \[
@@ -82,10 +89,11 @@ The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean a
 \]
 where $\epsilon \sim \mathcal{N}(0,I)$
 
-Then, the decoder reconstructs from the sampled latent vector.
+Then, the decoder reconstructs the input from the sampled latent vector.
+
 ### $\beta$-VAE
 
-$\beta$-VAEs are a modification of VAEs to force the disentanglement of latent factors, meaning each variable in the latent representation only depends on one generative factor. 
+$\beta$-VAEs add a modulation factor to the VAEs to force the disentanglement of latent variables, meaning each variable in the latent representation only depends on one generative factor. 
 
 For more details, we suggest you to refer to [this very good blogpost](https://lilianweng.github.io/lil-log/2018/08/12/from-autoencoder-to-beta-vae.html) from which the autoencoders drawings used in this section were taken.
 
@@ -100,31 +108,35 @@ In deep Q-learning, a deep neural network is used to approximate the $Q$ functio
 For a DDPG algorithm, both the optimal Q function and the optimal action function are approximated. 
 
 Have a look at the [RL section of the duckiebook](https://docs.duckietown.org/daffy/AIDO/out/embodied_rl.html). 
+
 ## Definition of the problem {#improving-rl-baseline-final-problem-def}
 
-We follow the method proposed in [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it. 
-We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task.
+We follow the method proposed in the original DARLA paper [](#bib:higgins2018darla) and train a perceptual model to learn a disentangled representation of the environment before training a RL agent on top of it.
  
 ### Model architecture
+
 <figure>
     <figcaption>DARLA architecture [](#bib:higgins2018darla): in grey, the RL module;  in blue, the $\beta$-VAE perceptual module, in yellow, the auxiliary DAE to get targets on which to train the $\beta$-VAE. $\theta$ and $\phi$ parameterize the decoder and encoder of the $\beta$-VAE.</figcaption>
-    <img style='width:15em' src="./figures/darla_architecture.png"/>
+    <img style='width:15em' src="figures/darla_architecture.png"/>
 </figure>
 
 #### Perceptual module
-The perceptual module consists of a $\beta_{DAE}$-VAE . 
-The output of the encoder $s$ is what is fed to the RL model. 
-We train a $\beta$-VAE using targets in the feature space, obtained with a $DAE$
+
+The perceptual module consists of a $\beta-VAE_{DAE}$ . 
+The output of the encoder $s^z$ is what is fed to the RL model. 
+We train a $\beta-VAE$ using targets in the feature space, obtained with a $DAE$
 trained on the same set of images in a previous step. 
 
 The objective function of the $\beta$-VAE is: 
+
 \[
     \mathcal{L}(\theta, \phi, \mathbf{x},\mathbf{z}, \beta) = \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
 
-where $\theta, \phi$ are the parameters of the encoder and decoder resp.
+where $\theta, \phi$ are the parameters of the encoder and decoder respectively.
 
 In our setting, we write this function as: 
+
 \[
     \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}||J(\mathbf{\widehat{x}}) - J(\mathbf{x})||_2^2 - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
@@ -134,40 +146,149 @@ where $J$ corresponds to passing the imput image in the trained DAE up to a chos
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
 
 Denoting $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\mathbf{z} | \mu, \sigma)$ the encoder distribution, and given the latent prior $p(\mathbf{z}) = \mathcal{N}(0, I)$, the KL divergence can be expressed as:
+
 \[
   \dfrac{1}{2}\left ( \sum_{i} \mu_i^2 + \sigma_i^2 - (1 + \log \sigma_i^2) \right )  
 \]
+
 You can find the full derivation [here](https://arxiv.org/pdf/1907.08956.pdf).
+
 #### RL agent
-We use the DDPG agent of the baseline. 
+
+The DDPG agent of the baseline is used both for time constraints and allowing a direct comparison with the original pure RL agent. 
+
+### Performance assessment
+
+We assess the performance of our agent against the baseline in terms of number of episodes needed to solve the straight lane following task. Concretely, the process will be as follow.
+
+1. We train the perceptual model of the DARLA, then we train its RL agent until it is able to follow the lane in the `straight_road` map of the gym Duckietown. Then, we setup a straight line in a real life tiles and run the DARLA on a Duckiebot and monitor both the distance travelled along the road and its distance to the center of the lane.
+
+2. We train the pure RL agent for the same duration that the DARLA was and we check if it can follow the lane in the `straight_road` map. If it does, we do the test and measurements on the real straight line.
+
+3. No matter the previous results with the pure RL agent, we continue its training for the duration of the training of the perceptual model of the DARLA and then follow the same procedure as in 2.
+
+If the pure RL agent in 2 fails to follow the straight road in the simulator, then the DARLA agent did improve over the pure RL agent in term of data efficiency for the RL part of the training.
+
+If the pure RL agent in 3 fails to follow the straight road in the simulator, then we can approximately conclude that the DARLA agent did improve over the pure RL agent in term of data efficiency for the overall training, including the training of its perception model.
+
+For both training steps of the pure RL agent, if the DARLA stays in lane over a greater distance or if the mean of its distance to the center of the lane is inferior to that of the pure RL in case both succeeds to get to the end, then it will have improved its performance over the pure RL agent in domain adaptation. If DARLA beats pure RL agent in 3, then it would have beaten the pure RL methode in domain adaptation even with overall the same training time. But if it only beats the pure RL agent in 2, then it would have improved the domain adaptation for equivalent RL training time.
 
 ## Contribution / Added functionality {#improving-rl-baseline-final-contribution}
 
+Overall, this can be divided into two main sections, the dataset generation and the perception model training.
+
+For the training of the perception model, we approximately used the following protocol:
+
+1. Train the DAE until the loss stabilize.
+2. Check that images a really reconstructed by the DAE. If they are, go to step 3. Otherwise, increase the network complexity and go to step 1.
+3. Train the $beta$-VAE until the loss stabilize.
+4. Check that images a really reconstructed by the VAE. If they are, go to step 5. Otherwise, increase the network complexity and go to step 3. If, after increasing the network complexity, increase the latent space dimension. After increasing the latent space dimension, if there is no significant improvement in image reconstruction, try reducing $beta$.
+5. Visualize the traversals and check if each dimension represent a specific generative factor. If not, increase $beta$ or decrease the number of dimensions in the latent space depending on what have been done in 4 and go to step 3.
+
+For all the training sessions of both the DAE and $beta$-VAE, the images were resized to 240 x 320 pixels. The images were corrupted on runtime by randomly masking a rectangular area and applying a random color jittering transformation.
+
 ### Dataset 
 
-We created a custom map containing every object mesh and every type of tile available in the Duckietown simulator. Along with the map, we created a script to generate datasets. Then, we collected 6000 images in the Duckietown gym simulator, positioning and orienting the duckiebot randomly on the drivable tiles.
+We created a custom map containing every object mesh and every type of tile available in the Duckietown simulator. Along with the map, we created a script to generate datasets. Then, we collected 6000 images in the Duckietown gym simulator, positioning and orienting the Duckiebot randomly on the drivable tiles.
 
 The dataset generation script has the following options available in addition to the options of the basic manual control script of the Duckietown gym:
-- dataset-size : number of images to generate
-- dataset-path : location to save the dataset
-- compress : save the images as a series of png pictures rather than npy file(s)
-- split : number of images per file (if used without --compress)
+
+Option | Description
+--- | ---
+`dataset-size` | number of images to generate
+`dataset-path` | location to save the dataset
+`compress` | save the images as a series of png pictures rather than npy file(s)
+`split` | number of images per file (if used without --compress)
 
 <figure>
     <figcaption>Dataset samples</figcaption>
-    <img style='width:22em' src="./figures/dataset_sample.png"/>
+    <img style='width:22em' src="figures/dataset_sample.png"/>
 </figure>
 
-You can find instructions to collect the dataset in the [instructions](+02_instructions-Improving-RL-baseline#collect-dataset-improving-rl-baseline-run).
+You can find instructions to collect the dataset in the [instructions](#demo-improving-rl-baseline-run).
 
-### DAE 
-We first train the DAE for 2400 epochs, with learning rate 0.001 and adam optimizer.   
-The input to the network are corrupted images from our simulated dataset by randomly masking a rectangular area, and we also add random color jittering transformations.
-The network is trained on images of size 280 x 320 pixels. 
+### Neural network architectures
+
+Until mentionned otherwise, the neural network architectures used were the ones described in the appendix A.3.1 and A.3.2 of the DARLA article [](#bib:higgins2018darla) almost as is.
+
+For the DAE, the encoder was composed of four convolution layers with 32, 32, 64, 64 filters respectively. They all have a kernel size of 4 and a stride of 2. The encoder was bottlenecked by a fully connected of 128 neurons. Finally, the decoder on top of the dense layer was composed of 4 transposed convolution layers also all with kernel size of 4 and stride of 2 and with number of filters of 64, 64, 32, 32 respectively. ReLu non linearity was used after the convolution layers of the decoder and before the transposed convolution layers of the decoder.
+
+The encoder of the $beta$-VAE was the same as the one of the DAE, but with a dense layer of 256 neurons on top of it. Then, the latent layer had 64 neurons parametrizing 32 gaussians. The decoder was the reverse of the encoder but using transposed convolution layers instead. Also, the last layer has 6 channels in output instead of 3 like the input. To get the image in output, a value was sampled from the the 3 gaussians parametrised by the 6 channels.
+
+### Training sessions
+
+For all our DAE training sessions, the learning rate was `0.001` and the optimizer was `adam`. 
+
+The first few training sessions were training both the DAE and the $beta$-VAE (learning rate of `0.0001` and `adam` optimizer). The figure below show the kind of result we got after those trainings.
+
+<figure>
+    <figcaption>Reconstruction of the image by the VAE after training over 450 epochs with a learning rate of `0.0001` and `adam` optimizer. On the left, we can see the original image. On the right is the image generated by the $beta$-VAE.</figcaption>
+    <img style='width:22em' src="figures/2_run_450_epochs_normalized.png"/>
+</figure>
+
+The fact that the colors were really out of the expected range, brought us to question the value of the color normalization that was made in the data loader. So, we tried to remove that normalization from the loader. From one training session, we got great reconstruction result from the DAE as we can see in the figures below.
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 300 epochs with a learning rate of `0.001` and `adam` optimizer. On the left, we can see the original image. On the right is the image generated by the DAE.</figcaption>
+    <img style='width:22em' src="figures/image_through_dae_epoch_300_before_drop.png"/>
+</figure>
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 600 epochs with a learning rate of `0.001` and `adam` optimizer. On the left, we can see the original image. On the right is the image generated by the DAE.</figcaption>
+    <img style='width:22em' src="figures/image_through_dae_epoch_600_after_drop.png
+    "/>
+</figure>
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 1200 epochs with a learning rate of `0.001` and `adam` optimizer. On the left, we can see the original image. On the right is the image generated by the DAE.</figcaption>
+    <img style='width:22em' src="figures/image_through_dae_epoch_1200_after_drop.png"/>
+</figure>
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer. On the left, we can see the original image. On the right is the image generated by the DAE.</figcaption>
+    <img style='width:22em' src="figures/image_through_dae_epoch_2400_after_drop.png"/>
+</figure>
+
+We can see great reconstruction of the images for that run. However, with another run over 1550 epoch in the same setting, the precision of the reconstruction became sharp, but it didn't become in color. But, having a well trained DAE, we used it to train the $beta$-VAE.
+
+TODO: intégrer la légende suivante à tout les titre suivant qui corespondent
+(1, 1) : originale
+(1, 2) : (1, 1) au travers du DAE
+(2, 1) : (1, 1) au travers du VAE
+(2, 2) : (2, 1) au travers du DAE
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by the $beta$-VAE after training over 900 epochs with a learning rate of `0.0001` and `adam` optimizer using the DAE for the loss. On the top left, we can see the original image. On the top right is ...</figcaption>
+    <img style='width:22em' src="figures/7_[VAE]_run_900_epoch_no_Norm_from_2400_dae.png"/>
+</figure>
+
+
+ 2_run_450_epochs_normalized
+ 3_run_600_epochs_normalized
+'4&5_[DAE]_run_600_and_1550_epochs_noNorm'
+'6_[VAE]_run_600_epochs_noNorm'
+
+'7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
+'8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
+'9_[VAE]_run_250_epoch_no_dae'
+'10_[VAE]_run_250_epoch_no_dae_dom_rand'
+'11_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask'
+'12_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask_lr_0_001'
+'14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output'
+'15_[VAE]_run_200_epoch_dense_ReLu_no_Gauss_output_no_dae'
+'16_[VAE]_from_15_run_50_epoch_move_ReLu_after_conv_trans'
+'17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm'
+'18_[VAE]_from_17_run_50_epoch_increase_filter_nb_batch_norm'
+'19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128'
+'20_[VAE]_from_19_run_100_epoch_beta_0'
+'21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20'
+'22_[VAE]_from_21_run_100_epoch_beta_4_lr_0.0005_no_dense'
+'23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
+
 
 <figure>
     <figcaption>Samples of original image (left) and reconstruction by the DAE (right)</figcaption>
-    <img style='width:20em' src="./figures/dae_sample.png"/>
+    <img style='width:20em' src="figures/dae_sample.png"/>
 </figure>
 
 ### Beta VAE
@@ -180,23 +301,36 @@ The model was able to roughly reconstruct some lines but still output grayscale 
 
 <figure>
     <figcaption>Samples of inputs and the VAE for  64*64 input size outputs </figcaption>
-    <img style='width:20em' src="./figures/small_vae.png"/>
+    <img style='width:20em' src="figures/small_vae.png"/>
 </figure>
 
 Leaving the colorjittering transformations out of the data processing with the same model, we were able to produce color reconstructions. We did not push the training of this model too far as we then wanted to try the same setting on larger input images. However, we might want to revert to a smaller inputs setting in future experiments. 
 
 <figure>
     <figcaption>Samples of inputs and the VAE for  64*64 input size outputs without color jittering after 5 epochs</figcaption>
-    <img style='width:20em' src="./figures/small_color_vae.png"/>
+    <img style='width:20em' src="figures/small_color_vae.png"/>
 </figure>
 
 These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
+
+TODO: link to experiment.
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
 ### Beta Variational Auto Encoder
 
-[TO DO : history of what we tried here maybe ?]
+TODO: add the graph of the dae loss of the run of the 23 (https://www.comet.ml/melisandeteng/darla/e8a63d8612c649d4a88000e2fcdf6ee4?experiment-tab=chart&showOutliers=true&smoothing=0&transformY=smoothing&xAxis=step)
+<figure>
+    <figcaption>Loss of the DAE after training over 1200 epochs with a learning rate of `0.001` and `adam` optimizer.</figcaption>
+    <img style='width:20em' src="figures/dae_train_loss_good_dae_run.svg"/>
+</figure>
+
+We can see the 1st plateau... see coresponding figure above... at 300 gray, while at 600 after the drop, in color.
+
+
+We didn't get to trying to train the RL part of DARLA, so we don't really have what was required to make the measure we planned. So we cannot really assess the success in that manner.
+
+Instead, we have set the basis and infrastructure for future work in that direction.
 
 - For each of the tasks you defined in you problem formulation, provide quantitative results (i.e., the evaluation of the previously introduced performance metrics)
 - Compare your results to the success targets. Explain successes or failures.
@@ -208,6 +342,6 @@ These experiments might hint that the normalization of input images should be ch
 The first step would be to complete the search for an untangled representation and then try using it to train the RL agent.
 One way to go would be to start with a model taking 64*64 images as it seemed like the most promising run of VAE, and then, maybe 
 
-Depending on the performance of the agent, it could also be interesting to investigate the reward function.
+Depending on the performance of the agent, it could also be interesting to investigate reward shaping and other RL learning techniques like Rainbow DQN, TD3, and SAC.
 
-&lt;div id="./bibliography.bib"&gt;&lt;/div&gt;
+<div id="./bibliography.bib"></div>
