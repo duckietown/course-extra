@@ -127,7 +127,7 @@ To reproduce our results, use the map we created by appending `--map-name $PWD/m
 
 Once the files are generated, if they were generated in png, `cd` in the folder that contain the images. Then, list then in a file.
 
-    laptop $ ls -d $PWD/* > train.txt
+    laptop $ ls -d $PWD/* > train.txt      
 
 Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:base` and assign the name of this file to the key `data:files:train` of config file you will use (`config/default.yaml` by default).
 
@@ -135,15 +135,15 @@ Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:ba
 
 Enter the DARLA directory.
 
-    laptop $ cd ../DARLA
+    laptop $ cd ../DARLA   
 
 If you chose to edit `config/defaults.yaml` directly, then you can launch the training with the following command.
 
-    laptop $ python train.py
+    laptop $ python train.py   
 
 If you chose to create a new configuration file let's say `custom.yaml`, then execute the following command instead.
 
-    laptop $ python train.py --config "./config/custom.yaml"
+    laptop    $ python train.py --config "./config/custom.yaml"
 
 There are different options available for the training of the $\beta$-VAE or the DAE.
 
