@@ -292,7 +292,7 @@ There are several parameters we considered and varied for the $\beta$-VAE traini
 '4-5_[DAE]_run_600_and_1550_epochs_noNorm'
 '6_[VAE]_run_600_epochs_noNorm'
 '7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
-'8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
+'8-13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
 '9_[VAE]_run_250_epoch_no_dae'
 '10_[VAE]_run_250_epoch_no_dae_dom_rand'
 '11_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask'
