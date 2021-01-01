@@ -119,11 +119,11 @@ Option | Description | Default value
 `compress` | save the images as a series of png pictures rather than npy file(s) | False
 `split` | number of images per file (if used without --compress) | 2000
 
-To reproduce our results, use the map we created by appending `--map-name $PWD/maps/dataset_generator.yaml` to the command. Later, you will need to have the images in png format, so you should use the flag `--compress`.
+To reproduce our results, use the map we created by appending `--map-name \$PWD/maps/dataset_generator.yaml` to the command. Later, you will need to have the images in png format, so you should use the flag `--compress`.
 
 Once the files are generated, if they were generated in png, `cd` in the folder that contain the images. Then, list then in a file.
 
-    laptop $ ls -d $PWD/* > train.txt
+    laptop $ ls -d \$PWD/* > train.txt      
 
 Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:base` and assign the name of this file to the key `data:files:train` of config file you will use (`config/default.yaml` by default).
 
@@ -131,15 +131,15 @@ Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:ba
 
 Enter the DARLA directory.
 
-    laptop $ cd ../DARLA
+    laptop $ cd ../DARLA   
 
 If you chose to edit `config/defaults.yaml` directly, then you can launch the training with the following command.
 
-    laptop $ python train.py
+    laptop $ python train.py   
 
 If you chose to create a new configuration file let's say `custom.yaml`, then execute the following command instead.
 
-    laptop $ python train.py --config "./config/custom.yaml"
+    laptop    $ python train.py --config "./config/custom.yaml"
 
 There are different options available for the training of the $\beta$-VAE or the DAE.
 

@@ -289,7 +289,7 @@ There are several parameters we considered and varied for the $\beta$-VAE traini
 #TODO: add conclusions about the various runs
  2_run_450_epochs_normalized
  3_run_600_epochs_normalized
-'4&5_[DAE]_run_600_and_1550_epochs_noNorm'
+'4-5_[DAE]_run_600_and_1550_epochs_noNorm'
 '6_[VAE]_run_600_epochs_noNorm'
 '7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
 '8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
@@ -346,7 +346,10 @@ Looking at the DAE reconstructions along the training, we notice that before the
 
 
 ### Overall results 
-We didn't get to trying to train the RL part of DARLA, so we did not get to assess the performance of our model follosing the process outlined exposed earlier. 
+While the DAE gave satisfactory results, we were not able to obtain a good beta-VAE model. Even after trying different strategies including smarter weight initialisation, increasing the number of filter and the dimension of the latent space, we couldn't get anything else than the grey sky with uniform dark ground. There might be some more parameter tuning to be done to be able to reconstruct colors and details. 
+Nonetheless, the runs on smaller images might hint that it might be worth trying to develop a model first on smaller images.
+
+We didn't get to trying to train the RL part of DARLA, so we did not get to assess the performance of our model following the process outlined exposed earlier. 
 Instead, we have set the basis and infrastructure for future work in that direction.
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
