@@ -18,7 +18,7 @@ For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
 
 For CycleGAN, please read this [README.md](https://github.com/mokleit/ift6757-gan/blob/main/README.md)
 
-For information on Neural Style Transfer, please read this [README.md] (https://github.com/aymanshams07/IFT6757_sim2real/blob/main/README.md)
+For information on Neural Style Transfer, please read this [README.md](https://github.com/aymanshams07/IFT6757_sim2real/blob/main/README.md)
 
 ## Mission and Scope {#sim2real-final-scope}
 
