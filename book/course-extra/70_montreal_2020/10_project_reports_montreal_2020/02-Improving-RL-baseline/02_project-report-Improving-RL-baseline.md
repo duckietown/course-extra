@@ -185,16 +185,9 @@ We also train a $\beta$-VAE with the original images as targets.
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
-### Denoising Auto Encoder
-
-We train the DAE on our simulated images dataset for XXX epochs. 
-something about the loss
-[IMAGE of some RECONSTRUCTIONS]
-_Be rigorous!_
-
 ### Beta Variational Auto Encoder
 
-[IMAGE of traversals]
+[TO DO : history of what we tried here maybe ?]
 
 - For each of the tasks you defined in you problem formulation, provide quantitative results (i.e., the evaluation of the previously introduced performance metrics)
 - Compare your results to the success targets. Explain successes or failures.
