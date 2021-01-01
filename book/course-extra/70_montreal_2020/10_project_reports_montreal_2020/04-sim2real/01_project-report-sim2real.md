@@ -18,7 +18,7 @@ For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
 
 For CycleGAN, please read this [README.md](https://github.com/mokleit/ift6757-gan/blob/main/README.md)
 
-For information on Neural Style Transfer, please read this [README.md (https://github.com/aymanshams07/IFT6757_sim2real/blob/main/README.md)
+For information on Neural Style Transfer, please read this [README.md] (https://github.com/aymanshams07/IFT6757_sim2real/blob/main/README.md)
 
 ## Mission and Scope {#sim2real-final-scope}
 
@@ -226,11 +226,12 @@ augmented with our models. Unfortunately, due to a lack of time, our attempt to 
 
 #### Neural Style Transfer
 Results : 
+Sim to real
 <figure align="center">
     <figcaption>Sim to real Stylized vavriational Loss</figcaption>
     <img style='width:30em' src="stylized_sim_to_real_variational_loss.png"/>
 </figure>
-
+Real to sim : 
 <figure align="center">
     <figcaption>Real to Sim Stylized image </figcaption>
     <img style='width:30em' src="stylized_real_to_sim.png"/>
@@ -243,11 +244,13 @@ Results :
 - Variational Loss (edge detector)
 - Scale Invariant Feature Descriptors- Motivation was to eliminate rotation ambiguity between key features between content and style images, detect features in low light conditions. Interedsting avenue to be explored is the idea of using image warping for sim-to-real transfer, to have a better one to one pairing and preserving content representation.
 
+Key point indicators : 
 <figure align="center">
     <figcaption>Key point indicators of simulator images</figcaption>
     <img style='width:30em' src="keypoint_indicators.png"/>
 </figure>
 
+Feature matching :
 <figure align="center">
     <figcaption>Feature matching using SIFT features</figcaption>
     <img style='width:30em' src="SIFT_feature_matching.png"/>
