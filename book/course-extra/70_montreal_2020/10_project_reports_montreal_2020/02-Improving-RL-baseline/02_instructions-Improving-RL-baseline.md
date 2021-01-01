@@ -6,7 +6,7 @@ Requires: Python 3.6+
 
 Requires: PyTorch 1.7.x
 
-Requires: access to a Nvidia GPU (locally or remotely)
+Requires: Access to a Nvidia GPU (locally or remotely)
 
 </div>
 
@@ -22,12 +22,11 @@ To test it, open a python session within your development environment.
 
 Then, import PyTorch and check if the GPU is available:
 
-```
-import torch
-"cuda" if torch.cuda.is_available() else "cpu"
-```
 
-If you get `cuda`, you're right to go. Otherwise, you have to check your PyTorch installation and be sure that you have a CUDA enabled version of PyTorch and that the required CUDA version matches the version of the library installed on your laptop. If you have to reinstall it, go on PyTorch website for [instructions](https://pytorch.org/get-started/locally/).
+    laptop >>> import torch
+    laptop >>> "cuda" if torch.cuda.is_available() else "cpu"
+
+If you get `cuda`, you're ready to go. Otherwise, you have to check your PyTorch installation and be sure that you have a CUDA enabled version of PyTorch and that the required CUDA version matches the version of the library installed on your laptop. If you have to reinstall it, go on PyTorch website for [instructions](https://pytorch.org/get-started/locally/).
 
 ## Duckietown setup notes {#demo-improving-rl-baseline-duckietown-setup}
 
@@ -35,45 +34,37 @@ Nothing special about the duckietown setup is required beforehand to reproduce t
 
 ## Duckiebot setup notes {#demo-improving-rl-baseline-duckiebot-setup}
 
-Nothing special was done with the duckiebot setup.
-
-## Pre-flight checklist {#demo-improving-rl-baseline-pre-flight}
-
-The code is in Python 3.6 and use PyTorch 1.7.1.
-
-## Instructions {#demo-improving-rl-baseline-run}
-
 ### Initializing the project directory
 
 To initialize the project directory follow the instructions below.
 
 Clone the project repo.
 
-    $ git clone https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch.git
+    laptop $ git clone https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch.git
 
 Get into the project directory.
 
-    $ cd challenge-aido_LF-baseline-RL-sim-pytorch
+    laptop $ cd challenge-aido_LF-baseline-RL-sim-pytorch
 
 Checkout the `darla` branch.
 
-    $ git checkout darla
+    laptop $ git checkout darla
 
 Install the requirements.
 
-    $ python3 -m pip install -r requirements.txt
+    laptop $ python3 -m pip install -r requirements.txt
  
  Then, initialize the submodules. 
 
-    $ git submodule init
-    $ git submodule 
-    $ update
+    laptop $ git submodule init
+    laptop $ git submodule 
+    laptop $ update
 
 ### Config file
 
-Enter the DARLA directory.
+Enter the `DARLA` directory.
 
-    $ cd DARLA
+    laptop $ cd DARLA
 
 You might want to copy the default configuration file `config/defaults.yaml` or edit the file directly.
 
@@ -99,17 +90,25 @@ If you want to use [Comet ml](https://www.comet.ml/) to visualize you training s
 
 Note: if you change the size in `shape`, set the same size in the resize transform section of the config file and set the `ignore` flag of this transform to `false`.
 
+## Pre-flight checklist {#demo-improving-rl-baseline-pre-flight}
+
+The code is in Python 3.6 and use PyTorch 1.7.1.
+
+## Instructions {#demo-improving-rl-baseline-run}
+
+First, will be the dataset generation. Then, will come the perceptual model training.
+
 ### Collecting your dataset
 
 To collect the dataset from the source of the project directory follow the instructions below.
 
 Enter the RL directory.
 
-    $ cd ../duckietown_rl
+    laptop $ cd duckietown_rl
 
 Generate the dataset.
 
-    $ python3 dataset_generator_control.py --env-name Duckietown-loop-empty
+    laptop $ python3 dataset_generator_control.py --env-name Duckietown-loop-empty
 
 The following options are also available.
 
@@ -124,7 +123,7 @@ To reproduce our results, use the map we created by appending `--map-name $PWD/m
 
 Once the files are generated, if they were generated in png, `cd` in the folder that contain the images. Then, list then in a file.
 
-    $ ls -d $PWD/* > train.txt
+    laptop $ ls -d $PWD/* > train.txt
 
 Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:base` and assign the name of this file to the key `data:files:train` of config file you will use (`config/default.yaml` by default).
 
@@ -132,15 +131,15 @@ Finally, copy `train.txt` in the directory designed by the keys ̀`data:files:ba
 
 Enter the DARLA directory.
 
-    $ cd ../DARLA
+    laptop $ cd ../DARLA
 
 If you chose to edit `config/defaults.yaml` directly, then you can launch the training with the following command.
 
-    $ python train.py
+    laptop $ python train.py
 
 If you chose to create a new configuration file let's say `custom.yaml`, then execute the following command instead.
 
-    $ python train.py --config "./config/custom.yaml"
+    laptop $ python train.py --config "./config/custom.yaml"
 
 There are different options available for the training of the $\beta$-VAE or the DAE.
 
