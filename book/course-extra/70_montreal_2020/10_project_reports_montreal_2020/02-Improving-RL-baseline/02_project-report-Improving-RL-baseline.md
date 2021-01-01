@@ -385,23 +385,29 @@ Along the way, in addition to the models, we developped interesting utilities th
 
 The small utility functions includes:
 
+- utils/model.py::genReLUCNN generates a sequential neural network with a convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
 
-File | Function | Description
---- | --- | ---
-utils/model.py | genReLUCNN | Generate a sequential neural network with a convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
-utils/model.py | genReLUCNNTranpose | Generate a sequential neural network with a transposed convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
-utils/model.py | outSizeCNN | Compute the output size of a sequence of convolution layers given the input size and there properties.
-utils/utils.py | tensor_to_PIL | Return the numpy array and the PIL image from an image Tensor.
-utils/utils.py | apply_random_mask | To be used with torchvision.transforms.Lambda to mask a random rectangular area of the image with random uniform color noise.
+- utils/model.py::genReLUCNNTranpose generates a sequential neural network with a transposed convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
 
+- utils/model.py::outSizeCNN computes the output size of a sequence of convolution layers given the input size and there properties.
+
+- utils/utils.py::tensor_to_PIL returns the numpy array and the PIL image from an image Tensor.
+
+- utils/utils.py::apply_random_mask is to be used with torchvision.transforms.Lambda to mask a random rectangular area of the image with random uniform color noise.
 
 The `outSizeCNN` function is useful to automatically set the appropriate padding in the decoder to match the encoder layers output dimensions.
 The `tensor_to_PIL` function can be really handy to easily visualize the output of the neural networks.
 
 In addition to `dataset_generator_control.py` that could be useful in a variety of other project, there are also two scripts that could be really useful to other that would use a similiar project structure.
 
+The first one is `explore_latent_space.py` that can either be use to visualize the output of the VAE or to visualize its traversals, which are the image generated from a particular state by varying each latent variable one at a time. Below is an example of traversals from the the Darla article.
 
+<figure>
+    <figcaption>Traversals on some of the 32 dimensions of the latent space.</figcaption>
+    <img style='width:20em' src="figures/Traversals2.png"/>
+</figure>
 
+The second script is `explore_dae.py` that can be used 
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 ### DAE
