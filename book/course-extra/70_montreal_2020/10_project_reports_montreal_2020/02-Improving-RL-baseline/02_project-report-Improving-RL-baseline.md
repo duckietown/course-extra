@@ -298,76 +298,58 @@ To check if blanking a part of the image was biasing the reconstruction of the i
 
 Since learning to reconstruct the image was working with the DAE, we also tried to use the same learning rate, 0.001, for training the $beta$-VAE instead of its 0.0001, but it didn't lead to any visually apparent change in the image reconstruction after training for 500 epochs.
 
+To get even closer to the DAE, we changed the output of the $beta$-VAE to reconstruct the pixels directly rather than parametrizing a Gaussian distribution per pixel from which we had to sample from.
 
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by a $beta$-VAE after training over 350 epochs with a learning rate of `0.0001` and `adam` optimizer using a DAE for the loss and decoding directly into pixel values.
+Top left: original image, Top right: DAE reconstruction of the original image, Bottom left: VAE reconstruction of the original image, Bottom right: DAE reconstruction of the VAE reconstruction of the original image.</figcaption>
+    <img style='width:22em' src="figures/14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output.png"/>
+</figure>
 
-14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output
+We can see that the reconstructed image is now colored in the greens and yellows, but the image that get reconstructed directly from the VAE still looks like noise and that image through the DAE is not alike the original image than what was produced by the previous architectures. 
 
-17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm
+We then tried to increase the complexity of the model by increasing the number of filters learned from `[32, 32, 64, 64]` to `[32, 64, 128, 256]`. We also added batch normalisation to avoid overfitting and have a more stable learning process. Along that, we also went from `ReLu` non-linearity to `LeakyReLu` since different recent models use it with great results.
 
-19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128
+<figure>
+    <figcaption>Reconstruction of the image by a $beta$-VAE after training over 50 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss and decoding directly into pixel values with more filters and LeakyReLu.
+Left: original image, Right: VAE reconstruction of the original image.</figcaption>
+    <img style='width:22em' src="figures/17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm.png"/>
+</figure>
 
-20_[VAE]_from_19_run_100_epoch_beta_0
+The result wasn't an improvement from the previous models and there was that noisy halo patch that newly appeared in the reconstructed image. We tried to increase the dimension of the latent space from 32 to 128 to see if that bottleneck the quality of the reconstruction.
 
-21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20
+<figure>
+    <figcaption>Reconstruction of the image by a $beta$-VAE after training over 1200 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss and decoding directly into pixel values with increased latent space dimension.
+Left: original image, Right: VAE reconstruction of the original image.</figcaption>
+    <img style='width:22em' src="figures/19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128.png"/>
+</figure>
 
-#TODO: add conclusions about the various runs
- 2_run_450_epochs_normalized
- 3_run_600_epochs_normalized
-'4-5_[DAE]_run_600_and_1550_epochs_noNorm'
-'6_[VAE]_run_600_epochs_noNorm'
-'7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
-'8-13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
-'9_[VAE]_run_250_epoch_no_dae'
+The weird noisy patch got bigger and brighter. So, the latent space dimension didn't seem the main factor that limited the quality of the reconstructed image. So, we tried to train with a $beta$ value of 0 make it an AE rather than a $beta$-VAE.
 
-'10_[VAE]_run_250_epoch_no_dae_dom_rand'
-'11_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask'
-'12_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask_lr_0_001'
-^
-|
-Done.
+<figure>
+    <figcaption>Reconstruction of the image by a AE after training over 100 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss and decoding directly into pixel values.
+Left: original image, Right: VAE reconstruction of the original image.</figcaption>
+    <img style='width:22em' src="figures/20_[VAE]_from_19_run_100_epoch_beta_0.png"/>
+</figure>
 
-To do.
-|
-v
-'14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output'
-'15_[VAE]_run_200_epoch_dense_ReLu_no_Gauss_output_no_dae'
+We can see results similar to what we would get from the DAE after the same number of epoch. Then, we supposed than the KL divergence loss was the component that prevent the VAE to learn to reconstruct the images. To test is, we tried to train again with a $beta$ of 0.5.
 
-'16_[VAE]_from_15_run_50_epoch_move_ReLu_after_conv_trans'
-'17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm'
-'18_[VAE]_from_17_run_50_epoch_increase_filter_nb_batch_norm'
+<figure>
+    <figcaption>Reconstruction of the image by a $beta$-VAE after training over 200 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss and decoding directly into pixel values and a $beta$ of 0.5.
+Left: original image, Right: VAE reconstruction of the original image.</figcaption>
+    <img style='width:22em' src="figures/21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20.png"/>
+</figure>
 
-'19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128'
-
-'20_[VAE]_from_19_run_100_epoch_beta_0'
-
-'21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20'
-
-'22_[VAE]_from_21_run_100_epoch_beta_4_lr_0.0005_no_dense'
-'23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
-
-There are several parameters we considered and varied for the $\beta$-VAE training: 
-- Data :
-    - adding domain randomized images in the training data set
-    - masking randomly a rectangular area in the input images ( as in the DAE )
-    - input normalization
-    - input size
-- Architecture:
-    - Removing gaussian sampling at the end of the VAE decoder
-    - Adding a dense ReLU layer at the end of the VAE decoder
-- Target:
-    - DAE output target or original image 
-- Hyperparameters:
-    - $\beta$
-    - learning rate
-    - latent dimension
+Already, we can see that after 200 epoch, the reconstruction was back to what it was with a $beta$ of 1. So, the KL divergence loss seems to prevent the VAE from learning an appropriate latent representation.
 
 We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
-The model was able to roughly reconstruct some lines but still output grayscale like images. 
 
 <figure>
     <figcaption>Samples of inputs and the VAE for  64*64 input size outputs </figcaption>
     <img style='width:20em' src="figures/small_vae.png"/>
 </figure>
+
+The model was able to roughly reconstruct some lines but still output grayscale like images.
 
 Leaving the colorjittering transformations out of the data processing with the same model, we were able to produce color reconstructions. We did not push the training of this model too far as we then wanted to try the same setting on larger input images. However, we might want to revert to a smaller inputs setting in future experiments. 
 
@@ -377,6 +359,49 @@ Leaving the colorjittering transformations out of the data processing with the s
 </figure>
 
 These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
+
+To summerize, there are several parameters we considered and varied for the $\beta$-VAE training: 
+
+- Data :
+    - Adding domain randomized images in the training data set
+    - Masking randomly a rectangular area in the input images (as in the DAE)
+        - Masking with black pixels
+        - Masking with random uniform colored pixels
+    - Input normalization
+    - Input size
+- Architecture:
+    - Removing gaussian sampling at the end of the VAE decoder
+    - Adding a dense ReLU layer at the end of the VAE decoder
+- Target:
+    - DAE output target or original image 
+- Hyperparameters:
+    - $\beta$ value
+    - Learning rate
+    - Latent dimension
+
+### Training infrastructure
+
+Along the way, in addition to the models, we developped interesting utilities that could be used by other for similar quests. 
+
+The small utility functions includes:
+
+
+File | Function | Description
+--- | --- | ---
+utils/model.py | genReLUCNN | Generate a sequential neural network with a convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
+utils/model.py | genReLUCNNTranpose | Generate a sequential neural network with a transposed convolution layer initialized with He normal, a batch normalization layer and a LeakyReLu non-linearity.
+utils/model.py | outSizeCNN | Compute the output size of a sequence of convolution layers given the input size and there properties.
+utils/utils.py | tensor_to_PIL | Return the numpy array and the PIL image from an image Tensor.
+utils/utils.py | apply_random_mask | To be used with torchvision.transforms.Lambda to mask a random rectangular area of the image with random uniform color noise.
+
+
+The `outSizeCNN` function is useful to automatically set the appropriate padding in the decoder to match the encoder layers output dimensions.
+The `tensor_to_PIL` function can be really handy to easily visualize the output of the neural networks.
+
+In addition to `dataset_generator_control.py` that could be useful in a variety of other project, there are also two scripts that could be really useful to other that would use a similiar project structure.
+
+
+
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 ### DAE
