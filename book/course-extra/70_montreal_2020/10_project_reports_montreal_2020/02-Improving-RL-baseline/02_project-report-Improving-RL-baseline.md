@@ -6,12 +6,8 @@ All of the work was done in collaboration between Étienne Boucher (@lifetheater
 
 ## The final result {#improving-rl-baseline-final-result}
 
-TODO: complete.
-You should expect the agent to perform... in x context.
-
-* TODO: VIDEO OF OUR AGENT - ideally video of episodes with the episode number displayed
-
-TODO: A caption to the video.
+... they are not there yet 
+TODO: put some artsy vae stuff
 
 You can find the [instructions to reproduce](#instructions-improving-rl-baseline) and the code is available on [Github](https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch/commits/darla).
 
@@ -176,11 +172,7 @@ The network is trained on images of size 280 x 320 pixels.
 
 ### Beta VAE
 
-We train the $\beta$-VAE for XXX epochs, with learning rate XXX and XX optimizer, using images of size 280 x 320 pixels.
-$\beta$ is chosen to be 1, so we actually have a VAE. 
-- write something about the loss - 
-We compute the perceptual similarity loss term using the outputs of our previously trained DAE as targets.
-
+We train the $\beta_{DAE}$-VAE 
 We also train a $\beta$-VAE with the original images as targets. 
 
 We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
@@ -199,8 +191,6 @@ Leaving the colorjittering transformations out of the data processing with the s
 </figure>
 
 These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
-
-### RL agent 
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
 
