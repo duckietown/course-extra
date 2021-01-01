@@ -18,6 +18,8 @@ For UNIT, please read this [README.md](https://github.com/phred1/imaginaire)
 
 For CycleGAN, please read this [README.md](https://github.com/mokleit/ift6757-gan/blob/main/README.md)
 
+For information on Neural Style Transfer, please read this [README.md (https://github.com/aymanshams07/IFT6757_sim2real/blob/main/README.md)
+
 ## Mission and Scope {#sim2real-final-scope}
 
 The mission of this project was to find a way to close the reality gap by using Generative Adversarial Networks 
@@ -95,21 +97,24 @@ The motivation behind the work in a paired image to image translation is to expl
 
 ### Style Tranfer
 #### Theory
+The idea of using neural style transfer to map images from one domain to the other has given promising results(#bib:artistic-style),(#bib:7780634). According to these research papers, a VGG-19 CNN architecture is used to extract both the content and style features from the content and style images respectively. It was found that the second convolutional layer from the fourth both of the VGG-19 layers, conv4_2, could infer content features (#bib:7780634). A "Target" image is a blank or copy of the content image. They measure content loss between content features and target image. To combine both style and contents of the input images into a single target image, Total Loss is defined which is a summataion of both content and style loss. 
 
-
-
+Content loss is defined accoring to the equation: 
 \begin{equation}
-    L_content = 1/2 Sum(T_c - C_c)^2  \label{eq:Content-loss}
+    L_content = 1/2 \sum(T_c - C_c)^2  \label{eq:Content-loss}
 \end{equation}
 
+To determine the Style Loss, the paper directs to consider the representations of 5 convolutional layers, conv1_1 to conv5_1. (#bib:artistic-style). A multi-scle representation is learnt by considering the style of 5 different layers from a single image.  
+The gram matrices calcuate similarity between the features across the feature maps within a single convolutional layer.
 
 \begin{equation}
-    L_style = a x Sum w(T_si - S_si)^2  \label{eq:Style-loss}
+    L_style = \alpha x \sum w(T_si - S_si)^2  \label{eq:Style-loss}
 \end{equation}
 
+The total loss is implemented in the following way: 
 
 \begin{equation}
-    total_Loss = alpha x L_content + beta x L_style \label{eq:Total-loss}
+    total_Loss = \alpha x L_content + \beta x L_style \label{eq:Total-loss}
 \end{equation}
 
 #### Implementation
@@ -120,11 +125,8 @@ The motivation behind the work in a paired image to image translation is to expl
     <img style='width:40em' src="images/style-transfer.png"/>
 </figure>
 
-With reference to the above image, first content and style features are extracted and stored. The style image ~a is passed through the network and its style representation Al on all layers included are computed and stored (left). The content image ~p is passed through the network and the content representation Pl in one layer is stored (right). Then a random white noise image ~x is passed through the network and its style features Gl and content features Fl are computed. On each layer included in the style representation, the element-wise mean squared difference between Gl and Al is computed to give the style loss Lstyle (left). Also the mean squared difference between Fl and Pl is computed to give the content loss Lcontent (right). 
 
-The total loss Ltotal is then a linear combination between the content and the style loss.
-
-Its derivative with respect to the pixel values can be computed using error back-propagation (middle). This gradient is used to iteratively update the image ~x until it simultaneously matches the style features of the style image ~a and the content features of the content image ~p
+With reference to the above image, first content and style features are extracted and stored. The style image ~a is passed through the network and its style representation (Al) on all layers included are computed and stored (see left). The content image (~p) is passed through the network and the content representation (Pl) in one layer is stored (see right). Then a random white noise image (~x) is passed through the network and its style features (Gl) and content features (Fl) are computed. On each layer included in the style representation, the element-wise mean squared difference between (Gl) and (Al) is computed to give the style loss Lstyle (left). Also the mean squared difference between (Fl) and (Pl) is computed to give the content loss Lcontent (right). The total loss Ltotal is then a linear combination between the content and the style loss. Its derivative with respect to the pixel values can be computed using error back-propagation (middle). This gradient is used to iteratively update the image (~x) until it simultaneously matches the style features of the style image ~a and the content features of the content image (~p) (#bib:artistic-style) (#bib:7780634)
 
 
 ### Unpaired image-to-image translation
@@ -222,11 +224,35 @@ augmented with our models. Unfortunately, due to a lack of time, our attempt to 
 
 ### Realistic Image generation: 
 
-#### Style Transfer
+#### Neural Style Transfer
+Results : 
+<figure align="center">
+    <figcaption>Sim to real Stylized vavriational Loss</figcaption>
+    <img style='width:30em' src="stylized_sim_to_real_variational_loss.png"/>
+</figure>
+
+<figure align="center">
+    <figcaption>Real to Sim Stylized image </figcaption>
+    <img style='width:30em' src="stylized_real_to_sim.png"/>
+</figure>
+
 - **Succes**:
+- Real images that were made to infer the simulator style had much better results than simulator images that were made to infer reality.
 
 - **Failure**:
-    what features where properly extracted, which were not?
+- Variational Loss (edge detector)
+- Scale Invariant Feature Descriptors- Motivation was to eliminate rotation ambiguity between key features between content and style images, detect features in low light conditions. Interedsting avenue to be explored is the idea of using image warping for sim-to-real transfer, to have a better one to one pairing and preserving content representation.
+
+<figure align="center">
+    <figcaption>Key point indicators of simulator images</figcaption>
+    <img style='width:30em' src="keypoint_indicators.png"/>
+</figure>
+
+<figure align="center">
+    <figcaption>Feature matching using SIFT features</figcaption>
+    <img style='width:30em' src="SIFT_feature_matching.png"/>
+</figure>
+
 
 #### CycleGan
 
