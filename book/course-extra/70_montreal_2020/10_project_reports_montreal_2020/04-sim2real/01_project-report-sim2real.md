@@ -212,7 +212,7 @@ The problem to solve then revolves around the finding the functions F_12 and F_2
     <figcaption>UNIT architecture</figcaption>
     <img style='width:24em' src="images/unit-architecture.png"/>
 </figure>
-The above figure demonstrates the UNIT architecture. The Network is composed of 6 subnetworks per input images. There are two encoders, two generators and two discriminator per image. The encoder-generator combination makes it a variational auto-encoder (VAE) architecture and is combined with a discriminator. The discriminator tries to discern from real and generated images, therefore also making it a GAN. To enforce the learning of the shared latent space z, the model enforces weight sharing between the last two layers of both input encoders and the first two layers of the generators. That shared latent space is what allows the system to perform domain adaptation of images. For example, if the need is to translate an image x1 from domain \[X1\] to domain \[X2\], we can simply feed the image to the encoder E1 followed by the generator G2. This pipeline approximates the function F<sub>12</sub> mentioned in equation \eqref{eq:from-d1-to-d2}.
+The above figure demonstrates the UNIT architecture. The Network is composed of 6 subnetworks per input images. There are two encoders, two generators and two discriminator per image. The encoder-generator combination makes it a variational auto-encoder (VAE) architecture and is combined with a discriminator. The discriminator tries to discern from real and generated images, therefore also making it a GAN. To enforce the learning of the shared latent space z, the model enforces weight sharing between the last two layers of both input encoders and the first two layers of the generators. That shared latent space is what allows the system to perform domain adaptation of images. For example, if the need is to translate an image x1 from domain \[X1\] to domain \[X2\], we can simply feed the image to the encoder E1 followed by the generator G2. This pipeline approximates the function \[F_{12}\] mentioned in equation \eqref{eq:from-d1-to-d2}.
 Finally, during training of the networks, the goal is to minimize the VAE losses and the Cycle Consistency losses, as well as the adversarial loss between the discriminators and the generators. 
 
 ### DuckieTown Integration
@@ -229,12 +229,12 @@ Results :
 Sim to real
 <figure align="center">
     <figcaption>Sim to real Stylized vavriational Loss</figcaption>
-    <img style='width:30em' src="stylized_sim_to_real_variational_loss.png"/>
+    <img style='width:24em' src="images/stylized_sim_to_real_variational_loss.png"/>
 </figure>
 Real to sim : 
 <figure align="center">
     <figcaption>Real to Sim Stylized image </figcaption>
-    <img style='width:30em' src="stylized_real_to_sim.png"/>
+    <img style='width:24em' src="images/stylized_real_to_sim.png"/>
 </figure>
 
 - **Succes**:
@@ -242,18 +242,18 @@ Real to sim :
 
 - **Failure**:
 - Variational Loss (edge detector)
-- Scale Invariant Feature Descriptors- Motivation was to eliminate rotation ambiguity between key features between content and style images, detect features in low light conditions. Interedsting avenue to be explored is the idea of using image warping for sim-to-real transfer, to have a better one to one pairing and preserving content representation.
+- Scale Invariant Feature Descriptors - Motivation was to eliminate rotation ambiguity between key features between content and style images, detect features in low light conditions. Interedsting avenue to be explored is the idea of using image warping for sim-to-real transfer, to have a better one to one pairing and preserving content representation.
 
 Key point indicators : 
 <figure align="center">
     <figcaption>Key point indicators of simulator images</figcaption>
-    <img style='width:30em' src="keypoint_indicators.png"/>
+    <img style='width:24em' src="images/keypoint_indicators.png"/>
 </figure>
 
 Feature matching :
 <figure align="center">
     <figcaption>Feature matching using SIFT features</figcaption>
-    <img style='width:30em' src="SIFT_feature_matching.png"/>
+    <img style='width:24em' src="images/SIFT_feature_matching.png"/>
 </figure>
 
 
