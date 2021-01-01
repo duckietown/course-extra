@@ -92,6 +92,7 @@ In variational autoencoders, the encoder and decoder are probabilistic. Instead 
     <img style='width:18em' src="figures/vae.png"/>
 </figure>
 The encoder learns to output two vectors $\mu$ and $\sigma$ which are the mean and variances for the latent vectors distribution. Then latent vector $\mathbf{z}$ corresponding to input $\mathbf{x}$  is obtained by sampling :
+
 \[
     \mathbf{z}  = \mu + \sigma \epsilon
 \]
@@ -140,7 +141,6 @@ The objective function of the $\beta$-VAE is:
 \[
     \mathcal{L}(\theta, \phi, \mathbf{x},\mathbf{z}, \beta) = \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
-
 where $\theta, \phi$ are the parameters of the encoder and decoder respectively.
 
 In our setting, we write this function as: 
@@ -148,7 +148,6 @@ In our setting, we write this function as:
 \[
     \mathbf{E}_{q_\phi(\mathbf{z}|\mathbf{x})}||J(\mathbf{\widehat{x}}) - J(\mathbf{x})||_2^2 - \beta D_{KL}(q_\phi(\mathbf{z}|\mathbf{x})||p(\mathbf{z})
 \]
-
 where $J$ corresponds to passing the imput image in the trained DAE up to a chosen layer. 
 
 The first term corresponds to the perceptual similarity loss, while increasing $\beta$ in the second term encourages a more disentangled representation. 
@@ -203,12 +202,14 @@ We created a custom map containing every object mesh and every type of tile avai
 
 The dataset generation script has the following options available in addition to the options of the basic manual control script of the Duckietown gym:
 
+
 Option | Description
 --- | ---
 `dataset-size` | number of images to generate
 `dataset-path` | location to save the dataset
 `compress` | save the images as a series of png pictures rather than npy file(s)
 `split` | number of images per file (if used without --compress)
+
 
 <figure>
     <figcaption>Dataset samples</figcaption>
@@ -261,14 +262,89 @@ The fact that the colors were really out of the expected range, brought us to qu
 
 We can see great reconstruction of the images for that run. However, with another run over 1550 epoch in the same setting, the precision of the reconstruction became sharp, but it didn't become in color. But, having a well trained DAE, we used it to train the $beta$-VAE.
 
-
-
 <figure>
     <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by the $beta$-VAE after training over 900 epochs with a learning rate of `0.0001` and `adam` optimizer using the DAE for the loss. 
 Top left: original image, Top right: DAE reconstruction of the original image, Bottom left: VAE reconstruction of the original image, Bottom right: DAE reconstruction of the VAE reconstruction of the original image. </figcaption>
     <img style='width:22em' src="figures/7_[VAE]_run_900_epoch_no_Norm_from_2400_dae.png"/>
 </figure>
 
+Seeing the output of the VAE passed through the DAE, we decided to increase the complexity of the VAE neural network and realized that we forgot the ReLu non-linearity after the dense layers, so we added those. We also changed the initialization of the weights of all the layers with ReLu non-linearities to [He normal](https://pytorch.org/docs/stable/nn.init.html#torch.nn.init.kaiming_normal_) in order to help the training to converge.
+
+<figure>
+    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by the $beta$-VAE after training over 1200 epochs with a learning rate of `0.0001` and `adam` optimizer using the DAE for the loss.
+Top left: original image, Top right: DAE reconstruction of the original image, Bottom left: VAE reconstruction of the original image, Bottom right: DAE reconstruction of the VAE reconstruction of the original image. </figcaption>
+    <img style='width:22em' src="figures/8_[VAE]_run_1200_epoch_dense_ReLu.png"/>
+</figure>
+
+Since there was visually no significant improvement over the previous training, we started to investigate the $beta$-VAE. Since the image reconstruction by the $beta$-VAE lead to what seemed to be noise, but when passed through the DAE gave an image that was closer to the Duckietown environment, we tried to train the $beta$-VAE without using the DAE for the loss calculation. That way, it would be easier to directly assess the reconstruction capacity of the $beta$-VAE and if we got great results we would have had the choice to either use that $beta$-VAE directly or to find a way to parametrize it the right way to be used with the DAE. In fact, in the DARLA article [](#bib:higgins2018darla), there state that DARLA work even without the usage of an auxiliary network such as the DAE, but that it lead to better results that using the $beta$-VAE alone.
+
+<figure>
+    <figcaption>Reconstruction of the image by a $beta$-VAE after training over 250 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss and without partially occluding the image.
+Left: original image, Right: VAE reconstruction of the original image. </figcaption>
+    <img style='width:22em' src="figures/9_[VAE]_run_250_epoch_no_dae.png"/>
+</figure>
+
+Since, no color were learned, we tried to use a dataset that was generated with the same method as our usual dataset but with the `--domain-rand` flag on. With the color variations in addition to the color jittering we already did, we thought it would increase the chance to create a gradiant towards the learning of the colors.
+
+<figure>
+    <figcaption>Reconstruction of the image by a $beta$-VAE after training over 250 epochs with a learning rate of `0.0001` and `adam` optimizer without using a DAE for the loss, without partially occluding the image and using a domain randomized dataset.
+Left: original image, Right: VAE reconstruction of the original image. </figcaption>
+    <img style='width:22em' src="figures/10_[VAE]_run_250_epoch_no_dae_dom_rand.png"/>
+</figure>
+
+We can see that the result is equivalent to the training on the non domain randomized dataset at the exception of the blurred horizon. That difference is not surprising since the domain randomization vary the height of the horizon on each images. 
+
+To check if blanking a part of the image was biasing the reconstruction of the image towards a darker results and then preventing to learn to reconstruct the lighter colored lines we also tried to fill the occluded area of the image with a random uniform color noise instead of blanking that area. Visually, that variation in the pipeline didn't change the result.
+
+Since learning to reconstruct the image was working with the DAE, we also tried to use the same learning rate, 0.001, for training the $beta$-VAE instead of its 0.0001, but it didn't lead to any visually apparent change in the image reconstruction after training for 500 epochs.
+
+
+
+14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output
+
+17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm
+
+19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128
+
+20_[VAE]_from_19_run_100_epoch_beta_0
+
+21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20
+
+#TODO: add conclusions about the various runs
+ 2_run_450_epochs_normalized
+ 3_run_600_epochs_normalized
+'4&5_[DAE]_run_600_and_1550_epochs_noNorm'
+'6_[VAE]_run_600_epochs_noNorm'
+'7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
+'8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
+
+'9_[VAE]_run_250_epoch_no_dae'
+
+'10_[VAE]_run_250_epoch_no_dae_dom_rand'
+'11_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask'
+'12_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask_lr_0_001'
+^
+|
+Done.
+
+To do.
+|
+v
+'14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output'
+'15_[VAE]_run_200_epoch_dense_ReLu_no_Gauss_output_no_dae'
+
+'16_[VAE]_from_15_run_50_epoch_move_ReLu_after_conv_trans'
+'17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm'
+'18_[VAE]_from_17_run_50_epoch_increase_filter_nb_batch_norm'
+
+'19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128'
+
+'20_[VAE]_from_19_run_100_epoch_beta_0'
+
+'21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20'
+
+'22_[VAE]_from_21_run_100_epoch_beta_4_lr_0.0005_no_dense'
+'23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
 
 There are several parameters we considered and varied for the $\beta$-VAE training: 
 - Data :
@@ -285,29 +361,6 @@ There are several parameters we considered and varied for the $\beta$-VAE traini
     - $\beta$
     - learning rate
     - latent dimension
-
-#TODO: add conclusions about the various runs
- 2_run_450_epochs_normalized
- 3_run_600_epochs_normalized
-'4&5_[DAE]_run_600_and_1550_epochs_noNorm'
-'6_[VAE]_run_600_epochs_noNorm'
-'7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
-'8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
-'9_[VAE]_run_250_epoch_no_dae'
-'10_[VAE]_run_250_epoch_no_dae_dom_rand'
-'11_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask'
-'12_[VAE]_run_500_epoch_no_dae_dom_rand_rand_mask_lr_0_001'
-'14_[VAE]_run_350_epoch_dense_ReLu_no_Gauss_output'
-'15_[VAE]_run_200_epoch_dense_ReLu_no_Gauss_output_no_dae'
-'16_[VAE]_from_15_run_50_epoch_move_ReLu_after_conv_trans'
-'17_[VAE]_from_16_run_50_epoch_increase_filter_nb_batch_norm'
-'18_[VAE]_from_17_run_50_epoch_increase_filter_nb_batch_norm'
-'19_[VAE]_from_18_run_1200_epoch_increase_latent_dim_to_128'
-'20_[VAE]_from_19_run_100_epoch_beta_0'
-'21_[VAE]_from_20_run_200_epoch_beta_0_5_from_20'
-'22_[VAE]_from_21_run_100_epoch_beta_4_lr_0.0005_no_dense'
-'23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
-
 
 We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
 The model was able to roughly reconstruct some lines but still output grayscale like images. 
@@ -343,7 +396,7 @@ Looking at the DAE reconstructions along the training, we notice that before the
 </figure>
 
 ### Beta Variational Auto Encoder
-
+We can see the 1st plateau... see coresponding figure above... at 300 gray, while at 600 after the drop, in color.
 
 ### Overall results 
 We didn't get to trying to train the RL part of DARLA, so we did not get to assess the performance of our model follosing the process outlined exposed earlier. 

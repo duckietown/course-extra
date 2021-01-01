@@ -70,6 +70,7 @@ You might want to copy the default configuration file `config/defaults.yaml` or 
 
 The following table summerize the configuration values that are either not straight forward or that you most likely will have to change.
 
+
 Option | Description
 --- | ---
 `output_path` | the location of the output files
@@ -83,6 +84,7 @@ Option | Description
 `comet:api_key` | the commet key associated with your account
 `comet:project_name` | the commet name of your project
 `comet:workspace` | the commet workspace of your project
+
 
 Be sure to check the configuration file values. The default values related to the model were chosen to fit the original DARLA paper [](#bib:higgins2018darla). The other values are generic values that you might want to tune. In particular, if your GPU has access to a lot of RAM you might want to increase the `data:loaders:batch_size` value (up to 32 for a 6 Gb GPU for example). If your CPU has several cores, you might want to increase the `data:loaders:num_workers` value (1 per virtual core for example).
 
@@ -112,12 +114,14 @@ Generate the dataset.
 
 The following options are also available.
 
+
 Option | Description | Default value
 --- | --- | ---
 `dataset-size` | number of images to generate | 50
 `dataset-path` | location to save the dataset | 'datasets/image_%Y_%m_%d_%H_%M_%S/'
 `compress` | save the images as a series of png pictures rather than npy file(s) | False
 `split` | number of images per file (if used without --compress) | 2000
+
 
 To reproduce our results, use the map we created by appending `--map-name $PWD/maps/dataset_generator.yaml` to the command. Later, you will need to have the images in png format, so you should use the flag `--compress`.
 
@@ -143,6 +147,7 @@ If you chose to create a new configuration file let's say `custom.yaml`, then ex
 
 There are different options available for the training of the $\beta$-VAE or the DAE.
 
+
 Option | Description | Default value
 --- | --- | ---
 `config` | path to config file | ./config/defaults.yaml
@@ -152,6 +157,7 @@ Option | Description | Default value
 `vae-checkpoint` | vae checkpoint from which to start the training | None
 `no-dae` | train the VAE without using a DAE for the loss | false
 `exp-id` | Comet experience id to resume | None
+
 
 If you want to resume your training from a checkpoint, then use the `--dae-checkpoint path/to/checkpoint.pth` or `--vae-checkpoint path/to/checkpoint.pth` flags. The paths are relative to ̀`output_path/checkpoints/` where `output_path` is the corresponding value in the config file. If you resume an experiment, use Comet and also want to resume the experiment in Comet, don't forget to use the `--exp-id "experiment_hash"` flag.
 
