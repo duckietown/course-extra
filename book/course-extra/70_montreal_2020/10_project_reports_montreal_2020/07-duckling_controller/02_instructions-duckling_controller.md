@@ -9,6 +9,9 @@ For these demonstrations you will need :
 - Camera calibration completed
 
 
+- An extra bumper with a circle pattern
+
+
 
 ## Video of expected results {#demo-duckling_controller-expected}
 
@@ -28,6 +31,9 @@ The expected behaviors are shown in the following videos.
 
 ## For the simulator {#demo-duckling_controller-simulator}
 
+[Github repo](https://github.com/jerome-labonte-udem/duckietown-visual-servo)
+
+The code is in visual_servo folder
 
 ### Description
 This [script](https://github.com/jerome-labonte-udem/duckietown-visual-servo/tree/daffy/visual_servo) is meant as a first exploration of using visual servoing 
@@ -78,9 +84,13 @@ each camera_mode was a guess about a way to get the right values.
 
 ## For the Duckiebot {#demo-duckling_controller-duckiebot}
 
+[Github repo](https://github.com/Frank-Hebert/lane_control)
+
+
+
 
 ### Description
-This [script](https://github.com/Frank-Hebert/lane_control) is meant as a first exploration of using visual servoing 
+This script is meant as a first exploration of using visual servoing 
 to control the duckiebot. 
 
 ### Architecture
