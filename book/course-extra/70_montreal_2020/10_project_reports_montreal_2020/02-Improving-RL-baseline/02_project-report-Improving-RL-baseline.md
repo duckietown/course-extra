@@ -2,11 +2,15 @@
 
 In this project, we propose to improve the [Reinforcement Learning (RL) baseline](https://github.com/duckietown/docs-AIDO/blob/master19/book/AIDO/31_task_embodied_strategies/36_rl_baseline.md).
 
+
 All of the work was done in collaboration between Étienne Boucher (@lifetheater57) and Mélisande Teng (@melisandeteng). You can find the slides for our mid-progress presentation [here](https://github.com/melisandeteng/challenge-aido_LF-baseline-RL-sim-pytorch/blob/DAE/slides.pdf).
 
 ## The final result {#improving-rl-baseline-final-result}
 
-... they are not there yet 
+... Our initial goal was to compare an RL agent trained on top of a perceptual module with the current RL baseline. However we encountered some bottlenecks in the training of the perceptual model, and thus, offer a basis for work to be continued, rather than an improvement of the RL baseline ... 
+Sorry if the title of the project deceived you ! But you can still read the report to learn more about a very interesting idea you might be able to successfully implement !
+
+#TODO: check if we want to put anything here 
 <figure>
     <figcaption>Samples of original image (left) and reconstruction by the DAE (right)</figcaption>
     <img style='width:20em' src="figures/dae_sample.png"/>
@@ -257,23 +261,36 @@ The fact that the colors were really out of the expected range, brought us to qu
 
 We can see great reconstruction of the images for that run. However, with another run over 1550 epoch in the same setting, the precision of the reconstruction became sharp, but it didn't become in color. But, having a well trained DAE, we used it to train the $beta$-VAE.
 
-TODO: intégrer la légende suivante à tout les titre suivant qui corespondent
-(1, 1) : originale
-(1, 2) : (1, 1) au travers du DAE
-(2, 1) : (1, 1) au travers du VAE
-(2, 2) : (2, 1) au travers du DAE
+
 
 <figure>
-    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by the $beta$-VAE after training over 900 epochs with a learning rate of `0.0001` and `adam` optimizer using the DAE for the loss. On the top left, we can see the original image. On the top right is ...</figcaption>
+    <figcaption>Reconstruction of the image by the DAE after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer and by the $beta$-VAE after training over 900 epochs with a learning rate of `0.0001` and `adam` optimizer using the DAE for the loss. 
+Top left: original image, Top right: DAE reconstruction of the original image, Bottom left: VAE reconstruction of the original image, Bottom right: DAE reconstruction of the VAE reconstruction of the original image. </figcaption>
     <img style='width:22em' src="figures/7_[VAE]_run_900_epoch_no_Norm_from_2400_dae.png"/>
 </figure>
 
 
+There are several parameters we considered and varied for the $\beta$-VAE training: 
+- Data :
+    - adding domain randomized images in the training data set
+    - masking randomly a rectangular area in the input images ( as in the DAE )
+    - input normalization
+    - input size
+- Architecture:
+    - Removing gaussian sampling at the end of the VAE decoder
+    - Adding a dense ReLU layer at the end of the VAE decoder
+- Target:
+    - DAE output target or original image 
+- Hyperparameters:
+    - $\beta$
+    - learning rate
+    - latent dimension
+
+#TODO: add conclusions about the various runs
  2_run_450_epochs_normalized
  3_run_600_epochs_normalized
 '4&5_[DAE]_run_600_and_1550_epochs_noNorm'
 '6_[VAE]_run_600_epochs_noNorm'
-
 '7_[VAE]_run_900_epoch_no_Norm_from_2400_dae'
 '8&13_[VAE]_run_1200_and_2600_epoch_dense_ReLu'
 '9_[VAE]_run_250_epoch_no_dae'
@@ -291,8 +308,6 @@ TODO: intégrer la légende suivante à tout les titre suivant qui corespondent
 '22_[VAE]_from_21_run_100_epoch_beta_4_lr_0.0005_no_dense'
 '23_[VAE]_from_22_run_100_epoch_beta_4_lr_0.0005_with_dense'
 
-
-### Beta VAE
 
 We also tried training a VAE with smaller input size (64 * 64) with standard VAE loss as in [](#bib:Kingma2014), and latent dimension 10. We followed [this](https://github.com/YannDubs/disentangling-vae) implementation.
 The model was able to roughly reconstruct some lines but still output grayscale like images. 
@@ -312,20 +327,26 @@ Leaving the colorjittering transformations out of the data processing with the s
 These experiments might hint that the normalization of input images should be checked, or we should investigate further the impact of the size of the input.
 
 ## Formal performance evaluation / Results {#improving-rl-baseline-final-formal}
+### DAE
 
-### Beta Variational Auto Encoder
+<figure>
+    <figcaption>Samples of original image (left) and reconstruction by the DAE (right) after training over 2400 epochs with a learning rate of `0.001` and `adam` optimizer</figcaption>
+    <img style='width:20em' src="figures/dae_sample.png"/>
+</figure>
 
-TODO: add the graph of the dae loss of the run of the 23 (https://www.comet.ml/melisandeteng/darla/e8a63d8612c649d4a88000e2fcdf6ee4?experiment-tab=chart&showOutliers=true&smoothing=0&transformY=smoothing&xAxis=step)
+If we look at the loss function of the DAE during the training, we can see a first plateau around 200-280 epochs, and then a drop in the loss (see figure below). 
+Looking at the DAE reconstructions along the training, we notice that before the drop, the reconstruction seems to be grayscale, while after the drop, we can see a color reconstruction (see figures of the previous section). 
+
 <figure>
     <figcaption>Loss of the DAE after training over 1200 epochs with a learning rate of `0.001` and `adam` optimizer.</figcaption>
     <img style='width:20em' src="figures/dae_train_loss_good_dae_run.svg"/>
 </figure>
 
-We can see the 1st plateau... see coresponding figure above... at 300 gray, while at 600 after the drop, in color.
+### Beta Variational Auto Encoder
 
 
-We didn't get to trying to train the RL part of DARLA, so we don't really have what was required to assess the performance of our model as outlined previously.
-
+### Overall results 
+We didn't get to trying to train the RL part of DARLA, so we did not get to assess the performance of our model follosing the process outlined exposed earlier. 
 Instead, we have set the basis and infrastructure for future work in that direction.
 
 ## Future avenues of development {#improving-rl-baseline-final-next-steps}
