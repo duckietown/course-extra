@@ -1,4 +1,4 @@
-# Instructions template {#instructions-groupname status=ready}
+# Group name: Instructions template {#instructions-groupname status=ready}
 
 Before starting, you should have a look at some tips on [how to write beautiful Duckiebook pages](+duckumentation#book).
 
