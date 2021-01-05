@@ -6,7 +6,7 @@ This project is proposing two real-time semantic segmentation model variants tha
 
 Here is the performance on the duckiebot. Video is real-time, it's pretty fast!:
 <br/>
-<figure id="example-embed3">
+<figure id="example-embed4">
     <figcaption>Lane Following Performance on the Duckiebot</figcaption>
     <dtvideo src="vimeo:493473117"/>
 </figure>
@@ -46,7 +46,7 @@ A second semantic segmentation model takes 320x240 images as input and generates
 Here is the performance in the simulator:  
 <br/>
 
-<figure id="example-embed4">
+<figure id="example-embed999">
     <figcaption>Lane Following Performance in the simulator)</figcaption>
     <dtvideo src="vimeo:493444437"/>
     </figure>
