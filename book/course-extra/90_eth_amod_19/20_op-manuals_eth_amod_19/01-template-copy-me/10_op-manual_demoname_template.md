@@ -37,13 +37,14 @@ Here, describe the assumptions about the Duckietown, including:
 * Infrastructure (traffic lights, WiFi networks, ...) required
 * Weather (lights, ...)
 
-Do not write instructions on how to build the city here, unless you are doing something very particular that is not in the [Duckietown operation manual](+opmanual_duckietown#duckietowns). Here, merely point to them.
+Do not write instructions on how to build the city here, unless you are doing something very particular that is not
+ in the [Duckietown operation manual](+opmanual_duckietown#book). Here, merely point to them.
 
 ## Duckiebot setup notes {#demo-template-duckiebot-setup}
 
 Write here any special setup for the Duckiebot, if needed.
 
-Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#opmanual_duckiebot).
+Do not repeat instructions here that are already included in the [Duckiebot operation manual](+opmanual_duckiebot#book).
 
 ## Pre-flight checklist {#demo-template-pre-flight}
 

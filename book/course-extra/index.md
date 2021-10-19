@@ -1,3 +1,3 @@
-# Other learning modules {#book:extra status=ready}
+# Other learning modules {#book:book status=ready}
 
 Logo
